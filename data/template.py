@@ -1,0 +1,50 @@
+from abc import ABC, abstractmethod
+from typing import List, NamedTuple
+
+
+class Text(NamedTuple):
+    raw: str
+    tokenized: List[str]
+
+
+class Document(NamedTuple):
+    doc_id: int
+    title: Text
+    content: Text
+
+    def sections(self):
+        return [self.title, self.content]
+
+    def __repr__(self):
+        return (f"doc_id: {self.doc_id}\n" +
+                f"  title: {self.title.raw}\n" +
+                f"  content: {self.content.raw}")
+
+
+class Query(NamedTuple):
+    query_id: int
+    text: Text
+
+    def __repr__(self):
+        return (f"query_id: {self.query_id}\n" +
+                f"  text: {self.text.raw}\n")
+
+
+class Dataset(ABC):
+    def __init__(self):
+        self.documents = None
+        self.queries = None
+        self.relevant_docs = None
+        super().__init__()
+
+    @abstractmethod
+    def load_docs(self, filename):
+        pass
+
+    @abstractmethod
+    def load_queries(self, filename):
+        pass
+
+    @abstractmethod
+    def load_relevant_docs(self, filename):
+        pass
