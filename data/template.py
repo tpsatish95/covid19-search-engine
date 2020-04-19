@@ -8,7 +8,7 @@ class Text(NamedTuple):
 
 
 class Document(NamedTuple):
-    doc_id: int
+    id: int
     title: Text
     content: Text
 
@@ -16,17 +16,20 @@ class Document(NamedTuple):
         return [self.title, self.content]
 
     def __repr__(self):
-        return (f"doc_id: {self.doc_id}\n" +
+        return (f"doc_id: {self.id}\n" +
                 f"  title: {self.title.raw}\n" +
                 f"  content: {self.content.raw}")
 
 
 class Query(NamedTuple):
-    query_id: int
+    id: int
     text: Text
 
+    def sections(self):
+        return [self.text]
+
     def __repr__(self):
-        return (f"query_id: {self.query_id}\n" +
+        return (f"query_id: {self.id}\n" +
                 f"  text: {self.text.raw}\n")
 
 
