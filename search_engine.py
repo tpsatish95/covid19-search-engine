@@ -2,6 +2,7 @@ from uuid import uuid4
 
 import numpy as np
 from nltk.tokenize import word_tokenize
+# from sklearn.decomposition import TruncatedSVD
 
 from data.template import Query, Text
 from performance_metrics import (mean_precision1, mean_precision2,
@@ -20,12 +21,14 @@ class SearchEngine(object):
         self.similarity_metric = similarity_metric
 
         self.document_vectors = None
+        # self.svd = TruncatedSVD(n_components=3000, n_iter=10)
         self._initialize()
 
     def _initialize(self):
         documents = [self.text_preprocessor.process(document)
                      for document in self.dataset.documents]
         self.document_vectors = self.vectorizer.vectroize_documents(documents)
+        # self.document_vectors = self.svd.fit_transform(self.document_vectors)
 
     def search(self, query, top_k=25):
         if not isinstance(query, Query):
@@ -33,6 +36,7 @@ class SearchEngine(object):
 
         query = self.text_preprocessor.process(query)
         query_vector = self.vectorizer.vectroize_query(query)
+        # query_vector = self.svd.transform(query_vector)
 
         results_with_score = self.similarity_metric(query_vector, self.document_vectors)[0]
         results_with_score = [(doc_id + 1, score)

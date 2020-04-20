@@ -38,14 +38,14 @@ class DummyDataset(Dataset):
             title, content = None, None
 
             raw, tokenized = "", list()
-            for entry in raw_docs[doc_id]["T"]:
+            for entry in raw_docs[doc_id+1]["T"]:
                 raw += " " + entry.raw
                 tokenized.extend(entry.tokenized)
             title = Text(raw, tokenized)
 
             raw, tokenized = "", list()
             for category in ["A", "K", "W"]:
-                for entry in raw_docs[doc_id][category]:
+                for entry in raw_docs[doc_id+1][category]:
                     raw += " " + entry.raw
                     tokenized.extend(entry.tokenized)
             content = Text(raw, tokenized)
@@ -61,7 +61,7 @@ class DummyDataset(Dataset):
             text = None
 
             raw, tokenized = "", list()
-            for entry in raw_docs[query_id]["W"]:
+            for entry in raw_docs[query_id+1]["W"]:
                 raw += " " + entry.raw
                 tokenized.extend(entry.tokenized)
             text = Text(raw, tokenized)
