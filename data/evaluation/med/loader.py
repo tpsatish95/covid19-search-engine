@@ -31,7 +31,7 @@ class MedDataset(Dataset):
                     category = line[1]
                 elif line != '':
                     docs[i][category].append(Text(line, [word.lower() for word in word_tokenize(line)]))
-        #print(docs)
+        # print(docs)
         return docs
 
     def load_docs(self, filename):
@@ -48,16 +48,16 @@ class MedDataset(Dataset):
             title = Text(raw, tokenized)
 
             raw, tokenized = "", list()
-            for category in ["A", "K", "W"]: 
-                for entry in raw_docs[doc_id+1][category]:
-                    raw += " " + entry.raw
-                    tokenized.extend(entry.tokenized)
+            #for category in ["A", "K", "W"]: 
+            for entry in raw_docs[doc_id+1]["W"]:
+                raw += " " + entry.raw
+                tokenized.extend(entry.tokenized)
             content = Text(raw, tokenized)
 
             documents.append(Document(doc_id+1, title, content))
 
         self.documents = documents
-        #print(documents)
+        # print(documents)
 
 
     def load_queries(self, filename):
@@ -75,7 +75,7 @@ class MedDataset(Dataset):
             queries.append(Query(query_id+1, text))
 
         self.queries = queries
-        #print(queries)
+        # print(queries)
 
 
     def load_relevant_docs(self, filename):
@@ -90,7 +90,7 @@ class MedDataset(Dataset):
                 rels[qid].append(rel)
 
         self.relevant_docs = rels
-        #print(rels)
+        # print(rels)
 
 
 base_path = "./data/evaluation/med"
