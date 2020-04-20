@@ -13,7 +13,6 @@ class CISIDataset(Dataset):
         self.relevant_docs = None
         super().__init__()
 
-
     def read_raw(self, filename):
         docs = [defaultdict(list)]  # empty 0 index
         category = ''
@@ -83,8 +82,6 @@ class CISIDataset(Dataset):
                 rels[qid].append(rel)
 
         self.relevant_docs = rels
-
-
 
 
 base_path = "./data/evaulation/processed/cisi"
