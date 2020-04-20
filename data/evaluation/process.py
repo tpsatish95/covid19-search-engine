@@ -108,27 +108,27 @@ def clean_rel(filepath, new_filepath):
 
 
 def main():
-    clean_raw('raw/cisi/CISI.ALL', 'processed/cisi/CISI.ALL')
-    clean_query('raw/cisi/CISI.QRY', 'processed/cisi/CISI.QRY')
-    clean_rel('raw/cisi/CISI.REL', 'processed/cisi/CISI.REL')
+    clean_raw('raw/cisi/CISI.ALL', 'cisi/CISI.ALL')
+    clean_query('raw/cisi/CISI.QRY', 'cisi/CISI.QRY')
+    clean_rel('raw/cisi/CISI.REL', 'cisi/CISI.REL')
 
 
-    clean_raw('raw/cacm/cacm.all', 'processed/cacm/cacm.all')
-    clean_query('raw/cacm/query.text', 'processed/cacm/query.text')
-    clean_rel('raw/cacm/qrels.text', 'processed/cacm/qrels.text')
+    clean_raw('raw/cacm/cacm.all', 'cacm/cacm.all')
+    clean_query('raw/cacm/query.text', 'cacm/query.text')
+    clean_rel('raw/cacm/qrels.text', 'cacm/qrels.text')
 
 
-    clean_raw('raw/med/MED.ALL', 'processed/med/MED.ALL')
-    clean_query('raw/med/MED.QRY', 'processed/med/MED.QRY')
-    clean_rel('raw/med/MED.REL', 'processed/med/MED.REL')
+    clean_raw('raw/med/MED.ALL', 'med/MED.ALL')
+    clean_query('raw/med/MED.QRY', 'med/MED.QRY')
+    clean_rel('raw/med/MED.REL', 'med/MED.REL')
 
 
     remove_empty('raw/time/TIME.RAW', 'raw/time/TIME.ALL')
-    clean_raw('raw/time/TIME.ALL', 'processed/time/TIME.ALL')
+    clean_raw('raw/time/TIME.ALL', 'time/TIME.ALL')
     remove_empty('raw/time/TIME.QUE', 'raw/time/TIME.QUE_')
-    clean_query('raw/time/TIME.QUE_', 'processed/time/TIME.QUE')
+    clean_query('raw/time/TIME.QUE_', 'time/TIME.QUE')
     remove_empty('raw/time/TIME.REL', 'raw/time/TIME.REL_')
-    clean_rel('raw/time/TIME.REL_', 'processed/time/TIME.REL')
+    clean_rel('raw/time/TIME.REL_', 'time/TIME.REL')
 
 
 if __name__ == '__main__':
