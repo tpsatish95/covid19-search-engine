@@ -129,7 +129,7 @@ Methods of coding used in computerized index systems.
 .I 35
 .W
 Government supported agencies and projects dealing with information dissemination.
-.I 36
+.I 37
 .W
 What lists of words useful for indexing or classifying material are
 available?  Wanted are lists of terms that are descriptive vocabularies
@@ -137,7 +137,7 @@ of particular fields or schedules of words that are related to each other
 in meaningful schemes.  Wanted are lists that have been tested, at least to
 some extent, and found useful for organizing material and for retrieving it.
 
-.I 37
+.I 39
 .W
 The progress of information retrieval presents problems of maladjustment
 and dislocation of personnel.  Training and retraining of people to use
@@ -147,7 +147,7 @@ to learn the purpose, values, and uses of information systems and hardware.
 What programs have been developed to change the attitudes and skills of
 traditional workers and help them to learn the newer techniques?
 
-.I 38
+.I 41
 .W
 Is alphabetical ordering of material considered to be a useful tool in
 information retrieval?  What studies have been done to compare the
@@ -156,7 +156,7 @@ Is there a generally accepted form of arranging material in
 alphabetical order, and is there an easy way of achieving this form
 without going to a great amount of effort?
 
-.I 39
+.I 42
 .W
 The average student or researcher has difficulty in comprehending the
 vocabulary of information retrieval.  It appears important that this
@@ -164,7 +164,7 @@ new field be understood before it is to be fully accepted.  What basic
 articles would provide an understanding of the various important aspects
 of the information storage and retrieval?
 
-.I 40
+.I 43
 .W
 The difficulties encountered in information retrieval systems are often
 less related to the equipment used than to the failure to plan
@@ -173,7 +173,7 @@ position of the programmer is to take a problem and write it in a way
 in which the equipment will understand.  What articles have been written
 describing research in maximizing the effectiveness of programming?
 
-.I 41
+.I 44
 .W
 There are presently fifty to one hundred technical journals being
 published.  On the average, two new journals appear every day.  In
@@ -182,7 +182,7 @@ year.  What attempts have been made to cope with this amount of
 scientific and technical publication in terms of analysis, control,
 storage, and retrieval?
 
-.I 42
+.I 45
 .W
 I am looking for information about the impact of automation on
 libraries and its significance for libraries in general.  This includes
@@ -191,7 +191,7 @@ information today, and how automation can help libraries cope with
 this problem.  How will automation affect libraries and how should they
 react to the idea of automation?
 
-.I 43
+.I 46
 .W
 I am seeking information on the use of data processing in libraries and
 the mechanization of routine library processes and procedures.  I would
@@ -203,7 +203,7 @@ practices in a special library which could also be applied in a public
 or university library.  Give descriptions of equipment and operations,
 both present and projected.
 
-.I 44
+.I 49
 .W
 Most resources have been spent on applying information retrieval
 techniques to the physical and medical sciences.  But, has information
@@ -214,7 +214,7 @@ solved, if at all?  Have the characteristics of these subject areas
 necessitated the development of new information retrieval techniques?
 What are the prospcts for future machine control in these areas?
 
-.I 45
+.I 50
 .W
 Is there any use for traditional classification schemes - DDC, UDC, LC,
 etc. - in information retrieval systems?  If there is, which scheme
@@ -224,7 +224,7 @@ Has research shown that a subject classification of knowledge is
 completely unnecessary in machine systems? Or, have new schemes
 been devised which appear to be more suited to machine use?
 
-.I 46
+.I 52
 .W
 What are the characteristics of MEDLARS (Medical Literature Analysis
 and Retrieval System) project which has been undertaken by the
@@ -233,7 +233,7 @@ journals and of what relation is this indexing system to Index Medicus?
 What are the major components of the MEDLARS project and its major operating
 details?
 
-.I 47
+.I 54
 .W
 What is the effect on librarians of automation?  Note the new types
 of technology to be used in the library which will have an effect on
@@ -241,14 +241,14 @@ the status, position, and function of the librarians.  What changes
 are being contemplated or have been initiated to introduce automation
 into the education of librarians?
 
-.I 48
+.I 55
 .W
 What are the aims and objectives of the medical literature analysis
 and retrieval system (MEDLARS)?  How does MEDLARS operate?  What are
 the possible applications of MEDLARS to future information retrieval
 systems?
 
-.I 49
+.I 56
 .W
 The standard method of finding information in today's libraries is
 through the use of the alphabetically arranged card catalog or the
@@ -256,7 +256,7 @@ classified catalog based on a classification system such as the DC or
 LC.  Can these systems be modified for use with automated information
 retrieval?
 
-.I 50
+.I 57
 .W
 In catalogs which are either arranged alphabetically or arranged by
 classification number, the LC entry, printed in readable language, is
@@ -267,7 +267,7 @@ headings be used in the same manner in automated systems?
 
 
 
-.I 51
+.I 58
 .W
     Bibliographic control before and after MARC is reviewed.  The capability
 of keying into online systems brought an interdependence among libraries,
@@ -279,7 +279,7 @@ The authors point out that while technology has led toward centralization
 of automated library services, new developments are now pushing toward
 decentralization.  Coordination is a requirement to avoid fragmentation in
 this new environment.
-.I 52
+.I 61
 .W
     The way that individuals construct and modify search queries on a
 large interactive document retrieval system is subject to systematic biases
@@ -288,7 +288,7 @@ under uncertainty.  These biases are shared by both naive and sophisticated
 subjects and cause the inquirer searching for documents on a large interactive
 system to construct and modify queries inefficiently.  A searching algorithm
 is suggested that helps the inquirer to avoid the effect of these biases.
-.I 53
+.I 62
 .W
     This article concerns the problem of how to permit a patron to
 represent the relative importance of various index terms in a Boolean
@@ -298,7 +298,7 @@ notion of fuzzy sets.  The fuzzy set concept then forms the basis of the
 concept of a fuzzy request in which weights are assigned to index terms.
 Ther properties of such a system are discussed, and it is shown that such
 systems retain the manipulability of traditional Boolean requests.
-.I 54
+.I 65
 .W
     The use of document clusters has been suggested as an efficient file
 organization for a document retrieval system.  It is possible that by
@@ -311,7 +311,7 @@ that it can be more effective than heuristic cluster searches and cluster
 searches based on other models.  It can also be more effective than a full
 search in which every document is compared to the query.  The efficiency
 aspects of the implementation of the model are discussed.
-.I 55
+.I 66
 .W
     Current online library network technology is described, including the
 physical and functional aspects of networks.  Three types of networks are
@@ -320,7 +320,7 @@ that provide bibliographic files (e.g., OCLC, Inc., RLIN), and service
 center (e.g., NELINET, INCOLSA).  It is predicted that as technology
 evolves more services will be provided outside the library directly to the
 user through his home or office.
-.I 56
+.I 67
 .W
     An experimental computer program has been developed to classify
 documents according to the 80 sections and five major section groupings of
@@ -342,7 +342,7 @@ people experienced in the assignment of documents to CA sections.  The
 program assigned approximately 78% of the documents to the correct major
 section groupings of CA and 67% of the correct sections or cross-references
 at a rate of 100 documents per second.
-.I 57
+.I 69
 .W
     The Use of a minicomputer in various phases of creating the thesaurus
 for the National Information Center for Special Education Materials
@@ -358,7 +358,7 @@ alphabetic, hierarchical, and chart formatted term displays.  Overall, the
 use of the minicomputer facilitates initial thesaurus entry development by
 reducing clerical effort, editorial staff decisions, and overall processing
 times.
-.I 58
+.I 71
 .W
     A new method is described to extract significant phrases in the title
 and the abstreact of scientific or technical documents.  The method is
@@ -376,7 +376,7 @@ the number of them for every document and the processing time is fairly
 satisfactory.  The information representation of the document, partly
 using the method, is discussed with relation to the construction of the
 document information retrieval system.
-.I 59
+.I 76
 .W
     This paper discusses the origins of library networks and traces their
 development in the United States in the late 1960s through the present.
@@ -386,7 +386,7 @@ materials, is examined in relationship to library networks.  In particular,
 attention is given to the question of how these two major components of
 library cooperation, which have tended to be separate, might become more
 closely integrated.
-.I 60
+.I 79
 .W
     Algorithms are given to process partially specified queries in a
 compressed database system.  The proposed methods handle effectively
@@ -395,7 +395,7 @@ The methods are compared and critically evaluated in terms of the design
 and retrieval costs.  The analyses show that the method which exploits the
 interdependence of fragments as well as the relevance of fragments to
 records in the file has maximum design cost and least retrieval cost.
-.I 61
+.I 81
 .W
     The lexical problems in large information systems are created by the
 necessity of handling a great number of names and their interrelations.
@@ -410,7 +410,7 @@ filter" in a broad sense for lexically incorrect queries, promotes integration
 of databases and information retrieval systems, and facilitates the creation
 of local information systems.  We hope that lexical subsystems can become
 productive for any large, especially distributed, information system.
-.I 62
+.I 82
 .W
     The relational model has received increasing attention during the
 past decade.  Its advantages include simplicity, consistency, and a sound
@@ -423,7 +423,7 @@ including the relational calculus, relational algebra, and SEQUEL.
 Numerous examples pertinent to information retrieval are presented in these
 relational languages.  Advantages of the relational approach to information
 retrieval are noted.
-.I 63
+.I 84
 .W
     A technique is described for automatic reformulation of boolean
 queries.  Based on patron relevance judgements of an initial retrieval,
@@ -435,7 +435,7 @@ the technique, a series of tests is described of its application to a small
 data base in an experimental environment.  Results compare favourably with
 feedback as employed in a SMART-type system.  MOre extensive testing is
 suggested to validate the technique.
-.I 64
+.I 90
 .W
     Many information scientists are concerned with the operation of
 document retrieval systems serving scientists in various fields.  The
@@ -466,7 +466,7 @@ concepts as nodes and the relations between them represented as lines (arcs)
 connecting the nodes.  This definition of concept structure is
 similar to the semantic network of artificial intelligence except that in
 our approach a measure of consensus weights each arc of the graph.
-.I 65
+.I 92
 .W
     The number of databases, records contained in databases and the online
 use of databases has increased dramatically over the past several years,
@@ -474,7 +474,7 @@ bringing the 1979 totals for bibliographic, bioliographic-related, and
 natural language databases to 528.  These 528 databases contain 148 million
 records.  Some 4 million online searches were conducted via the major U.S.
 and Canadian systems in 1979.
-.I 66
+.I 95
 .W
     A major deficiency of traditional Boolean systems is their inability to
 represent the varying degrees to which a document may be written on a subject.
@@ -486,7 +486,7 @@ properties associated with Boolean algebra as well.  Probabilistic weighting
 is then introduced as an alternative approach and the two systems compared.
 In the limit of zero/one weights, all systems considered converge to
 traditional Boolean retrieval.
-.I 67
+.I 96
 .W
     Several papers have appeared that have analyzed recent developments
 in the problem of processing, in a document retrieval system, queries expressed
@@ -495,7 +495,7 @@ We shall show that the concept of threshold values resolves the problems
 inherent with relevance weights.  Moreover, we shall explore possible evaluation
 mechanisms for retrieval of documents, based on fuzzy-set-theoretic
 considerations.
-.I 68
+.I 97
 .W
     There has been a good deal of work on information retrieval systems that
 have continuous weights assigned to the index terms that describe the records
@@ -509,7 +509,7 @@ at the weights from an entirely different approach involving thresholds, and
 we generate an improved evaluation mechanism which seems to fulfill a larger
 subset of the desired criteria than previous mechanisms.  This new mechanism
 allows the user to attach a "threshold" to the query term.
-.I 69
+.I 98
 .W
     Online retrieval systems may be difficult to use, especially by end
 users, because of heterogeneity and complexity.  Investigations have concerned
@@ -523,7 +523,7 @@ users.  Thus, the network of different systems is made to look like a single
 "virtual" system to the user.  The interface also provides instruction and
 other search aids for the user.  The philosophy, design, and implementation
 of an experimental interface named CONIT are described.
-.I 70
+.I 99
 .W
     The evaluation of the concept of a translating compuyter interface for
 simplifying operation of multiple, heterogenous online bibliographic
@@ -539,7 +539,7 @@ of existing system in a cost effective manner, especially for searchers.
 Furthermore, more advanced interfaces based on improved instruction and
 automated search strategy techniques could further enhance retrieval
 effectiveness for a wide class of users.
-.I 71
+.I 100
 .W
     This paper notes the benefits accruing from interaction between computerized
 retrieval systems and micrographic retrieval systems.  It reviews current state
@@ -548,7 +548,7 @@ combination of advances in communications technology, and sophisticated indexing
 input from libraries and information scientists, the new generation of automated
 micrographs devices may constitute the on-line document retrieval systems of the
 future.
-.I 72
+.I 101
 .W
     Conventional information retrieval processes are largely based on data
 movement, pointer manipulations and integer arithmetic; more refined retrieval
@@ -561,7 +561,7 @@ greatest interest.  In more advanced systems, the use of array processors
 also proves beneficial.  Various information retrieval processes are examined
 and evidence is given to demonstrate the usefulness of parallel processing
 and fast computational facilities in information retrieval.
-.I 73
+.I 102
 .W
     The frequency characteristics of terms in the documents of a collection
 have been used as indicators of term importance for content analysis and
@@ -577,7 +577,7 @@ estimating the relevance properties of the terms based on their overall
 occurrence characteristics in the collection.  Finally, experimental
 evaluation results are shown comparing the weighting systems using the term
 relevance properties with the more conventional frequency-based methodologies.
-.I 74
+.I 104
 .W
     This paper tackles the problem of how one might select further search terms,
 using relevance feedback, given the search terms in the query.  These search
@@ -587,7 +587,7 @@ a variety of association measures.  The retrieval effectiveness for the
 different spanning trees is shown to be approximately the same.  Effectiveness
 is measured in terms of precision and recall, and the retrieval tests are done
 on three different test collections.
-.I 75
+.I 109
 .W
     It is shown that the mapping of a particular area of science, in this
 case information science, can be done using authors as units of analysis and
@@ -608,7 +608,7 @@ intellectual structure in the sciences and possibly in other areas to the
 extent that those areas rely on serial publications.  The technique
 establishes authors, as well as documents, as an effective unit in
 analyzing subject specialties.
-.I 76
+.I 111
 .W
     An automated document clustering procedure is described which does not
 require the use of an inter-document similarity matrix and which is independent

@@ -101,13 +101,99 @@ def clean_rel(filepath, new_filepath):
                     n.write(line[0] + ' ' + doc_id + '\n')
 
         else:
-            curID = 0
-            prevID = 0
             for line in f:
                 line = line.split()
-                curID = line[0]
-                #print(len(line) - len(line.strip()))
                 n.write(line[0] + ' ' + line[1] + '\n')
+
+
+def find_missing(lst):
+    return [i for x, y in zip(lst, lst[1:])  
+        for i in range(x + 1, y) if y - x > 1] 
+
+def remove_query(rel_filepath, q_filepath, temp_rel_filepath, temp_q_filepath):
+
+    # Identify queries missing in rel
+    m = open(temp_rel_filepath, 'w')
+    with open(rel_filepath) as f:
+
+        prev = 0
+        cur = 0
+        present = []
+        for line in f:
+            m.write(line)
+            line = line.split()
+            prev = cur
+            cur = line[0]
+            if(cur != prev):
+                present.append(int(cur))
+
+    f.close()
+    m.close()
+
+    missing = find_missing(present)
+    print('Missing = ')
+    print(missing)
+
+    # Remove queries which are missing in rel
+    toRemove = False
+    n = open(temp_q_filepath, 'w')
+    with open(q_filepath) as a:
+        for line in a:
+            if line.startswith('.I'):
+                IDline = line.split()
+                if int(IDline[1]) in missing:
+                    toRemove = True
+
+                else:
+                    toRemove = False
+
+            if toRemove == False:
+                n.write(line)
+    a.close()
+    n.close()
+
+# Re-number queries in query and rel
+def relabel_query(temp_rel_filepath, temp_q_filepath, new_rel_filepath, new_q_filepath):
+    
+    m = open(new_rel_filepath, 'w')
+    with open(temp_rel_filepath) as f:
+        prev = 0
+        cur = 0
+        i = 0
+        for line in f:
+            line = line.split()
+            prev = cur
+            cur = line[0]
+
+            if (cur != prev):
+                i += 1
+
+            m.write(str(i) + " " + line[1] + '\n')
+
+
+    m.close()
+    f.close()
+
+    n = open(new_q_filepath, 'w')
+    with open(temp_q_filepath) as g:
+        #prev = 0
+        #cur = 0
+        i = 1
+        for line in g:
+            if line.startswith('.I'):
+                line = line.split()
+                n.write(line[0] + " " + str(i) + '\n')
+                i+=1
+
+            else:
+                n.write(line)
+
+    n.close()
+    g.close()
+
+
+def re_label_ID():
+    return 0
 
 
 def main():
@@ -115,15 +201,22 @@ def main():
     clean_query('raw/cisi/CISI.QRY', 'cisi/CISI.QRY')
     clean_rel('raw/cisi/CISI.REL', 'cisi/CISI.REL')
 
+    remove_query('cisi/CISI.REL', 'cisi/CISI.QRY', 'cisi/reltemp', 'cisi/querytemp')
+    relabel_query('cisi/reltemp', 'cisi/querytemp', 'cisi/CISI.REL', 'cisi/CISI.QRY')
+
 
     clean_raw('raw/cacm/cacm.all', 'cacm/cacm.all')
     clean_query('raw/cacm/query.text', 'cacm/query.text')
     clean_rel('raw/cacm/qrels.text', 'cacm/qrels.text')
 
+    remove_query('cacm/qrels.text', 'cacm/query.text', 'cacm/reltemp', 'cacm/querytemp')
+
 
     clean_raw('raw/med/MED.ALL', 'med/MED.ALL')
     clean_query('raw/med/MED.QRY', 'med/MED.QRY')
     clean_rel('raw/med/MED.REL', 'med/MED.REL')
+
+    remove_query('med/MED.REL', 'med/MED.QRY', 'med/reltemp', 'med/querytemp') # None to remove
 
 
     remove_empty('raw/time/TIME.RAW', 'raw/time/TIME.ALL')
@@ -132,6 +225,8 @@ def main():
     clean_query('raw/time/TIME.QUE_', 'time/TIME.QUE')
     remove_empty('raw/time/TIME.REL', 'raw/time/TIME.REL_')
     clean_rel('raw/time/TIME.REL_', 'time/TIME.REL')
+
+    remove_query('time/TIME.REL', 'time/TIME.QUE', 'time/reltemp', 'time/querytemp') # None to remove
 
 
 if __name__ == '__main__':

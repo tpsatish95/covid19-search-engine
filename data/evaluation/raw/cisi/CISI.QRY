@@ -1508,18 +1508,3 @@ method.
 .B
 (Journal of Information Science, 2, 1980, pp. 222-231)
 
-.I 112
-.T
-A Fast Procedure for the Calculation of Similarity Coefficients in
-in Automatic Classification
-.A
-Willett, P.
-.W
-    A fast algorithm is described for comparing the lists of terms representing
-documents in automatic classification experiments.  The speed of the procedure
-arises from the fact that all of the non-zero-valued coefficicents for a given
-document are identified together, using an inverted file to the terms in the
-document collection.  The complexity and running time of the algorithm are
-compared with previously described procedures.
-.B
-(Information Processing & Management, Vol. 17, No. 2, 1981, pp. 53-60)
