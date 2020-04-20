@@ -141,19 +141,8 @@ bounds for approximate invariant subspaces of closed linear operators",
 SIAM J. Numerical Analysis., Vol. 8, no. 4 (1971).
 .I 34
 .W
- Currently interested in isolation of root of polynomial; there is an old
-article by Heindel, L.E. in J. ACM, Vol. 18, 533-548.  I would like to find
-more recent material.
-.I 35
-.W
- Probabilistic algorithms especially those dealing with algebraic and
-symbolic manipulation.  Some examples:
-Rabiin, "Probabilistic algorithm on finite field", SIAM
-Waztch, "Probabilistic testing of polynomial identities", SIAM
-.I 36
-.W
  Fast algorithm for context-free language recognition or parsing
-.I 37
+.I 35
 .W
  Articles describing the relationship between data types and concurrency
 (e.g. what is the type of a process?  when is a synchronization attempt 
@@ -161,96 +150,53 @@ between two processes "type correct"?  in a message-passing system is there
 any notion of the types of messages?--i.e. any way to check that the sender
 of the message and the receiver are both treating the bit stream as some
 particular type)
-.I 38
+.I 36
 .W
  What is the type of a module?	(I don't want the entire literature on
 Abstract Data Types here, but I'm not sure how to phrase this to avoid it.
 I'm interested in questions about how one can check that a module "matches"
 contexts in which it is used.)
-.I 39
+.I 37
 .W
  What does type compatibility mean in languages that allow programmer
 defined types?  (You might want to restrict this to "extensible" languages
 that allow definition of abstract data types or programmer-supplied
 definitions of operators like *, +.)
-.I 40
+.I 38
 .W
  List all articles dealing with data types in the following languages:
 Pascal, CLU, Alphard, Russell, Ada, ALGOL 68, EL1.  List any other languages
 that are referenced frequently in papers on the above languages (e.g. catch
 any languages with interesting type structures that I might have missed).
-.I 41
-.W
- Theory of distributed systems and databases.  Subtopics of special
-interest include reliability and fault-tolerance in distributed systems,
-atomicity, distributed transactions, synchronization algorithms, 
-resource allocation; lower bounds and models for asynchronous parallel
-systems.  Also theory of communicating processes and protocols.   
-.I 42
+.I 39
 .W
  Computer performance evaluation techniques using pattern recognition
 and clustering.
-.I 43
+.I 40
 .W
  Analysis and perception of shape by humans and computers.  Shape
 descriptions, shape recognition by computer.  Two-dimensional shapes.
 Measures of circularity.  Shape matching.
-.I 44
+.I 41
 .W
  Texture analysis by computer.	Digitized texture analysis.  Texture
 synthesis. Perception of texture.
-.I 45
+.I 42
 .W
  The use of operations research models to optimize information system
 performance.  This includes fine tuning decisions such as secondary index
 selection, file reorganization, and distributed databases.
-.I 46
-.W
- The application of fuzzy subset theory to clustering and information
-retrieval problems.  This includes performance evaluation and automatic
-indexing considerations.
-.I 47
-.W
- The use of Bayesian decision models to optimize information retrieval
-system performance.  This includes stopping rules to determine when a
-user should cease scanning the output of a retrieval search.
-.I 48
+.I 43
 .W
  The use of computer science principles (e.g. data structures, 
 numerical methods) in generating optimization (e.g. linear programming)
 algorithms.  This includes issues of the Khachian (Russian, ellipsoidal)
 algorithm and complexity of such algorithms.
-.I 49
+.I 44
 .W
  The role of information retrieval in knowledge based systems
 (i.e., expert systems).
-.I 50
-.W
- Parallel processors in information retrieval
-.I 51
-.W
- Parallel processors and paging algorithms
-.I 52
-.W
- Modelling and simulation in agricultural ecosystems.
-.I 53
-.W
- mathematical induction, group theory, integers modulo m,
-probability, binomial coefficients, binomial theorem, homomorphism,
-morphism, transitivity, relations, relation matrix.
-.I 54
-.W
- Semantics of programming languages, including abstract specifications
-of data types, denotational semantics, and proofs of correctness.
-.I 55
-.W
- Anything dealing with star height of regular languages or regular
-expressions or regular events.
-.I 56
-.W
- Articles relation the algebraic theory of semigroups and monoids
-to the study of automata and regular languages.
-.I 57
+.I 45
 .W
  Abstracts of articles:
     J. Backus, "Can programming be liberated from the Von Neumann style?
@@ -258,39 +204,39 @@ to the study of automata and regular languages.
                (1978), 613-641.
     R.A.De Millo, R.J. Lipton, A.J. Perlis, letter to ACM Forum, CACM 22
 	       (1979), 629-630
-.I 58
+.I 46
 .W
  Algorithms or statistical packages for ANOVA, regression using least
 squares or generalized linear models.  System design, capabilities,
 statistical formula are of interest.  Student's t test, Wilcoxon and
 sign tests, multivariate and univariate components can be included.
-.I 59
+.I 47
 .W
  Dictionary construction and accessing methods for fast retrieval
 of words or lexical items or morphologically related information.
 Hashing or indexing methods are usually applied to English spelling or
 natural language problems.
-.I 60
+.I 48
 .W
  Hardware and software relating to database management systems.
 Database packages, back end computers, special associative hardware
 with microcomputers attached to disk heads or things like RAP, 
 relational or network (CODASYL) or hierarchical models, systems
 like SYSTEM R, IMS, ADABAS, TOTAL, etc.
-.I 61
+.I 49
 .W
  Information retrieval articles by Gerard Salton or others about clustering,
 bibliographic coupling, use of citations or co-citations, the vector
 space model, Boolean search methods using inverted files, feedback, etc.
-.I 62
+.I 50
 .W
  Results relating parallel complexity theory (both for PRAM's and
 uniform circuits).
-.I 63
+.I 51
 .W
  Algorithms for parallel computation, and especially comparisons
 between parallel and sequential algorithms.
-.I 64
+.I 52
 .W
  List all articles on EL1 and ECL (EL1 may be given as EL/1; I don't
 remember how they did it.

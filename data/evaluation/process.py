@@ -38,7 +38,7 @@ def clean_raw(filepath, new_filepath):
                     n.write(line)
 
 # Remove empty lines
-def remove_empty(filepath, new_filepath):
+def remove_empty_lines(filepath, new_filepath):
 
     n = open(new_filepath, 'w')
     with open(filepath) as f:
@@ -131,8 +131,8 @@ def remove_query(rel_filepath, q_filepath, temp_rel_filepath, temp_q_filepath):
     m.close()
 
     missing = find_missing(present)
-    print('Missing = ')
-    print(missing)
+    # print('Missing = ')
+    # print(missing)
 
     # Remove queries which are missing in rel
     toRemove = False
@@ -169,8 +169,7 @@ def relabel_query(temp_rel_filepath, temp_q_filepath, new_rel_filepath, new_q_fi
                 i += 1
 
             m.write(str(i) + " " + line[1] + '\n')
-
-
+            
     m.close()
     f.close()
 
@@ -210,23 +209,27 @@ def main():
     clean_rel('raw/cacm/qrels.text', 'cacm/qrels.text')
 
     remove_query('cacm/qrels.text', 'cacm/query.text', 'cacm/reltemp', 'cacm/querytemp')
+    relabel_query('cacm/reltemp', 'cacm/querytemp', 'cacm/qrels.text', 'cacm/query.text')
 
 
     clean_raw('raw/med/MED.ALL', 'med/MED.ALL')
     clean_query('raw/med/MED.QRY', 'med/MED.QRY')
     clean_rel('raw/med/MED.REL', 'med/MED.REL')
 
-    remove_query('med/MED.REL', 'med/MED.QRY', 'med/reltemp', 'med/querytemp') # None to remove
+    # None to remove
+    # remove_query('med/MED.REL', 'med/MED.QRY', 'med/reltemp', 'med/querytemp') 
 
 
-    remove_empty('raw/time/TIME.RAW', 'raw/time/TIME.ALL')
+    remove_empty_lines('raw/time/TIME.RAW', 'raw/time/TIME.ALL')
+    remove_empty_lines('raw/time/TIME.QUE', 'raw/time/TIME.QUE_')
+    remove_empty_lines('raw/time/TIME.REL', 'raw/time/TIME.REL_')
+
     clean_raw('raw/time/TIME.ALL', 'time/TIME.ALL')
-    remove_empty('raw/time/TIME.QUE', 'raw/time/TIME.QUE_')
     clean_query('raw/time/TIME.QUE_', 'time/TIME.QUE')
-    remove_empty('raw/time/TIME.REL', 'raw/time/TIME.REL_')
     clean_rel('raw/time/TIME.REL_', 'time/TIME.REL')
 
-    remove_query('time/TIME.REL', 'time/TIME.QUE', 'time/reltemp', 'time/querytemp') # None to remove
+    # None to remove
+    # remove_query('time/TIME.REL', 'time/TIME.QUE', 'time/reltemp', 'time/querytemp')
 
 
 if __name__ == '__main__':
