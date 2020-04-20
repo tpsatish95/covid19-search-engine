@@ -74,6 +74,7 @@ class CISIDataset(Dataset):
             queries.append(Query(query_id+1, text))
 
         self.queries = queries
+        #print(queries)
 
 
     def load_relevant_docs(self, filename):
@@ -88,6 +89,7 @@ class CISIDataset(Dataset):
                 rels[qid].append(rel)
 
         self.relevant_docs = rels
+        #print(rels)
 
 
 base_path = "./data/evaluation/cisi"

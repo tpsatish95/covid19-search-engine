@@ -169,7 +169,7 @@ def relabel_query(temp_rel_filepath, temp_q_filepath, new_rel_filepath, new_q_fi
                 i += 1
 
             m.write(str(i) + " " + line[1] + '\n')
-            
+
     m.close()
     f.close()
 
@@ -218,7 +218,6 @@ def main():
 
     # None to remove
     # remove_query('med/MED.REL', 'med/MED.QRY', 'med/reltemp', 'med/querytemp') 
-
 
     remove_empty_lines('raw/time/TIME.RAW', 'raw/time/TIME.ALL')
     remove_empty_lines('raw/time/TIME.QUE', 'raw/time/TIME.QUE_')
