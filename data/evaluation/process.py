@@ -1,4 +1,4 @@
-# clean.py
+# process.py
 # script to clean data
 
 # Remove undesirable categories from data
@@ -191,7 +191,7 @@ def relabel_query(temp_rel_filepath, temp_q_filepath, new_rel_filepath, new_q_fi
     g.close()
 
 
-def re_label_ID():
+def relabel_ID():
     return 0
 
 

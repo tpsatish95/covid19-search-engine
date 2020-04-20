@@ -5,9 +5,8 @@ import re
 from collections import defaultdict
 
 from nltk.tokenize import word_tokenize
-from ...template import Dataset, Document, Query, Text
-# from data.template import Dataset
-
+# from ...template import Dataset, Document, Query, Text
+from data.template import Dataset, Document, Query, Text
 
 class MedDataset(Dataset):
     def __init__(self, base_path):
