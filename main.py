@@ -1,6 +1,8 @@
 from data.dummy.loader import dummy_data
 from preprocess.processor import TextProcessor
 from vectorize.tf_idf import TfIdfVectorizer
+from search_engine import SearchEngine
+from sklearn.metrics.pairwise import cosine_similarity
 
 
 def main():
@@ -9,18 +11,13 @@ def main():
                                       replace_urls=False,
                                       strip_white_spaces=True,
                                       re_tokenize=False)
-    documents = [text_preprocessor.process(document) for document in dummy_data.documents]
-    queries = [text_preprocessor.process(query) for query in dummy_data.queries]
+    search_engine = SearchEngine(dataset=dummy_data,
+                                 text_preprocessor=text_preprocessor,
+                                 vectorizer=TfIdfVectorizer(),
+                                 similarity_metric=cosine_similarity)
+    search_engine.evaluate()
 
-    vectorizer = TfIdfVectorizer()
-    document_vectors = vectorizer.vectroize_documents(documents)
-    for query in queries[1:]:
-        query_vector = vectorizer.vectroize_query(query)
-
-        # test
-        print(sum(document_vectors[1]))
-        print(sum(query_vector[0]))
-        break
+    # print(search_engine.search("computer networks")[0])
 
 
 if __name__ == '__main__':

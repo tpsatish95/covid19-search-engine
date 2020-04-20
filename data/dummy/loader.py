@@ -38,19 +38,19 @@ class DummyDataset(Dataset):
             title, content = None, None
 
             raw, tokenized = "", list()
-            for entry in raw_docs[doc_id]["T"]:
+            for entry in raw_docs[doc_id+1]["T"]:
                 raw += " " + entry.raw
                 tokenized.extend(entry.tokenized)
             title = Text(raw, tokenized)
 
             raw, tokenized = "", list()
             for category in ["A", "K", "W"]:
-                for entry in raw_docs[doc_id][category]:
+                for entry in raw_docs[doc_id+1][category]:
                     raw += " " + entry.raw
                     tokenized.extend(entry.tokenized)
             content = Text(raw, tokenized)
 
-            documents.append(Document(doc_id, title, content))
+            documents.append(Document(doc_id+1, title, content))
 
         self.documents = documents
 
@@ -61,12 +61,12 @@ class DummyDataset(Dataset):
             text = None
 
             raw, tokenized = "", list()
-            for entry in raw_docs[query_id]["W"]:
+            for entry in raw_docs[query_id+1]["W"]:
                 raw += " " + entry.raw
                 tokenized.extend(entry.tokenized)
             text = Text(raw, tokenized)
 
-            queries.append(Query(query_id, text))
+            queries.append(Query(query_id+1, text))
 
         self.queries = queries
 
