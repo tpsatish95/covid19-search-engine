@@ -1,4 +1,6 @@
 from data.dummy.loader import dummy_data
+# from data.evaluation.cacm.loader import cacm_data
+# from data.evaluation.cisi.loader import cisi_data
 from preprocess.processor import TextProcessor
 from vectorize.tf_idf import TfIdfVectorizer
 from search_engine import SearchEngine

@@ -3,8 +3,8 @@ import re
 from collections import defaultdict
 
 from nltk.tokenize import word_tokenize
-from ...template import Dataset, Document, Query, Text
-# from data.template import Dataset
+
+from data.template import Dataset, Document, Query, Text
 
 
 class CISIDataset(Dataset):
@@ -24,20 +24,18 @@ class CISIDataset(Dataset):
                 line = line.strip()
                 if line.startswith('.I'):
                     i = int(line[3:])
-                    #print(i)
                     docs.append(defaultdict(list))
                 elif re.match(r'\.\w', line):
                     category = line[1]
                 elif line != '':
-                    docs[i][category].append(Text(line, [word.lower() for word in word_tokenize(line)]))
-        #print(docs)
+                    docs[i][category].append(Text(line, [word.lower()
+                                                         for word in word_tokenize(line)]))
         return docs
 
     def load_docs(self, filename):
         raw_docs = self.read_raw(filename)
         documents = list()
         for doc_id, _ in enumerate(raw_docs[1:]):
-            #print(doc_id)
             title, content = None, None
 
             raw, tokenized = "", list()
@@ -47,7 +45,7 @@ class CISIDataset(Dataset):
             title = Text(raw, tokenized)
 
             raw, tokenized = "", list()
-            for category in ["A", "K", "W"]: 
+            for category in ["A", "K", "W"]:
                 for entry in raw_docs[doc_id+1][category]:
                     raw += " " + entry.raw
                     tokenized.extend(entry.tokenized)
@@ -56,8 +54,6 @@ class CISIDataset(Dataset):
             documents.append(Document(doc_id+1, title, content))
 
         self.documents = documents
-        #print(documents)
-
 
     def load_queries(self, filename):
         raw_docs = self.read_raw(filename)
@@ -74,8 +70,6 @@ class CISIDataset(Dataset):
             queries.append(Query(query_id+1, text))
 
         self.queries = queries
-        #print(queries)
-
 
     def load_relevant_docs(self, filename):
         rels = {}
@@ -89,7 +83,6 @@ class CISIDataset(Dataset):
                 rels[qid].append(rel)
 
         self.relevant_docs = rels
-        #print(rels)
 
 
 base_path = "./data/evaluation/cisi"
@@ -97,4 +90,3 @@ cisi_data = CISIDataset(base_path)
 cisi_data.load_docs("CISI.ALL")
 cisi_data.load_queries("CISI.QRY")
 cisi_data.load_relevant_docs("CISI.REL")
-
