@@ -11,7 +11,7 @@ class TermWeights(NamedTuple):
     content: float
 
 
-class TfIdf(Vectorizer):
+class TfIdfVectorizer(Vectorizer):
     def __init__(self, region_weigting=TermWeights(title=1, content=1)):
         super().__init__()
         self.vocab = list()
@@ -22,8 +22,7 @@ class TfIdf(Vectorizer):
     def vectroize_documents(self, documents):
         self.num_docs = len(documents)
         self.doc_freqs = self.compute_document_freqs(documents)
-        term_freqs = [self.compute_doc_tf(document) for document in documents]
-        tfidf_vectors = [self.compute_tfidf(document, term_freqs) for document in documents]
+        tfidf_vectors = [self.compute_tfidf(document, self.compute_doc_tf(document)) for document in documents]
 
         doc_vectors = list()
         for tfidf_vector in tfidf_vectors:
@@ -33,8 +32,7 @@ class TfIdf(Vectorizer):
         return np.array(doc_vectors)
 
     def vectroize_query(self, query):
-        term_freq = self.compute_query_tf(query)
-        tfidf_vector = self.compute_tfidf(query, term_freq)
+        tfidf_vector = self.compute_tfidf(query, self.compute_query_tf(query))
 
         query_vector = [tfidf_vector[word] if word in tfidf_vector.keys() else 0.0 for word in self.vocab]
         return np.array(query_vector).reshape((1, -1))
@@ -63,7 +61,7 @@ class TfIdf(Vectorizer):
         for word in document.title.tokenized:
             vec[word] += self.region_weights.title
         for word in document.content.tokenized:
-            vec[word] += self.region_weights.abstract
+            vec[word] += self.region_weights.content
 
         return dict(vec)
 
@@ -76,8 +74,8 @@ class TfIdf(Vectorizer):
 
     def compute_tfidf(self, document, term_freqs):
         words = set()
-        for sec in document.sections():
-            for word in sec:
+        for section in document.sections():
+            for word in section.tokenized:
                 words.add(word)
 
         vec = defaultdict(float)

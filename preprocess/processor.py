@@ -39,7 +39,6 @@ class TextProcessor:
         self.stemmer = SnowballStemmer("english")
         self.stopwords = self.load_obj("stopwords_set")
         self.acronyms = self.load_obj("acronyms_dict")
-        print(self.acronyms)
         self.contractions = self.load_obj("contractions_dict")
         self.emoticons = self.load_obj("emoticons_dict")
         self.words_dict = self.load_obj("words_dict")
