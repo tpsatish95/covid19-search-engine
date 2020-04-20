@@ -5,8 +5,9 @@ import re
 from collections import defaultdict
 
 from nltk.tokenize import word_tokenize
-# from ...template import Dataset, Document, Query, Text
+
 from data.template import Dataset, Document, Query, Text
+
 
 class MedDataset(Dataset):
     def __init__(self, base_path):
@@ -25,20 +26,20 @@ class MedDataset(Dataset):
                 line = line.strip()
                 if line.startswith('.I'):
                     i = int(line[3:])
-                    #print(i)
+                    # print(i)
                     docs.append(defaultdict(list))
                 elif re.match(r'\.\w', line):
                     category = line[1]
                 elif line != '':
-                    docs[i][category].append(Text(line, [word.lower() for word in word_tokenize(line)]))
-        # print(docs)
+                    docs[i][category].append(Text(line, [word.lower()
+                                                         for word in word_tokenize(line)]))
         return docs
 
     def load_docs(self, filename):
         raw_docs = self.read_raw(filename)
         documents = list()
         for doc_id, _ in enumerate(raw_docs[1:]):
-            #print(doc_id)
+            # print(doc_id)
             title, content = None, None
 
             raw, tokenized = "", list()
@@ -48,7 +49,7 @@ class MedDataset(Dataset):
             title = Text(raw, tokenized)
 
             raw, tokenized = "", list()
-            #for category in ["A", "K", "W"]: 
+            # for category in ["A", "K", "W"]:
             for entry in raw_docs[doc_id+1]["W"]:
                 raw += " " + entry.raw
                 tokenized.extend(entry.tokenized)
@@ -57,8 +58,6 @@ class MedDataset(Dataset):
             documents.append(Document(doc_id+1, title, content))
 
         self.documents = documents
-        # print(documents)
-
 
     def load_queries(self, filename):
         raw_docs = self.read_raw(filename)
@@ -75,8 +74,6 @@ class MedDataset(Dataset):
             queries.append(Query(query_id+1, text))
 
         self.queries = queries
-        # print(queries)
-
 
     def load_relevant_docs(self, filename):
         rels = {}
@@ -90,14 +87,10 @@ class MedDataset(Dataset):
                 rels[qid].append(rel)
 
         self.relevant_docs = rels
-        # print(rels)
 
 
 base_path = "./data/evaluation/med"
-cisi_data = MedDataset(base_path)
-cisi_data.load_docs("MED.ALL")
-cisi_data.load_queries("MED.QRY")
-cisi_data.load_relevant_docs("MED.REL")
-
-
-
+med_data = MedDataset(base_path)
+med_data.load_docs("MED.ALL")
+med_data.load_queries("MED.QRY")
+med_data.load_relevant_docs("MED.REL")

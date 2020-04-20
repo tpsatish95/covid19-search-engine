@@ -1,10 +1,12 @@
+from sklearn.metrics.pairwise import cosine_similarity
+
 from data.dummy.loader import dummy_data
 # from data.evaluation.cacm.loader import cacm_data
 # from data.evaluation.cisi.loader import cisi_data
+# from data.evaluation.med.loader import med_data
 from preprocess.processor import TextProcessor
-from vectorize.tf_idf import TfIdfVectorizer
 from search_engine import SearchEngine
-from sklearn.metrics.pairwise import cosine_similarity
+from vectorize.tf_idf import TfIdfVectorizer
 
 
 def main():
