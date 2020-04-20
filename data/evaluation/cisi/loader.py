@@ -3,7 +3,9 @@ import re
 from collections import defaultdict
 
 from nltk.tokenize import word_tokenize
-from data.template import Dataset, Document, Query, 
+from ...template import Dataset, Document, Query, Text
+# from data.template import Dataset
+
 
 class CISIDataset(Dataset):
     def __init__(self, base_path):
@@ -12,7 +14,6 @@ class CISIDataset(Dataset):
         self.queries = None
         self.relevant_docs = None
         super().__init__()
-
 
     def read_raw(self, filename):
         docs = [defaultdict(list)]  # empty 0 index
@@ -28,6 +29,7 @@ class CISIDataset(Dataset):
                     category = line[1]
                 elif line != '':
                     docs[i][category].append(Text(line, [word.lower() for word in word_tokenize(line)]))
+        #print(docs)
         return docs
 
     def load_docs(self, filename):
@@ -85,11 +87,9 @@ class CISIDataset(Dataset):
         self.relevant_docs = rels
 
 
-
-
-base_path = "./data/evaulation/processed/cisi"
-dummy_data = DummyDataset(base_path)
-dummy_data.load_docs("CISI.ALL")
-dummy_data.load_queries("CISI.QRY")
-dummy_data.load_relevant_docs("CISI.REL")
+base_path = "./data/evaluation/cisi"
+cisi_data = CISIDataset(base_path)
+cisi_data.load_docs("CISI.ALL")
+cisi_data.load_queries("CISI.QRY")
+cisi_data.load_relevant_docs("CISI.REL")
 
