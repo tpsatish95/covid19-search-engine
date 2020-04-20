@@ -50,7 +50,7 @@ class DummyDataset(Dataset):
                     tokenized.extend(entry.tokenized)
             content = Text(raw, tokenized)
 
-            documents.append(Document(doc_id, title, content))
+            documents.append(Document(doc_id+1, title, content))
 
         self.documents = documents
 
@@ -66,7 +66,7 @@ class DummyDataset(Dataset):
                 tokenized.extend(entry.tokenized)
             text = Text(raw, tokenized)
 
-            queries.append(Query(query_id, text))
+            queries.append(Query(query_id+1, text))
 
         self.queries = queries
 
