@@ -101,8 +101,11 @@ def clean_rel(filepath, new_filepath):
                     n.write(line[0] + ' ' + doc_id + '\n')
 
         else:
+            curID = 0
+            prevID = 0
             for line in f:
                 line = line.split()
+                curID = line[0]
                 #print(len(line) - len(line.strip()))
                 n.write(line[0] + ' ' + line[1] + '\n')
 
