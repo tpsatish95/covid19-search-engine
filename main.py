@@ -1,12 +1,9 @@
 from sklearn.metrics.pairwise import cosine_similarity
 
 from data.dummy.loader import dummy_data
-# from data.evaluation.cacm.loader import cacm_data
-# from data.evaluation.cisi.loader import cisi_data
-# from data.evaluation.med.loader import med_data
 from preprocess.processor import TextProcessor
 from search_engine import SearchEngine
-from vectorize.tf_idf import TfIdfVectorizer
+from vectorize.gensim import GensimVectorizer
 
 
 def main():
@@ -17,7 +14,7 @@ def main():
                                       re_tokenize=False)
     search_engine = SearchEngine(dataset=dummy_data,
                                  text_preprocessor=text_preprocessor,
-                                 vectorizer=TfIdfVectorizer(),
+                                 vectorizer=GensimVectorizer(model_name="glove-wiki-gigaword-100"),
                                  similarity_metric=cosine_similarity)
     search_engine.evaluate()
 

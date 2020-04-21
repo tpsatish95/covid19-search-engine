@@ -3,8 +3,8 @@ from abc import ABC, abstractmethod
 
 class Vectorizer(ABC):
     def __init__(self):
-        self.vocab = list()
         super().__init__()
+        self.vocab = list()
 
     @abstractmethod
     def vectroize_documents(self, documents):
