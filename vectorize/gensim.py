@@ -4,8 +4,9 @@ import numpy as np
 from vectorize.template import Vectorizer
 
 
-class GensimVectorizer(Vectorizer):
+class GensimAvgVectorizer(Vectorizer):
     # choose model_name from https://github.com/RaRe-Technologies/gensim-data#models
+
     def __init__(self, model_name="glove-wiki-gigaword-100"):
         super().__init__()
         self.model = gensim_api.load(model_name)
@@ -32,3 +33,19 @@ class GensimVectorizer(Vectorizer):
                     words.append(self.model[word])
         query_vector = np.average(np.array(words), axis=0)
         return query_vector.reshape((1, -1))
+
+
+class GensimTfIdfVectorizer(Vectorizer):
+    # choose model_name from https://github.com/RaRe-Technologies/gensim-data#models
+
+    # TODO: https://medium.com/@ranasinghiitkgp/featurization-of-text-data-bow-tf-idf-avgw2v-tfidf-weighted-w2v-7a6c62e8b097
+    def __init__(self, model_name="glove-wiki-gigaword-100"):
+        super().__init__()
+        self.model = gensim_api.load(model_name)
+        self.vocab = self.model.vocab
+
+    def vectroize_documents(self, documents):
+        pass
+
+    def vectroize_query(self, query):
+        pass
