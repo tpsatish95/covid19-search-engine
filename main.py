@@ -1,20 +1,19 @@
 from sklearn.metrics.pairwise import cosine_similarity
 
-from data.dummy.loader import dummy_data
+from data.evaluation.med.loader import med_data
 from preprocess.processor import TextProcessor
 from search_engine import SearchEngine
-from vectorize.gensim import GensimTfIdfVectorizer
+from vectorize.tf_idf import TfIdfVectorizer
 
 
 def main():
-    text_preprocessor = TextProcessor(remove_stopwords=True,
-                                      stemming=True,
-                                      replace_urls=False,
-                                      strip_white_spaces=True,
-                                      re_tokenize=False)
-    search_engine = SearchEngine(dataset=dummy_data,
+    text_preprocessor = TextProcessor(strip_white_spaces=True,
+                                      re_tokenize=True,
+                                      remove_stopwords=True,
+                                      stemming=True)
+    search_engine = SearchEngine(dataset=med_data,
                                  text_preprocessor=text_preprocessor,
-                                 vectorizer=GensimTfIdfVectorizer(),
+                                 vectorizer=TfIdfVectorizer(),
                                  similarity_metric=cosine_similarity)
     search_engine.evaluate()
 
