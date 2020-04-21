@@ -223,6 +223,14 @@ def main():
     clean_rel('raw/med/MED.REL', 'med/MED.REL')
     remove_query('med/MED.REL', 'med/MED.QRY', 'med/reltemp', 'med/querytemp') # No queries to remove
 
+    # CRAN Dataset
+    clean_raw('raw/cran/cran.all', 'cran/cran.all')
+    clean_query('raw/cran/cran.qry', 'cran/cran.qry')
+    clean_rel('raw/cran/cran.rel', 'cran/cran.rel')
+
+    remove_query('cran/cran.rel', 'cran/cran.qry', 'cran/reltemp', 'cran/querytemp')
+    relabel_query('cran/reltemp', 'cran/querytemp', 'cran/cran.rel', 'cran/cran.qry')
+
     # TIME Dataset
     # remove_empty_lines('raw/time/TIME.RAW', 'raw/time/TIME.ALL')
     # remove_empty_lines('raw/time/TIME.QUE', 'raw/time/TIME.QUE_')

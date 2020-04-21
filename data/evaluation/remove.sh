@@ -16,6 +16,6 @@ rm med/querytemp
 rm med/reltemp
 rm -rf med/__pycache__
 
-rm time/querytemp
-rm time/reltemp
-rm -rf time/__pycache__
+rm cran/querytemp
+rm cran/reltemp
+rm -rf cran/__pycache__
