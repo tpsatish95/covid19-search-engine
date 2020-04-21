@@ -2,6 +2,8 @@ from collections import Counter, defaultdict
 from typing import NamedTuple
 
 import numpy as np
+from sklearn.feature_extraction.text import \
+    TfidfVectorizer as SkLearnTfidfVectorizer
 
 from vectorize.template import Vectorizer
 
@@ -12,30 +14,46 @@ class TermWeights(NamedTuple):
 
 
 class TfIdfVectorizer(Vectorizer):
-    def __init__(self, region_weigting=TermWeights(title=1, content=1)):
+    def __init__(self, region_weigting=TermWeights(title=1, content=1), use_sklearn=False):
         super().__init__()
         self.vocab = list()
         self.num_docs = None
         self.doc_freqs = None
         self.region_weights = region_weigting
 
+        self.use_sklearn = use_sklearn
+        self.sklearn_vectorizer = SkLearnTfidfVectorizer(stop_words="english",
+                                                         ngram_range=(1, 2))
+
     def vectroize_documents(self, documents):
-        self.num_docs = len(documents)
-        self.doc_freqs = self.compute_document_freqs(documents)
-        tfidf_vectors = [self.compute_tfidf(document, self.compute_doc_tf(document)) for document in documents]
+        if not self.use_sklearn:
+            self.num_docs = len(documents)
+            self.doc_freqs = self.compute_document_freqs(documents)
+            tfidf_vectors = [self.compute_tfidf(
+                document, self.compute_doc_tf(document)) for document in documents]
 
-        doc_vectors = list()
-        for tfidf_vector in tfidf_vectors:
-            doc_vector = [tfidf_vector[word] if word in tfidf_vector.keys() else 0.0 for word in self.vocab]
-            doc_vectors.append(doc_vector)
+            doc_vectors = list()
+            for tfidf_vector in tfidf_vectors:
+                doc_vector = [tfidf_vector[word] if word in tfidf_vector.keys()
+                              else 0.0 for word in self.vocab]
+                doc_vectors.append(doc_vector)
 
-        return np.array(doc_vectors)
+            return np.array(doc_vectors)
+        else:
+            corpus = [" ".join([" ".join(section.tokenized)
+                                for section in document.sections()]) for document in documents]
+            return self.sklearn_vectorizer.fit_transform(corpus)
 
     def vectroize_query(self, query):
-        tfidf_vector = self.compute_tfidf(query, self.compute_query_tf(query))
+        if not self.use_sklearn:
+            tfidf_vector = self.compute_tfidf(query, self.compute_query_tf(query))
 
-        query_vector = [tfidf_vector[word] if word in tfidf_vector.keys() else 0.0 for word in self.vocab]
-        return np.array(query_vector).reshape((1, -1))
+            query_vector = [tfidf_vector[word] if word in tfidf_vector.keys()
+                            else 0.0 for word in self.vocab]
+            return np.array(query_vector).reshape((1, -1))
+        else:
+            query = [" ".join([" ".join(section.tokenized) for section in query.sections()])]
+            return self.sklearn_vectorizer.transform(query)
 
     def compute_document_freqs(self, documents):
         vocab = set()
