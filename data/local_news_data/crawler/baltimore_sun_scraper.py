@@ -1,10 +1,12 @@
-import requests
 import os
-import pandas as pd
-from bs4 import BeautifulSoup
 from collections import namedtuple
-# from data.util.scraper import Scraper
-from scraper import Scraper
+
+import pandas as pd
+import requests
+from bs4 import BeautifulSoup
+
+from data.local_news_data.crawler.utils.scraper import Scraper
+
 
 class BaltimoreSunScraper(Scraper):
 
@@ -34,9 +36,9 @@ class BaltimoreSunScraper(Scraper):
         return None
 
 
-
 def main():
-    scraper = BaltimoreSunScraper(path='data/local_news_data', filename='baltimore_sun_open_closed.csv')
+    scraper = BaltimoreSunScraper(path='data/local_news_data',
+                                  filename='baltimore_sun_open_closed.csv')
     scraper.scrape()
 
 
