@@ -3,7 +3,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from data.dummy.loader import dummy_data
 from preprocess.processor import TextProcessor
 from search_engine import SearchEngine
-from vectorize.tf_idf import TfIdfVectorizer
+from vectorize.gensim import GensimTfIdfVectorizer
 
 
 def main():
@@ -14,7 +14,7 @@ def main():
                                       re_tokenize=False)
     search_engine = SearchEngine(dataset=dummy_data,
                                  text_preprocessor=text_preprocessor,
-                                 vectorizer=TfIdfVectorizer(use_sklearn=True),
+                                 vectorizer=GensimTfIdfVectorizer(),
                                  similarity_metric=cosine_similarity)
     search_engine.evaluate()
 
