@@ -2,6 +2,7 @@ from uuid import uuid4
 
 import numpy as np
 from nltk.tokenize import word_tokenize
+from sklearn.metrics.pairwise import pairwise_distances
 # from sklearn.decomposition import TruncatedSVD
 
 from data.template import Query, Text
@@ -14,7 +15,7 @@ class SearchEngine(object):
                  dataset,
                  text_preprocessor,
                  vectorizer,
-                 similarity_metric):  # can be function from scipy.spatial.distance
+                 similarity_metric):  # can be any parameter from sklearn.metrics.pairwise.pairwise_distances
         self.dataset = dataset
         self.text_preprocessor = text_preprocessor
         self.vectorizer = vectorizer
@@ -38,7 +39,7 @@ class SearchEngine(object):
         query_vector = self.vectorizer.vectroize_query(query)
         # query_vector = self.svd.transform(query_vector)
 
-        results_with_score = self.similarity_metric(query_vector, self.document_vectors)[0]
+        results_with_score = 1 - pairwise_distances(query_vector, self.document_vectors, metric=self.similarity_metric)[0]
         results_with_score = [(doc_id + 1, score)
                               for doc_id, score in enumerate(results_with_score)]
         results_with_score = sorted(results_with_score, key=lambda x: -x[1])

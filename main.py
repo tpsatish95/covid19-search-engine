@@ -1,23 +1,25 @@
-from sklearn.metrics.pairwise import cosine_similarity
-
+from data.evaluation.cacm.loader import cacm_data
+from data.evaluation.cisi.loader import cisi_data
 from data.evaluation.med.loader import med_data
+
 from preprocess.processor import TextProcessor
 from search_engine import SearchEngine
 from vectorize.tf_idf import TfIdfVectorizer
 
 
 def main():
-    text_preprocessor = TextProcessor(strip_white_spaces=True,
-                                      re_tokenize=True,
+    text_preprocessor = TextProcessor(re_tokenize=True,
                                       remove_stopwords=True,
                                       stemming=True)
-    search_engine = SearchEngine(dataset=med_data,
-                                 text_preprocessor=text_preprocessor,
-                                 vectorizer=TfIdfVectorizer(),
-                                 similarity_metric=cosine_similarity)
-    search_engine.evaluate()
 
-    # print(search_engine.search("computer networks")[0])
+    for data in [cacm_data, cisi_data, med_data]:
+        search_engine = SearchEngine(dataset=data,
+                                     text_preprocessor=text_preprocessor,
+                                     vectorizer=TfIdfVectorizer(),
+                                     similarity_metric="cosine")
+        search_engine.evaluate()
+
+        # print(search_engine.search("<custom-text>")[0])
 
 
 if __name__ == '__main__':
