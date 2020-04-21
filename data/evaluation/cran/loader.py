@@ -92,7 +92,7 @@ class CranDataset(Dataset):
 
 
 base_path = "./data/evaluation/cran"
-med_data = CranDataset(base_path)
-med_data.load_docs("cran.all")
-med_data.load_queries("cran.qry")
-med_data.load_relevant_docs("cran.rel")
+cran_data = CranDataset(base_path)
+cran_data.load_docs("cran.all")
+cran_data.load_queries("cran.qry")
+cran_data.load_relevant_docs("cran.rel")

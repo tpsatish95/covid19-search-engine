@@ -10,7 +10,7 @@ from vectorize.template import Vectorizer
 class GensimTfIdfVectorizer(Vectorizer):
     # choose model_name from https://github.com/RaRe-Technologies/gensim-data#models
 
-    # Refer: https://medium.com/@ranasinghiitkgp/featurization-of-text-data-bow-tf-idf-avgw2v-tfidf-weighted-w2v-7a6c62e8b097
+    # Refer: http://nadbordrozd.github.io/blog/2016/05/20/text-classification-with-word2vec/
     def __init__(self, model_name="glove-wiki-gigaword-100"):
         super().__init__()
         self.model_name = model_name

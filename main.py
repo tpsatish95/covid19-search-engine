@@ -1,6 +1,7 @@
 from data.evaluation.cacm.loader import cacm_data
 from data.evaluation.cisi.loader import cisi_data
 from data.evaluation.med.loader import med_data
+from data.evaluation.cran.loader import cran_data
 
 from preprocess.processor import TextProcessor
 from search_engine import SearchEngine
@@ -12,7 +13,7 @@ def main():
                                       remove_stopwords=True,
                                       stemming=True)
 
-    for data in [cacm_data, cisi_data, med_data]:
+    for data in [cacm_data, cisi_data, med_data, cran_data]:
         search_engine = SearchEngine(dataset=data,
                                      text_preprocessor=text_preprocessor,
                                      vectorizer=TfIdfVectorizer(),
