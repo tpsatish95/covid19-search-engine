@@ -8,7 +8,7 @@ from gensim.models.keyedvectors import Word2VecKeyedVectors
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 
-class TfidfEmbeddingVectorizer(object):
+class TfidfEmbeddings(object):
     def __init__(self, model):
         self.word2vec = model
         self.word2weight = None
@@ -19,7 +19,7 @@ class TfidfEmbeddingVectorizer(object):
             self.dim = len(self.word2vec[random.choice(list(self.word2vec.keys()))])
 
     def fit(self, documents):
-        tfidf = TfidfVectorizer(analyzer=lambda x: x)
+        tfidf = TfidfVectorizer(ngram_range=(1, 2), analyzer=lambda x: x)
         tfidf.fit(documents)
         # if a word was never seen - it must be at least as infrequent
         # as any of the known words - so the default idf is the max of
@@ -32,17 +32,9 @@ class TfidfEmbeddingVectorizer(object):
         return self
 
     def transform(self, documents):
-        vectors = list()
-        for words in documents:
-            vector = np.zeros(self.dim)
-            weights_sum = 0.0
-            for w in words:
-                if w in self.word2vec:
-                    tf_idf = (words.count(w) / len(words)) * self.word2weight[w]
-                    vector += self.word2vec[w] * tf_idf
-                    weights_sum += tf_idf
-            if weights_sum:
-                vector /= weights_sum
-            vectors.append(vector)
-
-        return np.array(vectors)
+        return np.array([
+                np.mean([self.word2vec[w] * self.word2weight[w]
+                         for w in words if w in self.word2vec] or
+                        [np.zeros(self.dim)], axis=0)
+                for words in documents
+            ])

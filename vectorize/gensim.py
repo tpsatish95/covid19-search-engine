@@ -1,8 +1,8 @@
 import gensim.downloader as gensim_api
 
 from vectorize.template import Vectorizer
-from vectorize.weighting.mean import MeanEmbeddingVectorizer
-from vectorize.weighting.tf_idf import TfidfEmbeddingVectorizer
+from vectorize.weighting.mean import MeanEmbeddings
+from vectorize.weighting.tf_idf import TfidfEmbeddings
 
 
 class GensimVectorizer(Vectorizer):
@@ -12,9 +12,9 @@ class GensimVectorizer(Vectorizer):
         super().__init__()
         gensim_model = gensim_api.load(model_name)
         if weighting == "mean":
-            self.weighted_vectorizer = MeanEmbeddingVectorizer(gensim_model)
+            self.weighted_vectorizer = MeanEmbeddings(gensim_model)
         elif weighting == "tf-idf":
-            self.weighted_vectorizer = TfidfEmbeddingVectorizer(gensim_model)
+            self.weighted_vectorizer = TfidfEmbeddings(gensim_model)
 
     def vectroize_documents(self, documents):
         corpus = [[word for section in document.sections() for word in section.tokenized]

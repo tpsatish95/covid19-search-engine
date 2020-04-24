@@ -6,7 +6,7 @@ import numpy as np
 from gensim.models.keyedvectors import Word2VecKeyedVectors
 
 
-class MeanEmbeddingVectorizer(object):
+class MeanEmbeddings(object):
     def __init__(self, model):
         self.word2vec = model
         # if a text is empty we should return a vector of zeros
