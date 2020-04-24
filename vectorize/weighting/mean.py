@@ -1,21 +1,13 @@
 # Refer: http://nadbordrozd.github.io/blog/2016/05/20/text-classification-with-word2vec/
 
-import random
-
 import numpy as np
-from gensim.models.keyedvectors import Word2VecKeyedVectors
+
+from vectorize.weighting.template import Embeddings
 
 
-class MeanEmbeddings(object):
+class MeanEmbeddings(Embeddings):
     def __init__(self, model):
-        self.word2vec = model
-        # if a text is empty we should return a vector of zeros
-        # with the same dimensionality as all the other vectors
-        if isinstance(self.word2vec, Word2VecKeyedVectors):
-            self.dim = self.word2vec.vectors.shape[1]
-        else:
-            # or dict() -> {"word": [vec_array]} format
-            self.dim = len(self.word2vec[random.choice(list(self.word2vec.keys()))])
+        super().__init__(model)
 
     def fit(self, documents):
         return self

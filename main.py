@@ -5,7 +5,7 @@ from data.evaluation.med.loader import med_data
 
 from preprocess.processor import TextProcessor
 from search_engine import SearchEngine
-from vectorize.one_hot import OneHotVectorizer
+from vectorize.gensim import GensimVectorizer
 
 
 def main():
@@ -16,7 +16,7 @@ def main():
     for data in [cacm_data, cisi_data, med_data, cran_data]:
         search_engine = SearchEngine(dataset=data,
                                      text_preprocessor=text_preprocessor,
-                                     vectorizer=OneHotVectorizer(weighting="tf-idf"),
+                                     vectorizer=GensimVectorizer(weighting="mean"),
                                      similarity_metric="cosine")
         search_engine.evaluate()
 
