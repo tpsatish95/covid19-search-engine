@@ -13,8 +13,6 @@ class BaltimoreSunScraper(Scraper):
         page = requests.get(url)
         soup = BeautifulSoup(page.content, 'html.parser')
 
-        # body = soup.find('div', attrs={'class', 'wrapper clearfix full pb-feature pb-layout-item pb-f-article-body'})
-        # import pdb; pdb.set_trace()
         Content = namedtuple('Content', 'text header hyperlink')
         content = []
         header = ''
@@ -27,6 +25,7 @@ class BaltimoreSunScraper(Scraper):
 
         df = pd.DataFrame(content)
         df.to_csv(os.path.join(self._path, self._filename), index=False)
+
 
     def get_links(self, block):
         if block.find('a'):
