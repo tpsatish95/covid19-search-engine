@@ -1,51 +1,27 @@
 import gensim.downloader as gensim_api
-import numpy as np
 
 from vectorize.template import Vectorizer
+from vectorize.weighting.mean import MeanEmbeddings
+from vectorize.weighting.tf_idf import TfidfEmbeddings
 
 
-class GensimAvgVectorizer(Vectorizer):
+class GensimVectorizer(Vectorizer):
     # choose model_name from https://github.com/RaRe-Technologies/gensim-data#models
 
-    def __init__(self, model_name="glove-wiki-gigaword-100"):
+    def __init__(self, model_name="glove-wiki-gigaword-100", weighting="mean"):
         super().__init__()
-        self.model = gensim_api.load(model_name)
-        self.vocab = self.model.vocab
+        gensim_model = gensim_api.load(model_name)
+        if weighting == "mean":
+            self.weighted_vectorizer = MeanEmbeddings(gensim_model)
+        elif weighting == "tf-idf":
+            self.weighted_vectorizer = TfidfEmbeddings(gensim_model)
 
     def vectroize_documents(self, documents):
-        doc_vectors = list()
-        for document in documents:
-            words = list()
-            for section in document.sections():
-                for word in section.tokenized:
-                    if word in self.vocab:
-                        words.append(self.model[word])
-            doc_vector = np.average(np.array(words), axis=0)
-            doc_vectors.append(doc_vector)
-
-        return np.array(doc_vectors)
+        corpus = [[word for section in document.sections() for word in section.tokenized]
+                  for document in documents]
+        self.weighted_vectorizer.fit(corpus)
+        return self.weighted_vectorizer.transform(corpus)
 
     def vectroize_query(self, query):
-        words = list()
-        for section in query.sections():
-            for word in section.tokenized:
-                if word in self.vocab:
-                    words.append(self.model[word])
-        query_vector = np.average(np.array(words), axis=0)
-        return query_vector.reshape((1, -1))
-
-
-class GensimTfIdfVectorizer(Vectorizer):
-    # choose model_name from https://github.com/RaRe-Technologies/gensim-data#models
-
-    # TODO: https://medium.com/@ranasinghiitkgp/featurization-of-text-data-bow-tf-idf-avgw2v-tfidf-weighted-w2v-7a6c62e8b097
-    def __init__(self, model_name="glove-wiki-gigaword-100"):
-        super().__init__()
-        self.model = gensim_api.load(model_name)
-        self.vocab = self.model.vocab
-
-    def vectroize_documents(self, documents):
-        pass
-
-    def vectroize_query(self, query):
-        pass
+        query = [[word for section in query.sections() for word in section.tokenized]]
+        return self.weighted_vectorizer.transform(query)

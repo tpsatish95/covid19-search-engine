@@ -1,12 +1,14 @@
 import os
 import pickle
 import re
+import string
 
-from nltk.stem.snowball import SnowballStemmer
+from nltk.stem.snowball import PorterStemmer
+from sklearn.feature_extraction import text
 
 from data.template import Document, Query, Text
-from preprocess.twokenize import emoticons, twokenize
 from preprocess.spell_check.corrector import spellCheck
+from preprocess.twokenize import emoticons, twokenize
 
 models_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "models")
 
@@ -36,8 +38,8 @@ class TextProcessor:
         self.is_substitute_emoticons = substitute_emoticons
         self.is_spelling_autocorrect = spelling_autocorrect
 
-        self.stemmer = SnowballStemmer("english")
-        self.stopwords = self.load_obj("stopwords_set")
+        self.stemmer = PorterStemmer()
+        self.stopwords = set(text.ENGLISH_STOP_WORDS).union(set(string.punctuation))
         self.acronyms = self.load_obj("acronyms_dict")
         self.contractions = self.load_obj("contractions_dict")
         self.emoticons = self.load_obj("emoticons_dict")
@@ -52,7 +54,7 @@ class TextProcessor:
         if self.is_strip_white_spaces:
             object = self.strip_white_spaces(object)
         if self.is_remove_stopwords:
-            object = self.strip_white_spaces(object)
+            object = self.remove_stopwords(object)
         if self.is_replace_acronyms:
             object = self.replace_acronyms(object)
         if self.is_substitute_emoticons:
