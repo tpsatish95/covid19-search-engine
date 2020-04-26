@@ -5,7 +5,7 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
-from data.local_news_data.crawler.utils.scraper import Scraper
+from utils.scraper import Scraper
 
 
 class BaltimoreSunScraper(Scraper):
@@ -36,8 +36,7 @@ class BaltimoreSunScraper(Scraper):
 
 
 def main():
-    scraper = BaltimoreSunScraper(path='data/local_news_data',
-                                  filename='baltimore_sun_open_closed.csv')
+    scraper = BaltimoreSunScraper(path='..', filename='baltimore_sun_open_closed.csv')
     scraper.scrape()
 
 
