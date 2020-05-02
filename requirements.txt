@@ -13,4 +13,4 @@ jsonlines==1.2.0
 # fse requirements
 fse==0.1.16
 smart-open==2.0.0
-gensim==3.8.2
+gensim==3.7.1
