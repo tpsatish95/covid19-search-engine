@@ -16,7 +16,7 @@ def main():
     for data in [cacm_data, cisi_data, med_data, cran_data]:
         search_engine = SearchEngine(dataset=data,
                                      text_preprocessor=text_preprocessor,
-                                     vectorizer=GensimVectorizer(weighting="fse"),
+                                     vectorizer=GensimVectorizer(weighting="sif"),
                                      similarity_metric="cosine")
         search_engine.evaluate()
 
