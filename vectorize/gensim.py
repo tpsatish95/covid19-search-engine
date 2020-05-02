@@ -19,12 +19,12 @@ class GensimVectorizer(Vectorizer):
         elif weighting == "sif" or weighting == "usif":
             self.weighted_vectorizer = SIFEmbeddings(gensim_model, weighting)
 
-    def vectroize_documents(self, documents):
+    def vectorize_documents(self, documents):
         corpus = [[word for section in document.sections() for word in section.tokenized]
                   for document in documents]
         self.weighted_vectorizer.fit(corpus)
         return self.weighted_vectorizer.transform(corpus)
 
-    def vectroize_query(self, query):
+    def vectorize_query(self, query):
         query = [[word for section in query.sections() for word in section.tokenized]]
         return self.weighted_vectorizer.transform(query)

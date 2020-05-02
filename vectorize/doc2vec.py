@@ -35,12 +35,12 @@ class Doc2VecVectorizer(Vectorizer):
         self.vectroizer.train(corpus, total_examples=self.vectroizer.corpus_count,
                               epochs=self.vectroizer.epochs)
 
-    def vectroize_documents(self, documents):
+    def vectorize_documents(self, documents):
         corpus = [[word for section in document.sections() for word in section.tokenized]
                   for i, document in enumerate(documents)]
         self._initalize_model(corpus)
         return np.array([self.vectroizer.infer_vector(document) for document in corpus])
 
-    def vectroize_query(self, query):
+    def vectorize_query(self, query):
         query = [word for section in query.sections() for word in section.tokenized]
         return np.array([self.vectroizer.infer_vector(query)])

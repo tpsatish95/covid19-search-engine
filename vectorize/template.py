@@ -9,9 +9,9 @@ class Vectorizer(ABC):
         self.weighted_vectorizer = None  # from vectorize.weighting
 
     @abstractmethod
-    def vectroize_documents(self, documents):
+    def vectorize_documents(self, documents):
         pass
 
     @abstractmethod
-    def vectroize_query(self, query):
+    def vectorize_query(self, query):
         pass
