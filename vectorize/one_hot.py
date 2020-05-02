@@ -2,6 +2,7 @@ import numpy as np
 from sklearn.preprocessing import OneHotEncoder
 
 from vectorize.template import Vectorizer
+from vectorize.weighting.fast_sentence_embeddings import FSEEmbeddings
 from vectorize.weighting.mean import MeanEmbeddings
 from vectorize.weighting.tf_idf import TfidfEmbeddings
 
@@ -32,6 +33,8 @@ class OneHotVectorizer(Vectorizer):
             self.weighted_vectorizer = MeanEmbeddings(model)
         elif self.weighting == "tf-idf":
             self.weighted_vectorizer = TfidfEmbeddings(model)
+        elif self.weighting == "fse":
+            self.weighted_vectorizer = FSEEmbeddings(model)
 
     def vectroize_documents(self, documents):
         self._initalize_model(documents)
