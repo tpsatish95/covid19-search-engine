@@ -3,16 +3,19 @@
 # Refer: https://towardsdatascience.com/fse-2b1ffa791cf9
 
 from fse import IndexedList
-from fse.models import SIF
+from fse.models import SIF, uSIF
 
 from vectorize.weighting.template import Embeddings
 
 
 class SIFEmbeddings(Embeddings):
-    def __init__(self, model):
+    def __init__(self, model, sif_type):
         super().__init__(model)
         self.fse_indexed_documents = None
-        self.sif_model = SIF(self.word2vec, workers=2, lang_freq="en")
+        if sif_type == "usif":
+            self.sif_model = uSIF(self.word2vec, workers=2, lang_freq="en")
+        else:
+            self.sif_model = SIF(self.word2vec, workers=2, lang_freq="en")
 
     def fit(self, documents):
         self.fse_indexed_documents = IndexedList(documents)

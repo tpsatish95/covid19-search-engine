@@ -33,8 +33,8 @@ class OneHotVectorizer(Vectorizer):
             self.weighted_vectorizer = MeanEmbeddings(model)
         elif self.weighting == "tf-idf":
             self.weighted_vectorizer = TfidfEmbeddings(model)
-        elif self.weighting == "sif":
-            self.weighted_vectorizer = SIFEmbeddings(model)
+        elif self.weighting == "sif" or self.weighting == "usif":
+            self.weighted_vectorizer = SIFEmbeddings(model, self.weighting)
 
     def vectroize_documents(self, documents):
         self._initalize_model(documents)

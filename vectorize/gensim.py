@@ -16,8 +16,8 @@ class GensimVectorizer(Vectorizer):
             self.weighted_vectorizer = MeanEmbeddings(gensim_model)
         elif weighting == "tf-idf":
             self.weighted_vectorizer = TfidfEmbeddings(gensim_model)
-        elif weighting == "sif":
-            self.weighted_vectorizer = SIFEmbeddings(gensim_model)
+        elif weighting == "sif" or weighting == "usif":
+            self.weighted_vectorizer = SIFEmbeddings(gensim_model, weighting)
 
     def vectroize_documents(self, documents):
         corpus = [[word for section in document.sections() for word in section.tokenized]
