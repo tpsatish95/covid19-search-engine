@@ -27,7 +27,9 @@ class Doc2VecVectorizer(Vectorizer):
     def _initalize_model(self, corpus):
         corpus = [TaggedDocument(document, [i]) for i, document in enumerate(corpus)]
 
+        callbacks = []
         # callbacks = [EpochLogger()]
+
         self.vectroizer = Doc2Vec(vector_size=100, min_count=2, epochs=50, callbacks=callbacks)
         self.vectroizer.build_vocab(corpus)
         self.vectroizer.train(corpus, total_examples=self.vectroizer.corpus_count,
