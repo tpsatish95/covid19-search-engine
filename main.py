@@ -20,13 +20,13 @@ def compare_and_evaluate():
     data_idx_to_str = ["cacm", "cisi", "med", "cran"]
     results = list()
 
-    # one-hot encoding (weighting: mean, ttf-idf, sif, and usif)
+    # one-hot encoding (weighting: mean and tf-idf)
     text_preprocessor = TextProcessor(re_tokenize=True,
                                       remove_stopwords=True,
                                       stemming=True)
 
     for idx, data in enumerate(datasets):
-        for weighting_scheme in ["mean", "tf-idf", "sif", "usif"]:
+        for weighting_scheme in ["mean", "tf-idf"]:
             print("###########################################")
             print(data_idx_to_str[idx], "one-hot", weighting_scheme)
             search_engine = SearchEngine(dataset=data,
@@ -35,15 +35,14 @@ def compare_and_evaluate():
                                          similarity_metric="cosine")
             results.append([data_idx_to_str[idx], "one-hot", weighting_scheme] +
                            search_engine.evaluate())
-            print("###########################################")
 
-    # Word2Vec, GLoVe, and Fasttext encoding (weighting: mean, ttf-idf, sif, and usif)
+    # Word2Vec, GLoVe, and Fasttext encoding (weighting: mean, tf-idf, sif, and usif)
     text_preprocessor = TextProcessor(re_tokenize=True,
                                       remove_stopwords=True,
                                       stemming=False)
 
     for idx, data in enumerate(datasets):
-        for gensim_model in ["word2vec-ruscorpora-300", "word2vec-google-news-300",
+        for gensim_model in ["word2vec-google-news-300",
                              "glove-twitter-100", "glove-wiki-gigaword-100", "glove-wiki-gigaword-200",
                              "fasttext-wiki-news-subwords-300"]:
             for weighting_scheme in ["mean", "tf-idf", "sif", "usif"]:
@@ -56,7 +55,6 @@ def compare_and_evaluate():
                                              similarity_metric="cosine")
                 results.append([data_idx_to_str[idx], gensim_model,
                                 weighting_scheme] + search_engine.evaluate())
-                print("###########################################")
 
     # Doc2Vec (no weighting_scheme needed)
     text_preprocessor = TextProcessor(re_tokenize=True,
@@ -71,7 +69,6 @@ def compare_and_evaluate():
                                      vectorizer=Doc2VecVectorizer(),
                                      similarity_metric="cosine")
         results.append([data_idx_to_str[idx], "doc2vec", "-"] + search_engine.evaluate())
-        print("###########################################")
 
     # TODO: Fix fasttext for OOV tokens
     # TODO: BERT and ELMo encoding (weighting: mean, ttf-idf, sif, and usif)
@@ -79,10 +76,12 @@ def compare_and_evaluate():
     # TODO: Sentence level embeddings
 
     # print results
-    header = ["dataset", "embedding", "weighting",
-              "p_0.25", "p_0.5", "p_0.75", "p_1.0",
-              "p_mean1", "p_mean2", "r_norm", "p_norm"]
-    print(tabulate(results, headers=header, tablefmt='orgtbl'))
+    with open('./results.txt', 'w+') as f:
+        header = ["dataset", "embedding", "weighting",
+                  "p_0.25", "p_0.5", "p_0.75", "p_1.0",
+                  "p_mean1", "p_mean2", "r_norm", "p_norm"]
+        print(tabulate(results, headers=header, tablefmt='orgtbl'))
+        print(tabulate(results, headers=header, tablefmt='orgtbl'), file=f)
 
 
 if __name__ == '__main__':
