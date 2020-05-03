@@ -7,6 +7,7 @@ class Vectorizer(ABC):
         self.vocab = list()
         self.weighting = ""
         self.weighted_vectorizer = None  # from vectorize.weighting
+        self.is_oov_token_allowed = False
 
     @abstractmethod
     def vectorize_documents(self, documents):

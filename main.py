@@ -70,19 +70,23 @@ def compare_and_evaluate():
                                      similarity_metric="cosine")
         results.append([data_idx_to_str[idx], "doc2vec", "-"] + search_engine.evaluate())
 
-    # TODO: Fix fasttext for OOV tokens
-    # TODO: BERT and ELMo encoding (weighting: mean, ttf-idf, sif, and usif)
+    # TODO: BERT and ELMo encoding (weighting: mean, tf-idf, sif, and usif)
     # TODO: Try Baltimore Sun and WBALTV, print(search_engine.search("<custom-text>")[0])
     # TODO: Sentence level embeddings
 
     # print results
-    with open('./results.txt', 'w+') as f:
-        header = ["dataset", "embedding", "weighting",
-                  "p_0.25", "p_0.5", "p_0.75", "p_1.0",
-                  "p_mean1", "p_mean2", "r_norm", "p_norm"]
-        print(tabulate(results, headers=header, tablefmt='orgtbl'))
-        print(tabulate(results, headers=header, tablefmt='orgtbl'), file=f)
+
+    header = ["dataset", "embedding", "weighting",
+              "p_0.25", "p_0.5", "p_0.75", "p_1.0",
+              "p_mean1", "p_mean2", "r_norm", "p_norm"]
+    print(tabulate(results, headers=header, tablefmt='orgtbl'))
+
+    # with open('./results.txt', 'w+') as f:
+    #     print(tabulate(results, headers=header, tablefmt='orgtbl'), file=f)
 
 
 if __name__ == '__main__':
     compare_and_evaluate()
+
+
+# TODO: fasttext for OOV tokens does not work in gensim (https://github.com/RaRe-Technologies/gensim-data/issues/34)
