@@ -4,6 +4,7 @@ Script to format CBS data into .I .T .W
 import pandas as pd
 import os
 
+
 def clean_raw(path, filename, new_filename):
     df = pd.read_csv(os.path.join(path, filename))
     with open(os.path.join(path, new_filename), 'w') as f:
@@ -16,8 +17,8 @@ def clean_raw(path, filename, new_filename):
 
 def main():
     path = '.'
-    filename = 'wbaltv.csv'
-    clean_raw(path, filename, 'WBALTV.ALL')
+    filename = 'baltimore.cbslocal.csv'
+    clean_raw(path, filename, 'CBS.ALL')
 
 
 if __name__ == '__main__':

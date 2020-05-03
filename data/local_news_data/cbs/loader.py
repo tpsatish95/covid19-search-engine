@@ -1,13 +1,12 @@
 import os
 import re
-import pandas as pd
 from collections import defaultdict
 from nltk.tokenize import word_tokenize
 
-from template import Dataset, Document, Query, Text
+from data.template import Dataset, Document, Text
 
 
-class WBALTVCovidDataset(Dataset):
+class CBSCovidDataset(Dataset):
     def __init__(self, base_path):
         self.base_path = base_path
         self.documents = None
@@ -15,7 +14,7 @@ class WBALTVCovidDataset(Dataset):
 
     def read_raw(self, filename):
         docs = [defaultdict(list)]  # empty 0 index
-        category = ''        
+        category = ''
         with open(os.path.join(self.base_path, filename)) as f:
             i = 0
             for line in f:
@@ -26,7 +25,8 @@ class WBALTVCovidDataset(Dataset):
                 elif re.match(r'\.\w', line):
                     category = line[1]
                 elif line != '':
-                    docs[i][category].append(Text(line, [word.lower() for word in word_tokenize(line)]))
+                    docs[i][category].append(Text(line, [word.lower()
+                                                         for word in word_tokenize(line)]))
         return docs
 
     def load_docs(self, filename):
@@ -59,11 +59,6 @@ class WBALTVCovidDataset(Dataset):
         pass
 
 
-def main():
-    # load the data
-    base_path = '.'#'./data/local_news_data'
-    cbs_covid_data = WBALTVCovidDataset(base_path)
-    cbs_covid_data.load_docs('WBALTV.ALL')
-
-if __name__ == '__main__':
-    main()
+base_path = './data/local_news_data/cbs'
+cbs_covid_data = CBSCovidDataset(base_path)
+cbs_covid_data.load_docs('CBS.ALL')

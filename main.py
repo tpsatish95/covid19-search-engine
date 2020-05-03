@@ -70,8 +70,8 @@ def compare_and_evaluate():
                                      similarity_metric="cosine")
         results.append([data_idx_to_str[idx], "doc2vec", "-"] + search_engine.evaluate())
 
-    # TODO: BERT and ELMo encoding (weighting: mean, tf-idf, sif, and usif)
     # TODO: Try Baltimore Sun and WBALTV, print(search_engine.search("<custom-text>")[0])
+    # TODO: BERT and ELMo encoding (weighting: mean, tf-idf, sif, and usif)
     # TODO: Sentence level embeddings
 
     # print results
@@ -87,6 +87,5 @@ def compare_and_evaluate():
 
 if __name__ == '__main__':
     compare_and_evaluate()
-
 
 # TODO: fasttext for OOV tokens does not work in gensim (https://github.com/RaRe-Technologies/gensim-data/issues/34)

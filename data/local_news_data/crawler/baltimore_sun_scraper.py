@@ -28,7 +28,6 @@ class BaltimoreSunScraper(Scraper):
         df = pd.DataFrame(content)
         df.to_csv(os.path.join(self._path, self._filename), index=False)
 
-
     def get_links(self, block):
         if block.find('a'):
             return [{'text': link.text, 'link': link.get('href')} for link in block.find_all('a')]
