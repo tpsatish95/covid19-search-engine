@@ -28,7 +28,7 @@ class SearchEngine(object):
     def _initialize(self):
         documents = [self.text_preprocessor.process(document)
                      for document in self.dataset.documents]
-        self.document_vectors = self.vectorizer.vectroize_documents(documents)
+        self.document_vectors = self.vectorizer.vectorize_documents(documents)
         # self.document_vectors = self.svd.fit_transform(self.document_vectors)
 
     def search(self, query, top_k=25):
@@ -36,7 +36,7 @@ class SearchEngine(object):
             query = Query(uuid4(), Text(query, [word.lower() for word in word_tokenize(query)]))
 
         query = self.text_preprocessor.process(query)
-        query_vector = self.vectorizer.vectroize_query(query)
+        query_vector = self.vectorizer.vectorize_query(query)
         # query_vector = self.svd.transform(query_vector)
 
         results_with_score = 1 - pairwise_distances(query_vector, self.document_vectors, metric=self.similarity_metric)[0]
