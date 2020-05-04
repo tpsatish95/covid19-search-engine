@@ -48,7 +48,7 @@ class WBALTVCovidDataset(Dataset):
                     tokenized.extend(entry.tokenized)
             content = Text(raw, tokenized)
 
-            documents.append(Document(doc_id+1, title, content))
+            documents.append(Document(doc_id+1, title, content, raw_docs[doc_id+1]["U"][0].raw))
 
         self.documents = documents
 

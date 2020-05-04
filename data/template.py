@@ -11,6 +11,7 @@ class Document(NamedTuple):
     id: int
     title: Text
     content: Text
+    url: str = ""
 
     def sections(self):
         return [self.title, self.content]

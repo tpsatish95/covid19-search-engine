@@ -10,6 +10,7 @@ def clean_raw(path, filename, new_filename):
     with open(os.path.join(path, new_filename), 'w') as f:
         for i, row in df.iterrows():
             f.write('.I {}\n'.format(i + 1))
+            f.write('.U\n{}\n'.format(row.url))
             if len(row.headline) > 0:
                 f.write('.T\n{}\n'.format(row.headline))
             f.write('.W\n{}\n\n{}\n'.format(row.summary, row.bodytext))

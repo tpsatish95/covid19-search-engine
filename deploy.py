@@ -51,8 +51,14 @@ def main():
 
             print("Try the search engine:\n")
             query = input("Query: ")
+            print()
             while query != "exit":
-                print(search_engine.search(str(query), top_k=5)[0])
+                matching_docs = search_engine.search(str(query), top_k=5)[0]
+                for j, doc in enumerate(matching_docs):
+                    print(str(j+1) + ". " + doc.title.raw)
+                    print("URL: " + doc.url)
+                    print()
+
                 print("####################################################\n")
                 query = input("Query: ")
 

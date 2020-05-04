@@ -124,4 +124,3 @@ def get_best_model():
 if __name__ == '__main__':
     compare_and_evaluate()
     get_best_model()
-    # TODO: Sentence level embeddings
