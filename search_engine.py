@@ -15,7 +15,7 @@ class SearchEngine(object):
                  dataset,
                  text_preprocessor,
                  vectorizer,
-                 similarity_metric):  # can be any parameter from sklearn.metrics.pairwise.pairwise_distances
+                 similarity_metric): # can be any parameter from sklearn.metrics.pairwise.pairwise_distances)
         self.dataset = dataset
         self.text_preprocessor = text_preprocessor
         self.vectorizer = vectorizer
@@ -31,24 +31,47 @@ class SearchEngine(object):
         self.document_vectors = self.vectorizer.vectorize_documents(documents)
         # self.document_vectors = self.svd.fit_transform(self.document_vectors)
 
-    def search(self, query, bias, top_k=25):
+
+    def personalize_query(self, query_vector, user_bias, top_k):
+        if not isinstance(user_bias, Query):
+            user_bias = Query(uuid4(), Text(user_bias, [word.lower() for word in word_tokenize(user_bias)]))
+
+        user_bias = self.text_preprocessor.process(user_bias)
+        bias_vector = self.vectorizer.vectorize_query(user_bias)
+
+        results_with_score = 1 - pairwise_distances(bias_vector, self.document_vectors, metric=self.similarity_metric)[0]
+        results_with_score = [(doc_id + 1, score)
+                              for doc_id, score in enumerate(results_with_score)]
+        results_with_score = sorted(results_with_score, key=lambda x: -x[1])
+        results = [x[0] for x in results_with_score]
+
+        r_vectors, nr_vectors = [], []
+        for i in range(len(self.document_vectors)):
+            if i+1 in results[:top_k]:
+                r_vectors.append(self.document_vectors[i])
+
+            if i+1 in results[-top_k:]:
+                nr_vectors.append(self.document_vectors[i])
+
+        a, b, g = 0.25, 0.5, 0.25 # pass these in as function arguments instead?
+        qO = query_vector
+        r_av = np.average(np.array(r_vectors), axis=0)
+        nr_av = np.average(np.array(nr_vectors), axis=0)
+
+        return np.subtract(np.add(a * qO, b * r_av), g * nr_av)
+
+
+    def search(self, query, bias="", top_k=25):
         if not isinstance(query, Query):
             query = Query(uuid4(), Text(query, [word.lower() for word in word_tokenize(query)]))
-
-        # ''' for testing only '''
-        # user_bias = "groceries pharmacy"
-        # user_bias = Query(uuid4(), Text(user_bias, [word.lower() for word in word_tokenize(user_bias)]))
 
         query = self.text_preprocessor.process(query)
         query_vector = self.vectorizer.vectorize_query(query)
         # query_vector = self.svd.transform(query_vector)
 
-        if bias:
-            user_bias = self.dataset.bias[0] # select 1 bias
-            if not isinstance(user_bias, Query):
-                user_bias = Query(uuid4(), Text(user_bias, [word.lower() for word in word_tokenize(user_bias)]))
-            user_bias = self.text_preprocessor.process(user_bias)
-            user_vector = self.vectorizer.vectorize_query(user_bias)
+        if bias != "":
+            # perform query personaliziation
+            query_vector = self.personalize_query(query_vector, bias, top_k)
 
         results_with_score = 1 - pairwise_distances(query_vector, self.document_vectors, metric=self.similarity_metric)[0]
         results_with_score = [(doc_id + 1, score)
@@ -58,7 +81,8 @@ class SearchEngine(object):
 
         return [self.dataset.documents[doc_id - 1] for doc_id in results][:top_k], results
 
-    def evaluate(self, bias): # bias is a bool
+
+    def evaluate(self):
         metrics = []
         for query in self.dataset.queries:
             _, results = self.search(query, bias)

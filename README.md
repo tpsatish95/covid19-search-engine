@@ -36,3 +36,16 @@ Throughout the COVID-19 pandemic, local resources have shifted in scope and avai
   - Word/sentence embedding
   - Way to personalize any query
   - Way to handle unstructured text
+
+## Running instructions:
+To run the basic search engine, run:
+``` code
+$ python deploy.py
+```
+and type your query when prompted.
+
+To run the search engine with some user personalization bias, run:
+``` code
+$ python deploy.py --bias <enter terms here>
+```
+and type your query when prompted.

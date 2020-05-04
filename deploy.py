@@ -1,4 +1,5 @@
 import warnings
+import argparse
 
 from data.local_news_data.cbs.loader import cbs_covid_data
 from data.local_news_data.wbaltv.loader import wbaltv_covid_data
@@ -12,8 +13,20 @@ warnings.filterwarnings("ignore")
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--bias")
+    args = parser.parse_args()
+    # python evaluate.py --bias
+
+    if args.bias is not None:
+        bias_str = args.bias
+    else:
+        bias_str = ""
+
+
     datasets = [cbs_covid_data, wbaltv_covid_data]
     data_idx_to_str = ["cbs", "wbaltv"]
+
 
     best_configs = [
         ("one-hot", "tf-idf"),
@@ -53,7 +66,7 @@ def main():
             query = input("Query: ")
             print()
             while query != "exit":
-                matching_docs = search_engine.search(str(query), top_k=5)[0]
+                matching_docs = search_engine.search(str(query), bias=bias_str, top_k=5)[0]
                 for j, doc in enumerate(matching_docs):
                     print(str(j+1) + ". " + doc.title.raw)
                     print("URL: " + doc.url)
