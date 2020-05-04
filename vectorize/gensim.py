@@ -21,6 +21,7 @@ class GensimVectorizer(Vectorizer):
         elif weighting == "sif" or weighting == "usif":
             self.weighted_vectorizer = SIFEmbeddings(gensim_model, weighting)
 
+        # Note: fasttext for OOV tokens does not work in gensim (https://github.com/RaRe-Technologies/gensim-data/issues/34)
         # if "fasttext" in model_name:
         #     self.weighted_vectorizer.is_oov_token_allowed = True
 
