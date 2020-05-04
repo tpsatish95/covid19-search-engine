@@ -1,5 +1,4 @@
 import warnings
-# import argparse
 from collections import defaultdict
 
 import numpy as np
@@ -21,11 +20,6 @@ warnings.filterwarnings("ignore")
 
 
 def compare_and_evaluate():
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument("--bias", action="store_true")
-    # args = parser.parse_args()
-    # # python evaluate.py --bias
-
     datasets = [cacm_data, cisi_data, med_data, cran_data]
     data_idx_to_str = ["cacm", "cisi", "med", "cran"]
     results = list()
