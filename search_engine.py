@@ -31,22 +31,24 @@ class SearchEngine(object):
         self.document_vectors = self.vectorizer.vectorize_documents(documents)
         # self.document_vectors = self.svd.fit_transform(self.document_vectors)
 
-    def search(self, query, top_k=25):
-        #print(query)
+    def search(self, query, bias, top_k=25):
         if not isinstance(query, Query):
             query = Query(uuid4(), Text(query, [word.lower() for word in word_tokenize(query)]))
 
         ''' for testing only '''
         user_bias = "groceries pharmacy"
         user_bias = Query(uuid4(), Text(user_bias, [word.lower() for word in word_tokenize(user_bias)]))
-        # print(user_bias)
 
         query = self.text_preprocessor.process(query)
         query_vector = self.vectorizer.vectorize_query(query)
         # query_vector = self.svd.transform(query_vector)
 
-        user_bias = self.text_preprocessor.process(user_bias)
-        user_vector = self.vectorizer.vectorize_query(user_bias)
+        if bias:
+            user_bias = self.dataset.bias[0] # select 1 bias
+            if not isinstance(user_bias, Query):
+                user_bias = Query(uuid4(), Text(user_bias, [word.lower() for word in word_tokenize(user_bias)]))
+            user_bias = self.text_preprocessor.process(user_bias)
+            user_vector = self.vectorizer.vectorize_query(user_bias)
 
         results_with_score = 1 - pairwise_distances(query_vector, self.document_vectors, metric=self.similarity_metric)[0]
         results_with_score = [(doc_id + 1, score)
@@ -56,13 +58,10 @@ class SearchEngine(object):
 
         return [self.dataset.documents[doc_id - 1] for doc_id in results][:top_k], results
 
-    def evaluate(self, bias):
+    def evaluate(self, bias): # bias is a bool
         metrics = []
-        if bias:
-            user_bias = self.dataset.bias[0] # select 1 bias
-
         for query in self.dataset.queries:
-            _, results = self.search(query)
+            _, results = self.search(query, bias)
             relevant = self.dataset.relevant_docs[query.id]
 
             metrics.append([
