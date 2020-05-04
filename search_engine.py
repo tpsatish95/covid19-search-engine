@@ -32,12 +32,21 @@ class SearchEngine(object):
         # self.document_vectors = self.svd.fit_transform(self.document_vectors)
 
     def search(self, query, top_k=25):
+        #print(query)
         if not isinstance(query, Query):
             query = Query(uuid4(), Text(query, [word.lower() for word in word_tokenize(query)]))
+
+        ''' for testing only '''
+        user_bias = "groceries pharmacy"
+        user_bias = Query(uuid4(), Text(user_bias, [word.lower() for word in word_tokenize(user_bias)]))
+        # print(user_bias)
 
         query = self.text_preprocessor.process(query)
         query_vector = self.vectorizer.vectorize_query(query)
         # query_vector = self.svd.transform(query_vector)
+
+        user_bias = self.text_preprocessor.process(user_bias)
+        user_vector = self.vectorizer.vectorize_query(user_bias)
 
         results_with_score = 1 - pairwise_distances(query_vector, self.document_vectors, metric=self.similarity_metric)[0]
         results_with_score = [(doc_id + 1, score)
@@ -47,8 +56,11 @@ class SearchEngine(object):
 
         return [self.dataset.documents[doc_id - 1] for doc_id in results][:top_k], results
 
-    def evaluate(self):
+    def evaluate(self, bias):
         metrics = []
+        if bias:
+            user_bias = self.dataset.bias[0] # select 1 bias
+
         for query in self.dataset.queries:
             _, results = self.search(query)
             relevant = self.dataset.relevant_docs[query.id]

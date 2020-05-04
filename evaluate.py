@@ -1,4 +1,5 @@
 import warnings
+import argparse
 from collections import defaultdict
 
 import numpy as np
@@ -15,10 +16,16 @@ from vectorize.doc2vec import Doc2VecVectorizer
 from vectorize.gensim import GensimVectorizer
 from vectorize.one_hot import OneHotVectorizer
 
+
 warnings.filterwarnings("ignore")
 
 
 def compare_and_evaluate():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--bias", action="store_true")
+    args = parser.parse_args()
+    # python evaluate.py --bias 
+
     datasets = [cacm_data, cisi_data, med_data, cran_data]
     data_idx_to_str = ["cacm", "cisi", "med", "cran"]
     results = list()
@@ -37,7 +44,7 @@ def compare_and_evaluate():
                                          vectorizer=OneHotVectorizer(weighting=weighting_scheme),
                                          similarity_metric="cosine")
             results.append([data_idx_to_str[idx], "one-hot", weighting_scheme] +
-                           search_engine.evaluate())
+                           search_engine.evaluate(args.bias))
 
     # Word2Vec, GLoVe, and Fasttext encoding (weighting: mean, tf-idf, sif, and usif)
     text_preprocessor = TextProcessor(re_tokenize=True,
@@ -57,7 +64,7 @@ def compare_and_evaluate():
                                                                          weighting=weighting_scheme),
                                              similarity_metric="cosine")
                 results.append([data_idx_to_str[idx], gensim_model,
-                                weighting_scheme] + search_engine.evaluate())
+                                weighting_scheme] + search_engine.evaluate(args.bias))
 
     # Doc2Vec (no weighting_scheme needed)
     text_preprocessor = TextProcessor(re_tokenize=True,
@@ -71,7 +78,7 @@ def compare_and_evaluate():
                                      text_preprocessor=text_preprocessor,
                                      vectorizer=Doc2VecVectorizer(),
                                      similarity_metric="cosine")
-        results.append([data_idx_to_str[idx], "doc2vec", "-"] + search_engine.evaluate())
+        results.append([data_idx_to_str[idx], "doc2vec", "-"] + search_engine.evaluate(args.bias))
 
     # print results
 
