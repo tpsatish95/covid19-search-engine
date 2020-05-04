@@ -81,6 +81,7 @@ def compare_and_evaluate():
               "p_mean1", "p_mean2", "r_norm", "p_norm"]
     print(tabulate(results, headers=header, tablefmt='orgtbl'))
 
+    # # uncomment when needded
     # with open('./results.txt', 'w+') as f:
     #     print(tabulate(results, headers=header, tablefmt='orgtbl'), file=f)
 

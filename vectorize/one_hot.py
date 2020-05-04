@@ -20,14 +20,13 @@ class OneHotVectorizer(Vectorizer):
             for section in document.sections():
                 for word in section.tokenized:
                     vocab.add(word)
+
         self.vocab = np.array(sorted(list(vocab)))
 
         onehot_encoder = OneHotEncoder(sparse=False, categories="auto")
-        onehot_encoder.fit(self.vocab.reshape(-1, 1))
+        one_hot_vectors = onehot_encoder.fit_transform(self.vocab.reshape(-1, 1))
 
-        model = dict()
-        for word in self.vocab:
-            model[word] = onehot_encoder.transform(np.array([word]).reshape(-1, 1)).flatten()
+        model = dict(zip(self.vocab, one_hot_vectors))
 
         if self.weighting == "mean":
             self.weighted_vectorizer = MeanEmbeddings(model)
