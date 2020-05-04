@@ -15,7 +15,6 @@ class CACMDataset(Dataset):
         self.documents = None
         self.queries = None
         self.relevant_docs = None
-        self.bias = None
         super().__init__()
 
     def read_raw(self, filename):
@@ -77,22 +76,6 @@ class CACMDataset(Dataset):
 
         self.queries = queries
 
-    def load_bias(self, filename):
-        raw_docs = self.read_raw(filename)
-        bias = list()
-        for bias_id, _ in enumerate(raw_docs[1:]):
-            text = None
-
-            raw, tokenized = "", list()
-            for entry in raw_docs[bias_id+1]["W"]:
-                raw += " " + entry.raw
-                tokenized.extend(entry.tokenized)
-            text = Text(raw, tokenized)
-
-            bias.append(Query(query_id+1, text))
-
-        self.bias = bias
-
     def load_relevant_docs(self, filename):
         rels = {}
         with open(os.path.join(base_path, filename)) as f:
@@ -112,4 +95,3 @@ cacm_data = CACMDataset(base_path)
 cacm_data.load_docs("cacm.all")
 cacm_data.load_queries("query.text")
 cacm_data.load_relevant_docs("qrels.text")
-cacm_data.load_bias("cacm.bias")
