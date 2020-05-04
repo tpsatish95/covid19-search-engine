@@ -41,10 +41,8 @@ def main():
     else:
         bias_str = ""
 
-
     datasets = [cbs_covid_data, wbaltv_covid_data]
     covid_data = CovidDataset(datasets)
-
 
     best_configs = [
         ("one-hot", "tf-idf"),

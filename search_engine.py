@@ -31,7 +31,6 @@ class SearchEngine(object):
         self.document_vectors = self.vectorizer.vectorize_documents(documents)
         # self.document_vectors = self.svd.fit_transform(self.document_vectors)
 
-
     def personalize_query(self, query_vector, user_bias, top_k):
         if not isinstance(user_bias, Query):
             user_bias = Query(uuid4(), Text(user_bias, [word.lower() for word in word_tokenize(user_bias)]))
