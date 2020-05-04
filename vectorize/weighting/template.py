@@ -14,6 +14,7 @@ class Embeddings(ABC):
         else:
             # or dict() -> {"word": [vec_array]} format
             self.dim = len(self.word2vec[random.choice(list(self.word2vec.keys()))])
+        self.is_oov_token_allowed = False
 
     @abstractmethod
     def fit(self, documents):
