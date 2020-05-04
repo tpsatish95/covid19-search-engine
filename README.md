@@ -39,16 +39,13 @@ Throughout the COVID-19 pandemic, local resources have shifted in scope and avai
 
 ## Running instructions:
 
-To run the basic search engine, use the following command:
+To run the basic search engine, use the following command, and type your query once the search engine is initialized.
 ``` code
 $ python deploy.py
 ```
-and type your query once the search engine is initialized.
 
-To run the search engine with mimicked user personalization (biased query results), use the following command:
+To run the search engine with mimicked user personalization (biased query results), run the following command and type your user bias terms after the `user_profile` flag.  Later, type your query once the search engine is initialized.
 ``` code
 $ python deploy.py --user_profile "<enter terms here>"
 ```
-and type your query when prompted.
-
-**Note:** the `user_profile` basically describes the current user's profile and search history.
+**Note:** the `user_profile` basically describes the current user's profile, search history and what type of content the user is biased towards.
