@@ -38,14 +38,17 @@ Throughout the COVID-19 pandemic, local resources have shifted in scope and avai
   - Way to handle unstructured text
 
 ## Running instructions:
-To run the basic search engine, run:
+
+To run the basic search engine, use the following command:
 ``` code
 $ python deploy.py
 ```
-and type your query when prompted.
+and type your query once the search engine is initialized.
 
-To run the search engine with some user personalization bias, run:
+To run the search engine with mimicked user personalization (biased query results), use the following command:
 ``` code
-$ python deploy.py --bias <enter terms here>
+$ python deploy.py --user_profile "<enter terms here>"
 ```
 and type your query when prompted.
+
+**Note:** the `user_profile` basically describes the current user's profile and search history.

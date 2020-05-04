@@ -15,7 +15,7 @@ class SearchEngine(object):
                  dataset,
                  text_preprocessor,
                  vectorizer,
-                 similarity_metric): # can be any parameter from sklearn.metrics.pairwise.pairwise_distances)
+                 similarity_metric):  # can be any parameter from sklearn.metrics.pairwise.pairwise_distances
         self.dataset = dataset
         self.text_preprocessor = text_preprocessor
         self.vectorizer = vectorizer
@@ -31,48 +31,49 @@ class SearchEngine(object):
         self.document_vectors = self.vectorizer.vectorize_documents(documents)
         # self.document_vectors = self.svd.fit_transform(self.document_vectors)
 
-    def personalize_query(self, query_vector, user_bias, top_k):
-        if not isinstance(user_bias, Query):
-            user_bias = Query(uuid4(), Text(user_bias, [word.lower() for word in word_tokenize(user_bias)]))
+    def personalize_query(self, query_vector, user_profile, top_k):
+        if not isinstance(user_profile, Query):
+            user_profile = Query(uuid4(), Text(user_profile,
+                                               [word.lower() for word in word_tokenize(user_profile)]))
 
-        user_bias = self.text_preprocessor.process(user_bias)
-        bias_vector = self.vectorizer.vectorize_query(user_bias)
+        user_profile = self.text_preprocessor.process(user_profile)
+        user_profile_vector = self.vectorizer.vectorize_query(user_profile)
 
-        results_with_score = 1 - pairwise_distances(bias_vector, self.document_vectors, metric=self.similarity_metric)[0]
+        results_with_score = 1 - pairwise_distances(user_profile_vector,
+                                                    self.document_vectors,
+                                                    metric=self.similarity_metric)[0]
         results_with_score = [(doc_id + 1, score)
                               for doc_id, score in enumerate(results_with_score)]
         results_with_score = sorted(results_with_score, key=lambda x: -x[1])
         results = [x[0] for x in results_with_score]
 
-        r_vectors, nr_vectors = [], []
-        for i in range(len(self.document_vectors)):
-            if i+1 in results[:top_k]:
-                r_vectors.append(self.document_vectors[i])
+        # rocchio feedback
+        relevant_vectors = [self.document_vectors[doc_id - 1] for doc_id in results[:top_k]]
+        non_relevant_vectors = [self.document_vectors[doc_id - 1] for doc_id in results[-top_k:]]
 
-            if i+1 in results[-top_k:]:
-                nr_vectors.append(self.document_vectors[i])
-
-        a, b, g = 0.25, 0.5, 0.25 # pass these in as function arguments instead?
+        a, b, g = 0.6, 0.2, 0.2
         qO = query_vector
-        r_av = np.average(np.array(r_vectors), axis=0)
-        nr_av = np.average(np.array(nr_vectors), axis=0)
+        r_av = np.mean(np.array(relevant_vectors), axis=0)
+        nr_av = np.mean(np.array(non_relevant_vectors), axis=0)
 
-        return np.subtract(np.add(a * qO, b * r_av), g * nr_av)
+        return (a * qO) + (b * r_av) - (g * nr_av)
 
-
-    def search(self, query, bias="", top_k=25):
+    def search(self, query, user_profile="", top_k=25):
         if not isinstance(query, Query):
             query = Query(uuid4(), Text(query, [word.lower() for word in word_tokenize(query)]))
 
         query = self.text_preprocessor.process(query)
         query_vector = self.vectorizer.vectorize_query(query)
+
+        if user_profile:
+            # perform query personaliziation based on user_profile
+            query_vector = self.personalize_query(query_vector, user_profile, top_k)
+
         # query_vector = self.svd.transform(query_vector)
 
-        if bias != "":
-            # perform query personaliziation
-            query_vector = self.personalize_query(query_vector, bias, top_k)
-
-        results_with_score = 1 - pairwise_distances(query_vector, self.document_vectors, metric=self.similarity_metric)[0]
+        results_with_score = 1 - pairwise_distances(query_vector,
+                                                    self.document_vectors,
+                                                    metric=self.similarity_metric)[0]
         results_with_score = [(doc_id + 1, score)
                               for doc_id, score in enumerate(results_with_score)]
         results_with_score = sorted(results_with_score, key=lambda x: -x[1])
@@ -80,11 +81,10 @@ class SearchEngine(object):
 
         return [self.dataset.documents[doc_id - 1] for doc_id in results][:top_k], results
 
-
     def evaluate(self):
         metrics = []
         for query in self.dataset.queries:
-            _, results = self.search(query, bias)
+            _, results = self.search(query)
             relevant = self.dataset.relevant_docs[query.id]
 
             metrics.append([

@@ -38,7 +38,6 @@ class CranDataset(Dataset):
         raw_docs = self.read_raw(filename)
         documents = list()
         for doc_id, _ in enumerate(raw_docs[1:]):
-            # print(doc_id)
             title, content = None, None
 
             raw, tokenized = "", list()
@@ -48,7 +47,6 @@ class CranDataset(Dataset):
             title = Text(raw, tokenized)
 
             raw, tokenized = "", list()
-            # for category in ["A", "K", "W"]:
             for entry in raw_docs[doc_id+1]["W"]:
                 raw += " " + entry.raw
                 tokenized.extend(entry.tokenized)
@@ -86,7 +84,6 @@ class CranDataset(Dataset):
                 rels[qid].append(rel)
 
         self.relevant_docs = rels
-        # print(rels)
 
 
 base_path = "./data/evaluation/cran"

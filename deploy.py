@@ -1,5 +1,5 @@
-import warnings
 import argparse
+import warnings
 
 from data.local_news_data.cbs.loader import cbs_covid_data
 from data.local_news_data.wbaltv.loader import wbaltv_covid_data
@@ -30,16 +30,14 @@ class CovidDataset(Dataset):
         pass
 
 
-def main():
+def arguments_parser():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--bias")
-    args = parser.parse_args()
-    # python evaluate.py --bias
+    parser.add_argument("--user_profile", deafult="")
+    return parser.parse_args()
 
-    if args.bias is not None:
-        bias_str = args.bias
-    else:
-        bias_str = ""
+
+def main():
+    args = arguments_parser()
 
     datasets = [cbs_covid_data, wbaltv_covid_data]
     covid_data = CovidDataset(datasets)
@@ -50,7 +48,7 @@ def main():
         ("word2vec-google-news-300", "usif"),
         # ("word2vec-google-news-300", "sif"),
         # ("word2vec-google-news-300", "mean")
-        ]
+    ]
 
     for embedding, weighting_scheme in best_configs:
         print("####################################################")
@@ -82,11 +80,15 @@ def main():
         #       we are not performing spell check on the documents
         search_engine.text_preprocessor.is_spelling_autocorrect = True
 
-        print("Try the search engine:\n")
+        print("Search engine initialized! Try the search engine:\n")
         query = input("Query: ")
         print()
+
         while query != "exit":
-            matching_docs = search_engine.search(str(query), bias=bias_str, top_k=5)[0]
+            matching_docs = search_engine.search(str(query),
+                                                 user_profile=args.user_profile,
+                                                 top_k=5)[0]
+
             for j, doc in enumerate(matching_docs):
                 print(str(j+1) + ". " + doc.title.raw)
                 print("URL: " + doc.url)

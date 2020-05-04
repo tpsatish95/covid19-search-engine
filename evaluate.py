@@ -15,7 +15,6 @@ from vectorize.doc2vec import Doc2VecVectorizer
 from vectorize.gensim import GensimVectorizer
 from vectorize.one_hot import OneHotVectorizer
 
-
 warnings.filterwarnings("ignore")
 
 
