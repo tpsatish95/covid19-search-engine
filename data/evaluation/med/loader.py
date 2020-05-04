@@ -15,6 +15,7 @@ class MedDataset(Dataset):
         self.documents = None
         self.queries = None
         self.relevant_docs = None
+        self.bias = None
         super().__init__()
 
     def read_raw(self, filename):

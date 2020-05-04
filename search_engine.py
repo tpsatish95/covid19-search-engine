@@ -35,9 +35,9 @@ class SearchEngine(object):
         if not isinstance(query, Query):
             query = Query(uuid4(), Text(query, [word.lower() for word in word_tokenize(query)]))
 
-        ''' for testing only '''
-        user_bias = "groceries pharmacy"
-        user_bias = Query(uuid4(), Text(user_bias, [word.lower() for word in word_tokenize(user_bias)]))
+        # ''' for testing only '''
+        # user_bias = "groceries pharmacy"
+        # user_bias = Query(uuid4(), Text(user_bias, [word.lower() for word in word_tokenize(user_bias)]))
 
         query = self.text_preprocessor.process(query)
         query_vector = self.vectorizer.vectorize_query(query)

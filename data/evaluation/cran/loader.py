@@ -14,6 +14,7 @@ class CranDataset(Dataset):
         self.documents = None
         self.queries = None
         self.relevant_docs = None
+        self.bias = None
         super().__init__()
 
     def read_raw(self, filename):
@@ -74,7 +75,22 @@ class CranDataset(Dataset):
             queries.append(Query(query_id+1, text))
 
         self.queries = queries
-        # print(queries)
+
+    def load_bias(self, filename):
+        raw_docs = self.read_raw(filename)
+        bias = list()
+        for bias_id, _ in enumerate(raw_docs[1:]):
+            text = None
+
+            raw, tokenized = "", list()
+            for entry in raw_docs[bias_id+1]["W"]:
+                raw += " " + entry.raw
+                tokenized.extend(entry.tokenized)
+            text = Text(raw, tokenized)
+
+            bias.append(Query(query_id+1, text))
+
+        self.bias = bias
 
     def load_relevant_docs(self, filename):
         rels = {}
@@ -96,3 +112,4 @@ cran_data = CranDataset(base_path)
 cran_data.load_docs("cran.all")
 cran_data.load_queries("cran.qry")
 cran_data.load_relevant_docs("cran.rel")
+cran_data.load_bias("cran.bias")
