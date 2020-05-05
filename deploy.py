@@ -32,7 +32,7 @@ class CovidDataset(Dataset):
 
 def arguments_parser():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--user_profile", deafult="")
+    parser.add_argument("--user_profile", default="")
     return parser.parse_args()
 
 
@@ -42,12 +42,13 @@ def main():
     datasets = [cbs_covid_data, wbaltv_covid_data]
     covid_data = CovidDataset(datasets)
 
+    # (embedding, weighting_scheme)
     best_configs = [
-        ("one-hot", "tf-idf"),
-        # ("one-hot", "mean"),
-        ("word2vec-google-news-300", "usif"),
-        # ("word2vec-google-news-300", "sif"),
-        # ("word2vec-google-news-300", "mean")
+        ("one-hot", "tf-idf"),  # 1
+        # ("one-hot", "mean"),  # 2
+        ("word2vec-google-news-300", "usif"),  # 3
+        # ("word2vec-google-news-300", "sif"),  # 4
+        # ("word2vec-google-news-300", "mean")  # 5
     ]
 
     for embedding, weighting_scheme in best_configs:

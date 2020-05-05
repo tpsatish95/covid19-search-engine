@@ -51,7 +51,7 @@ class SearchEngine(object):
         relevant_vectors = [self.document_vectors[doc_id - 1] for doc_id in results[:top_k]]
         non_relevant_vectors = [self.document_vectors[doc_id - 1] for doc_id in results[-top_k:]]
 
-        a, b, g = 0.6, 0.2, 0.2
+        a, b, g = 1.0, 0.9, 0.1
         qO = query_vector
         r_av = np.mean(np.array(relevant_vectors), axis=0)
         nr_av = np.mean(np.array(non_relevant_vectors), axis=0)
