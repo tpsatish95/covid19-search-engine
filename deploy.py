@@ -3,7 +3,7 @@ import warnings
 
 from data.local_news_data.cbs.loader import cbs_covid_data
 from data.local_news_data.wbaltv.loader import wbaltv_covid_data
-from data.template import Dataset
+from data.template import Dataset, Document
 
 from preprocess.processor import TextProcessor
 from search_engine import SearchEngine
@@ -20,8 +20,13 @@ class CovidDataset(Dataset):
         self.load_docs(datasets)
 
     def load_docs(self, datasets):
+        doc_id = 1
         for dataset in datasets:
-            self.documents.extend(dataset.documents)
+            for document in dataset.documents:
+                document = Document(doc_id, document.title, document.content,
+                                    document.url)
+                self.documents.append()
+                doc_id += 1
 
     def load_queries(self, filename):
         pass
@@ -62,7 +67,8 @@ def main():
 
     # for embedding, weighting_scheme in best_configs:
     print("####################################################")
-    print("Model details (embedding, weighting_scheme): ({}, {})".format(args.embedding, args.weighting_scheme))
+    print("Model details (embedding, weighting_scheme): ({}, {})".format(
+        args.embedding, args.weighting_scheme))
 
     text_preprocessor = TextProcessor(re_tokenize=True,
                                       remove_stopwords=True,
