@@ -40,20 +40,27 @@ Throughout the COVID-19 pandemic, local resources have shifted in scope and avai
 ## Running instructions:
 
 To run the basic search engine, use the following command, and type your query once the search engine is initialized.
-``` code
+```
 $ python deploy.py
 ```
 
-To run the search engine with mimicked user personalization (biased query results), run the following command and type your user bias terms after the `user_profile` flag.  Later, type your query once the search engine is initialized.
-``` code
-$ python deploy.py --user_profile "<enter terms here>"
+### Command line arguments
+- `--user_profile`: Runs the search engine with mimicked user personalization (biased query results). _Example:_
 ```
-**Note:** the `user_profile` basically describes the current user's profile, search history and what type of content the user is biased towards.
-
-**Other command line arguments:**
-- `--embedding`: Chooses the word embedding method to use. Choose from: `["one-hot", "word2vec-google-news-300", "glove-twitter-100", "glove-wiki-gigaword-100", "glove-wiki-gigaword-200", "fasttext-wiki-news-subwords-300"]`.
-  - Example: `$ python deploy.py --embedding "one-hot"`
-- `--weighting_scheme`: Chooses the weighting scheme to use for computing document vectors from word vectors. Choose from: `["mean", "tf-idf", "sif", "usif"]`.
-  - Example: `$ python deploy.py --weighting_scheme "tf-idf"`
-- `--top_k`: Number of results to return for each query.
-  - Example: `$ python deploy.py --top_k 25`
+$ python deploy.py --user_profile "<enter terms here>"
+OR
+$ python deploy.py --user_profile "cvs"
+```
+  - **Note:** the `user_profile` basically describes the current user's profile, search history and what type of content the user is biased towards.
+- `--embedding`: Chooses the word embedding method to use. Choose from: `["one-hot", "word2vec-google-news-300", "glove-twitter-100", "glove-wiki-gigaword-100", "glove-wiki-gigaword-200", "fasttext-wiki-news-subwords-300"]`. _Example:_
+```
+$ python deploy.py --embedding "one-hot"
+```
+- `--weighting_scheme`: Chooses the weighting scheme to use for computing document vectors from word vectors. Choose from: `["mean", "tf-idf", "sif", "usif"]`. _Example:_
+```
+$ python deploy.py --weighting_scheme "tf-idf"
+```
+- `--top_k`: Number of results to return for each query. _Example:_
+```
+$ python deploy.py --top_k 25
+```
