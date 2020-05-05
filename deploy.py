@@ -25,7 +25,7 @@ class CovidDataset(Dataset):
             for document in dataset.documents:
                 document = Document(doc_id, document.title, document.content,
                                     document.url)
-                self.documents.append()
+                self.documents.append(document)
                 doc_id += 1
 
     def load_queries(self, filename):
@@ -47,6 +47,8 @@ def arguments_parser():
                         default="tf-idf",
                         choices=["mean", "tf-idf", "sif", "usif"])
     parser.add_argument("--top_k", default="5")
+    parser.add_argument('--expand_query', dest="expand_query", action='store_true')
+    parser.set_defaults(expand_query=False)
     return parser.parse_args()
 
 
@@ -103,7 +105,8 @@ def main():
     while query != "exit":
         matching_docs = search_engine.search(str(query),
                                              user_profile=args.user_profile,
-                                             top_k=int(args.top_k))[0]
+                                             top_k=int(args.top_k),
+                                             is_expand_query=args.expand_query)[0]
 
         for j, doc in enumerate(matching_docs):
             print(str(j+1) + ". " + doc.title.raw)

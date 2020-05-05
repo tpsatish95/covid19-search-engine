@@ -63,5 +63,9 @@ $ python deploy.py
   ```
 4. `--top_k`: Number of results to return for each query. _Example:_
   ```
-  $ python deploy.py --top_k 25
+  $ python deploy.py --top_k 5
+  ```
+5. `--expand_query`: Enables query expansion based on GloVe (glove-wiki-gigaword-100). _Example:_
+  ```
+  $ python deploy.py --expand_query
   ```

@@ -41,6 +41,6 @@ class Doc2VecVectorizer(Vectorizer):
         self._initalize_model(corpus)
         return np.array([self.vectroizer.infer_vector(document) for document in corpus])
 
-    def vectorize_query(self, query):
-        query = [word for section in query.sections() for word in section.tokenized]
+    def vectorize_query(self, query, query_preprocessor, is_expand_query=False):
+        query = self.prepare_query(query, query_preprocessor, is_expand_query=is_expand_query)
         return np.array([self.vectroizer.infer_vector(query)])

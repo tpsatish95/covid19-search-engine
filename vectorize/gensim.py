@@ -31,6 +31,6 @@ class GensimVectorizer(Vectorizer):
         self.weighted_vectorizer.fit(corpus)
         return self.weighted_vectorizer.transform(corpus)
 
-    def vectorize_query(self, query):
-        query = [[word for section in query.sections() for word in section.tokenized]]
+    def vectorize_query(self, query, query_preprocessor, is_expand_query=False):
+        query = self.prepare_query(query, query_preprocessor, is_expand_query=is_expand_query)
         return self.weighted_vectorizer.transform(query)

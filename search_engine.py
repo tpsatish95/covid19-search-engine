@@ -37,7 +37,7 @@ class SearchEngine(object):
                                                [word.lower() for word in word_tokenize(user_profile)]))
 
         user_profile = self.text_preprocessor.process(user_profile)
-        user_profile_vector = self.vectorizer.vectorize_query(user_profile)
+        user_profile_vector = self.vectorizer.vectorize_query(user_profile, self.text_preprocessor)
 
         results_with_score = 1 - pairwise_distances(user_profile_vector,
                                                     self.document_vectors,
@@ -58,12 +58,12 @@ class SearchEngine(object):
 
         return (a * qO) + (b * r_av) - (g * nr_av)
 
-    def search(self, query, user_profile="", top_k=25):
+    def search(self, query, user_profile="", top_k=25, is_expand_query=False):
         if not isinstance(query, Query):
             query = Query(uuid4(), Text(query, [word.lower() for word in word_tokenize(query)]))
 
         query = self.text_preprocessor.process(query)
-        query_vector = self.vectorizer.vectorize_query(query)
+        query_vector = self.vectorizer.vectorize_query(query, self.text_preprocessor, is_expand_query)
 
         if user_profile:
             # perform query personaliziation based on user_profile
