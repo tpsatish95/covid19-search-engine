@@ -13,6 +13,7 @@ Throughout the COVID-19 pandemic, local resources have shifted in scope and avai
 ## Datasets:
 - Our retrieval engine will focus on scraping data from unstructured sources such as:
   - News articles (Baltimore Sun, CBS Baltimore, etc.)
+    - Local news source spiders based on [RISJbot](https://github.com/pmyteh/RISJbot)
   - Business/Company websites (CVS, Giant Foods, etc.)
   - FAQs (JHU HUB, JHU Newsletter, etc.)
 - Compiled list of webpages for initial proof of concept, which can be found [here](https://docs.google.com/spreadsheets/d/1lw6fKY5JoMut-U1w-uCL6YN6VV_qd6RsKVaMCLCd0v8/edit?usp=sharing).
