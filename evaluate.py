@@ -80,23 +80,25 @@ def compare_and_evaluate():
               "p_mean1", "p_mean2", "r_norm", "p_norm"]
     print(tabulate(results, headers=header, tablefmt='orgtbl'))
 
-    # # uncomment when needded
-    # with open('./results.txt', 'w+') as f:
-    #     print(tabulate(results, headers=header, tablefmt='orgtbl'), file=f)
+    # uncomment when needded
+    with open('./results.txt', 'w+') as f:
+        print(tabulate(results, headers=header, tablefmt='orgtbl'), file=f)
 
 
 def get_best_model():
-    print("Top 5 Models Across All Datasets (metric wise):")
+    print("Top 10 Models Across All Datasets (metric wise):")
     print("###########################################")
     with open("./results.txt", "r") as f:
         lines = f.readlines()
         header, results = lines[0], lines[2:]
-        header = [entry.strip() for entry in header.split("|")[1:-1]] + ["f1_score"]
+        header = [entry.strip() for entry in header.split("|")[1:-1]] + ["f1_norm"]
         results = [[entry.strip() for entry in result.split("|")[1:-1]] for result in results]
 
+    def f1_score(x, y): return 2*((x*y)/(x+y))
     permutations_all_data = defaultdict(lambda: defaultdict(list))
     for result in results:
-        permutations_all_data[result[1]][result[2]].append([float(x) for x in result[3:]])
+        permutations_all_data[result[1]][result[2]].append(
+            [float(x) for x in result[3:]] + [f1_score(float(result[9]), float(result[10]))])
 
     permutations_avg = list()
     for embedding in permutations_all_data:
@@ -105,20 +107,14 @@ def get_best_model():
                                                                         for metric in list(zip(*permutations_all_data[embedding][weighting]))]])
 
     for i in range(9):
-        if i == 8:
-            def f1_score(x, y): return 2*((x*y)/(x+y))
-            top_5_models = sorted(permutations_avg,
-                                  key=lambda x: f1_score(x[1][6], x[1][7]),
-                                  reverse=True)[:5]
-        else:
-            top_5_models = sorted(permutations_avg,
-                                  key=lambda x: x[1][i],
-                                  reverse=True)[:5]
+        top_10_models = sorted(permutations_avg,
+                               key=lambda x: x[1][i],
+                               reverse=True)[:10]
 
         print("Metric: " + header[3+i])
-        print("Top 5 Models (embedding, weighting):")
-        for j, t in enumerate(top_5_models):
-            print(str(j+1)+". " + t[0])
+        print("Top 10 Models (embedding, weighting):")
+        for j, t in enumerate(top_10_models):
+            print(str(j+1)+". " + t[0] + " - " + str(round(t[1][i], 3)))
         print("###########################################")
 
 
