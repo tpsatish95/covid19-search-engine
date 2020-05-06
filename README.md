@@ -19,7 +19,7 @@ To find an appropriate system for real-world data, we considered 4 labelled data
 ## Datasets - Deployment:
 - Then, we selected the best performing permutations from evaluation on development data to deploy on our COVID-19 news data.
 - We crawled COVID-19 related articles from CBS Baltimore and WBALTV since they provide access to focused local information relevant to Baltimore.
-- Note: for now the web scrappers for WBALTV and CBS Baltimore are in the `crawler` branch.
+- Note: Local news source spiders based on [RISJbot](https://github.com/pmyteh/RISJbot)
 
 ## Approach:
 - **Web crawling and scraping**
@@ -48,6 +48,17 @@ Install all the packages this search engine requires to run using:
 ```
 pip install -r requirements.txt
 ```
+
+### Scraping data
+
+1. `$ scrapy crawl <news source>`: Runs the scrapy spider on news site. Choose from: `['cbs', 'wbaltv']`
+2. Process the jsonl output into CSV and document-format required by data loader.
+  ```
+  $ cd data/local_news_data
+  $ python process.py
+  ```
+
+### Search Engine
 
 Then, to run the basic search engine, use the following command, and type your query once the search engine is initialized.
 ```

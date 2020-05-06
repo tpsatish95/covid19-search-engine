@@ -1,6 +1,7 @@
 import os
 import re
 from collections import defaultdict
+
 from nltk.tokenize import word_tokenize
 
 from data.template import Dataset, Document, Text
