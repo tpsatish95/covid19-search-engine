@@ -5,7 +5,7 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
-from utils.scraper import Scraper
+from data.local_news_data.utils.scraper import Scraper
 
 
 class BaltimoreSunScraper(Scraper):
