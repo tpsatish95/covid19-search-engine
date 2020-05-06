@@ -109,3 +109,12 @@ $ python deploy.py
   - *Example:*
     - "recession"
     - "virus"
+
+## Scraping data
+
+1. `$ scrapy crawl <news source>`: Runs the scrapy spider on news site. Choose from: `['cbs', 'wbaltv']`
+2. Process the jsonl output into CSV and document-format required by data loader.
+  ```
+  $ cd data/local_news_data
+  $ python process.py
+  ```

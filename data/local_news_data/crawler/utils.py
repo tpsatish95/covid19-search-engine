@@ -7,6 +7,7 @@ format required by Dataset loader.
 Some methods adopted from RISJbot (https://github.com/pmyteh/RISJbot)
 """
 import re
+import os
 import logging
 import jsonlines
 import lxml.etree
@@ -21,7 +22,7 @@ TEXT_WORDS = ['covid', 'coravirus', 'covid-19', 'covid 19',
               'grocery store', 'quarantine', 'social distance']
 
 
-def process_jsonl(filename):
+def process_jsonl(*, filename):
     """
     Helper function to parse information from jsonl
 
@@ -59,7 +60,7 @@ def process_jsonl(filename):
     return df
 
 
-def clean_raw(path, filename, new_filename):
+def clean_raw(*, path, filename, new_filename):
     """
     Script to format CSV data into .I .T .W
     """
