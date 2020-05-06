@@ -1,7 +1,7 @@
 # Python 3.6.5
 
 beautifulsoup4==4.7.1
-nltk==3.4
+nltk==3.4.5
 numpy==1.17.2
 pandas==0.25.2
 requests==2.20.1
