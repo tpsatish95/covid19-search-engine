@@ -1,7 +1,7 @@
 import jsonlines
 import os
 import pandas as pd
-from utils.jsonl_to_csv import process_jsonl
+from data.local_new_data.utils.jsonl_to_csv import process_jsonl
 
 
 def main():

@@ -16,8 +16,8 @@ from gzip import compress
 from base64 import b64encode
 from w3lib.html import replace_escape_chars, replace_entities
 from w3lib.html import remove_tags, remove_comments
-from items import NewsItem
-from metadata import RISJMetadataExtractor
+from data.local_new_data.utils.items import NewsItem
+from data.local_new_data.utils.metadata import RISJMetadataExtractor
 from scrapy.loader import ItemLoader
 from scrapy.loader.processors import Identity, TakeFirst
 from scrapy.loader.processors import Join, Compose, MapCompose

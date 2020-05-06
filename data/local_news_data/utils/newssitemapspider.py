@@ -2,7 +2,7 @@
 import logging
 from scrapy.spiders import SitemapSpider
 from scrapy.http import Request
-from utils import NewsSitemap
+from data.local_new_data.utils import NewsSitemap
 from scrapy.utils.sitemap import sitemap_urls_from_robots
 from scrapy.spiders.sitemap import iterloc
 
