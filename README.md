@@ -9,12 +9,17 @@ Throughout the COVID-19 pandemic, people’s needs have evolved due to a myriad 
   - To achieve this, we built a search engine to retrieve relevant articles. We expanded our search engine to simulate user personalization based on the user’s profile, which can be mimicked through topics the user is biased towards, that are incorporated as a string of bias terms at run time. This allows us to retrieve results personalized to the user needs.
 
 
-## Datasets:
-- Our retrieval engine will focus on scraping data from unstructured sources such as:
-  - News articles (WBALTV, CBS Baltimore, etc.)
-  - Business/Company websites (CVS, Giant Foods, etc.)
-  - FAQs (JHU HUB, JHU Newsletter, etc.)
-- Compiled list of webpages for initial proof of concept, which can be found [here](https://docs.google.com/spreadsheets/d/1lw6fKY5JoMut-U1w-uCL6YN6VV_qd6RsKVaMCLCd0v8/edit?usp=sharing).
+## Datasets - Evaluation:
+To find an appropriate system for real-world data, we considered 4 labelled datasets ([CACM](http://ir.dcs.gla.ac.uk/resources/test_collections/cacm/), [CISI](https://www.kaggle.com/dmaso01dsta/cisi-a-dataset-for-information-retrieval/version/1), [Medline](http://www.trec-cds.org/2017.html), [Cranfield](http://ir.dcs.gla.ac.uk/resources/test_collections/cran/)) and conducted experiments on this data:
+- **CACM:** abstracts and queries from Communications of ACM journal
+- **CISI:** documents and queries from Centre for Inventions and Scientific Information
+- **Medline:** collection of articles and queries from Medline journals
+- **Cranfield:** commonly used IR dataset with aerodynamics journals articles, queries, and relevance judgements
+
+## Datasets - Deployment:
+- Then, we selected the best performing permutations from evaluation on development data to deploy on our COVID-19 news data.
+- We crawled COVID-19 related articles from CBS Baltimore and WBALTV since they provide access to focused local information relevant to Baltimore.
+- Note: for now the web scrappers for WBALTV and CBS Baltimore are in the `crawler` branch.
 
 ## Approach:
 - **Web crawling and scraping**
@@ -23,9 +28,9 @@ Throughout the COVID-19 pandemic, people’s needs have evolved due to a myriad 
   - **Structured:** Stemming and Stop Words Removal
   - **Unstructured:** Acronyms, Emoticons, Spell Check, Contractions
 - **Vectorization and Scoring**
-  - Word embeddings: (Word2Vec, GloVe, FastText, Doc2Vec, OneHot)
-  - Word embeddings to Sentence embeddings Weighting Schemes: Mean, TF-IDF, Smooth Inverse Frequency, Unsupervised Smooth Inverse Frequency.
-  - Similarity: Cosine, Dice, Jaccard or anything from scipy.spatial.distance.
+  - **Word embeddings:** (Word2Vec, GloVe, FastText, Doc2Vec, OneHot)
+  - **Word embeddings to Sentence embeddings Weighting Schemes:** Mean, TF-IDF, Smooth Inverse Frequency, Unsupervised Smooth Inverse Frequency.
+  - **Similarity:** Cosine, Dice, Jaccard or anything from scipy.spatial.distance.
 - **Query Optimization**
   - Personalize user queries using a modified Rocchio relevance feedback mechanism
 
