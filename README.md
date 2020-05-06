@@ -80,3 +80,32 @@ $ python deploy.py
   ```
   $ python deploy.py --expand_query
   ```
+
+## Types of Search Queries to Try:
+
+- **Default**
+  - *Command:* `python deploy.py`
+  - *Example:*
+    - *General:*
+      - "masks"
+      - "vaccine"
+      - "ventilators"
+    - *With mis-spellings*
+      - "employmment"
+    - *With acronyms or contractions*
+      - "ER"
+      - "ICU"
+- **Pretrained Word Embeddings**
+  - *Command:* `python deploy.py --embedding "word2vec-google-news-300" --weighting_scheme "usif"`
+  - *Example:*
+    - "grocery"
+    - "lockdown"
+- **User Personalization**
+  - *Command:* `python deploy.py --user_profile "cvs"`
+  - *Example:*
+    - "delivery" with "cvs" personalization
+- **Query Expansion**
+  - *Command:* `python deploy.py --user_profile "cvs"`
+  - *Example:*
+    - "recession"
+    - "virus"
