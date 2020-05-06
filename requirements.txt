@@ -15,3 +15,12 @@ tabulate==0.8.7
 fse==0.1.15
 smart-open==2.0.0
 gensim==3.8.1
+
+# web crawler
+dateparser==0.7.4
+extruct==0.9.0
+textblob==0.15.3
+pronouncing==0.2.0
+scrapy-dotpersistence==0.3.0
+scrapy-splash==0.7.2
+readability-lxml==0.7.1
