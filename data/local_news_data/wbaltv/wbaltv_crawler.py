@@ -6,9 +6,9 @@ from data.local_new_data.utils.utils import mutate_selector_del_xpath
 from scrapy.loader.processors import Identity, TakeFirst
 from scrapy.loader.processors import Join, Compose, MapCompose
 
-class CbsSpider(NewsSitemapSpider):
-    name = 'cbs'
-    # allowed_domains = ['cbsnews.com']
+class WbaltvSpider(NewsSitemapSpider):
+    name = 'wbaltv'
+    # allowed_domains = ['wbaltv.com']
     # A list of XML sitemap files, or suitable robots.txt files with pointers.
     sitemap_urls = ['https://www.wbaltv.com/sitemap.xml'] 
     
