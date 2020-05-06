@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
+"""
+This script was borrowed from the RISJbot repository (https://github.com/pmyteh/RISJbot)
+All credit goes to original author
+"""
+
 import logging
 from scrapy.spiders import SitemapSpider
 from scrapy.http import Request
-from data.local_news_data.utils.utils import NewsSitemap
+from data.local_news_data.crawler.utils import NewsSitemap
 from scrapy.utils.sitemap import sitemap_urls_from_robots
 from scrapy.spiders.sitemap import iterloc
 

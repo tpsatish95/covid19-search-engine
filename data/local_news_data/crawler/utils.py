@@ -1,10 +1,77 @@
 # -*- coding: utf-8 -*-
+"""
+This file contains helper methods using during web crawling, processing
+jsonl output into csv format, and processing csv format into document 
+format required by Dataset loader.
+
+Some methods adopted from RISJbot (https://github.com/pmyteh/RISJbot)
+"""
 import re
 import logging
+import jsonlines
 import lxml.etree
+import pandas as pd
 from cssselect import HTMLTranslator
 
 logger = logging.getLogger(__name__)
+
+KEYWORDS = ['covid', 'coravirus', 'resources', 'covid-19', 'store', 'essential', 'relief',
+            'covid 19', 'food', 'grocery', 'groceries', 'help', 'quarantine', 'restaurants']
+TEXT_WORDS = ['covid', 'coravirus', 'covid-19', 'covid 19',
+              'grocery store', 'quarantine', 'social distance']
+
+
+def process_jsonl(filename):
+    """
+    Helper function to parse information from jsonl
+
+    @arg filename - name of jsonl file
+    @return dataframe with information to be saved to CSV
+    """
+    df = pd.DataFrame(columns=['url', 'keywords', 'headline', 'author', 'source', 'summary', 'bodytext',
+                               'sentiment', 'subjectivity', 'wordcount', 'fetchtime', 'firstpubtime', 'modtime'])
+    with jsonlines.open(filename) as reader:
+        keywords = []
+        for i, obj in enumerate(reader):
+            if 'bodytext' not in obj:
+                continue
+            if 'bodytext' in obj and len(obj['bodytext'].strip().split()[0]) > 30:
+                continue
+            body = obj['bodytext'].split('—              ')[0].strip()
+            if 'keywords' in obj:  # for collecting all keywords in crawled data
+                keywords.extend(obj['keywords'])
+            if 'keywords' in obj and any(k in obj['keywords'] for k in KEYWORDS):
+                df.loc[i] = [obj['url'], ','.join(obj['keywords']), obj['headline'].strip(), obj['bylines'], obj['source'],
+                             obj['summary'], body, obj['sentiment'], obj['subjectivity'],
+                             obj['wordcount'], obj['fetchtime'], obj['firstpubtime'], obj['modtime']]
+            elif 'bodytext' in obj and any(k in obj['bodytext'].lower() for k in TEXT_WORDS):
+                df.loc[i] = [obj['url'], '', obj['headline'].strip(), '', '',
+                             '', body, obj['sentiment'], obj['subjectivity'],
+                             obj['wordcount'], obj['fetchtime'], '', obj['modtime']]
+                if 'bylines' in obj:
+                    df.loc[i, 'author'] = ' '.join(obj['bylines'])
+                if 'source' in obj:
+                    df.loc[i, 'source'] = obj['source']
+                if 'summary' in obj:
+                    df.loc[i, 'summary'] = obj['summary']
+                if 'firstpubtime' in obj:
+                    df.loc[i, 'firstpubtime'] = obj['firstpubtime']
+    return df
+
+
+def clean_raw(path, filename, new_filename):
+    """
+    Script to format CSV data into .I .T .W
+    """
+    df = pd.read_csv(os.path.join(path, filename))
+    with open(os.path.join(path, new_filename), 'w') as f:
+        for i, row in df.iterrows():
+            f.write('.I {}\n'.format(i + 1))
+            f.write('.U\n{}\n'.format(row.url))
+            if len(row.headline) > 0:
+                f.write('.T\n{}\n'.format(row.headline))
+            f.write('.W\n{}\n\n{}\n'.format(row.summary, row.bodytext))
+
 
 def mutate_selector_del(selector, method, expression):
     """Under the covers, Selectors contain an lxml.etree.Element document
@@ -64,16 +131,6 @@ class NewsSitemap(object):
         for elem in self._root.getchildren():
             d = etree_to_recursive_dict(elem)[1]
 
-#            d = {}
-#            for el in elem.getchildren():
-#                tag = el.tag
-#                name = tag.split('}', 1)[1] if '}' in tag else tag
-#
-#                if name == 'link':
-#                    if 'href' in el.attrib:
-#                        d.setdefault('alternate', []).append(el.get('href'))
-#                else:
-#                    d[name] = el.text.strip() if el.text else ''
 
             if 'loc' in d:
                 yield d
@@ -96,55 +153,3 @@ def etree_to_recursive_dict(element):
              return 'alternate{}'.format(element.get('hreflang')), \
                 element.get('href')
     return name, dict(map(etree_to_recursive_dict, element)) or txt
-
-
-#import scrapy_dotpersistence
-#import os
-#from scrapy.exceptions import NotConfigured
-# XXX This is all grot.
-#class _risj_dotscrapy_indirect(object):
-#    @classmethod
-#    def from_crawler(cls, crawler):
-#        settings = crawler.settings
-#        os.environ["SCRAPY_PROJECT_ID"] = "persistence"
-#        os.environ["SCRAPY_SPIDER"] = "all-spiders"
-#        enabled = (settings.getbool('DOTSCRAPY_ENABLED') or
-#                   settings.get('DOTSCRAPYPERSISTENCE_ENABLED'))
-#        if not enabled:
-#            raise NotConfigured
-#        bucket = settings.get('ADDONS_S3_BUCKET')
-#        logger.debug('returning DotScrapyPersistence object')
-#        return scrapy_dotpersistence.DotScrapyPersistence(crawler, bucket)
-
-#class SelectorXSLTTransformer(object):
-#    def __init__(self, selector):
-#        self.selector = selector
-#        # self.root is an lxml.etree.Element, the output of:
-#        # lxml.etree.fromstring(body, parser=parser, base_url=base_url)
-#        # (from parsel, selector.py, function create_root_node)
-#        # This keeps the scrapy code in use for actually creating selectors,
-#        # for choosing a base lxml parser and coding based on the headers and
-#        # for other bureaucracy.
-#        self.doc = selector.root
-#
-#    def apply_stylesheet(self, xslt_str):
-#        """Apply an XSLT stylesheet to the current document"""
-#        transform = lxml.etree.XSLT(xslt_str)
-#        self.doc = transform(self.doc)
-#
-#    def del_xpath(self, xpath_str):
-#        """Delete all occurences of a given xpath from the current document"""
-#        for bad in self.doc.xpath(xpath_str):
-#            bad.getparent().remove(bad)
-#
-##    def clean_doc(self):
-##        """Apply lxml.html.Cleaner to the current document iff HTML"""
-##        if self.form == 'html':
-##            self.doc = self.cleaner.clean_html(self.doc)
-##        else:
-##            raise NotImplementedError
-#
-#    def return_selector(self):
-#        # Provide new Selector with amended content.
-#        return Selector(root=self.doc)
-

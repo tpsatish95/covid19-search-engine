@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+"""
+This script was borrowed from the RISJbot repository (https://github.com/pmyteh/RISJbot)
+All credit goes to original author
+"""
 
 from extruct.rdfa import RDFaExtractor
 from extruct.w3cmicrodata import MicrodataExtractor

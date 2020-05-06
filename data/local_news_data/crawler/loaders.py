@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+"""
+This script was borrowed from the RISJbot repository (https://github.com/pmyteh/RISJbot)
+All credit goes to original author
+"""
 
 # Define here the models for your scraped items
 #
@@ -16,8 +20,8 @@ from gzip import compress
 from base64 import b64encode
 from w3lib.html import replace_escape_chars, replace_entities
 from w3lib.html import remove_tags, remove_comments
-from data.local_news_data.utils.items import NewsItem
-from data.local_news_data.utils.metadata import RISJMetadataExtractor
+from data.local_news_data.crawler.items import NewsItem
+from data.local_news_data.crawler.metadata import RISJMetadataExtractor
 from scrapy.loader import ItemLoader
 from scrapy.loader.processors import Identity, TakeFirst
 from scrapy.loader.processors import Join, Compose, MapCompose

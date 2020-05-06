@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
-from data.local_news_data.utils.newssitemapspider import NewsSitemapSpider
-from data.local_news_data.utils.loaders import NewsLoader
+"""
+This file was adopted and modified from RISJbot (https://github.com/pmyteh/RISJbot)
+"""
+
+from data.local_news_data.crawler.newssitemapspider import NewsSitemapSpider
+from data.local_news_data.crawler.loaders import NewsLoader
 # Note: mutate_selector_del_xpath is somewhat naughty. Read its docstring.
-from data.local_news_data.utils.utils import mutate_selector_del_xpath
+from data.local_news_data.crawler.utils import mutate_selector_del_xpath
 from scrapy.loader.processors import Identity, TakeFirst
 from scrapy.loader.processors import Join, Compose, MapCompose
 
