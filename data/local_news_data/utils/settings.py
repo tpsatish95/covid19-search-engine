@@ -159,11 +159,11 @@ EXTRACTJSONLD_ENABLED = True
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-    'RISJbot.dlmiddlewares.offsitedownloadershim.OffsiteDownloaderShim': 100,
+    'data.local_news_data.utils.dlmiddlewares.offsitedownloadershim.OffsiteDownloaderShim': 100,
     'scrapy_splash.SplashCookiesMiddleware': 723,
     'scrapy_splash.SplashMiddleware': 725,
     'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
-    'RISJbot.dlmiddlewares.stripnull.StripNull': 543,
+    'data.local_news_data.utils.dlmiddlewares.stripnull.StripNull': 543,
 }
 
 # AP returns responses with ASCII NUL bytes embedded in them.
@@ -207,21 +207,21 @@ EQUIVALENTDOMAINS_MAPPINGS = {'www.cnn.com': 'edition.cnn.com'}
 #DOTSCRAPY_S3_FOLDER = None
 #DOTSCRAPY_S3_BUCKET = "reutersinstitute-risjbot"
 
-FLEXIBLEDOTSCRAPY_ENABLED = True
-FLEXIBLEDOTSCRAPY_S3_BUCKET = 'pmyteh-risjbot'
+# FLEXIBLEDOTSCRAPY_ENABLED = True
+# FLEXIBLEDOTSCRAPY_S3_BUCKET = 'pmyteh-risjbot'
 # Also relies on AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY, set above.
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
-# ITEM_PIPELINES = {
-#     'RISJbot.pipelines.sentiment.Sentiment': 100,
-#     'RISJbot.pipelines.wordcount.WordCount': 200,
-# # Removed from pipeline to reduce DotscrapyPersistence S3 usage, TN 2017-04-06
-# #    'RISJbot.pipelines.namedpeople.NamedPeople': 300,
-# #    'RISJbot.pipelines.readingage.ReadingAge': 400,
-#     'RISJbot.pipelines.checkcontent.CheckContent': 800,
-#     'RISJbot.pipelines.striprawpage.StripRawPage': 900,
-# }
+ITEM_PIPELINES = {
+    'data.local_news_data.utils.pipelines.sentiment.Sentiment': 100,
+    'data.local_news_data.utils.pipelines.wordcount.WordCount': 200,
+# Removed from pipeline to reduce DotscrapyPersistence S3 usage, TN 2017-04-06
+#    'RISJbot.pipelines.namedpeople.NamedPeople': 300,
+#    'RISJbot.pipelines.readingage.ReadingAge': 400,
+    'data.local_news_data.utils.pipelines.checkcontent.CheckContent': 800,
+    'data.local_news_data.utils.pipelines.striprawpage.StripRawPage': 900,
+}
 
 # Flag to determine storage of rawpagegzipb64 (to turn off for debugging)
 # TN 2017/03/27

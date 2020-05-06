@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from data.local_new_data.utils.newssitemapspider import NewsSitemapSpider
-from data.local_new_data.utils.loaders import NewsLoader
+from data.local_news_data.utils.newssitemapspider import NewsSitemapSpider
+from data.local_news_data.utils.loaders import NewsLoader
 # Note: mutate_selector_del_xpath is somewhat naughty. Read its docstring.
-from data.local_new_data.utils.utils import mutate_selector_del_xpath
+from data.local_news_data.utils.utils import mutate_selector_del_xpath
 from scrapy.loader.processors import Identity, TakeFirst
 from scrapy.loader.processors import Join, Compose, MapCompose
 
