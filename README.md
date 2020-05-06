@@ -96,27 +96,33 @@ $ python deploy.py
 
 - **Default**
   - *Command:* `python deploy.py`
-  - *Example:*
+  - *Examples:*
     - *General:*
       - "masks"
       - "vaccine"
       - "ventilators"
     - *With mis-spellings*
-      - "employmment"
+      - "stayy at homew ordero"
     - *With acronyms or contractions*
       - "ER"
       - "ICU"
 - **Pretrained Word Embeddings**
   - *Command:* `python deploy.py --embedding "word2vec-google-news-300" --weighting_scheme "usif"`
-  - *Example:*
+  - *Effect:* Results capture the semantics of the query
+  - *Examples:*
+    - "employment"
     - "grocery"
-    - "lockdown"
+    - "vaccine"
 - **User Personalization**
   - *Command:* `python deploy.py --user_profile "cvs"`
-  - *Example:*
-    - "delivery" with "cvs" personalization
+  - *Effect:* Results are personalized towards the user's bias
+  - *Examples:*
+    - "delivery" with and without "cvs" personalization
+    - "lakers" with and without "sports" personalization
 - **Query Expansion**
   - *Command:* `python deploy.py --user_profile "cvs"`
-  - *Example:*
-    - "recession"
-    - "virus"
+  - *Effect:* Gives more concentrated and meaningful results that talk about the query's topic
+  - *Examples:*
+    - "test kit"
+    - "economy"
+    - "stocks"
