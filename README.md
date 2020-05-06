@@ -49,7 +49,7 @@ Install all the packages this search engine requires to run using:
 pip install -r requirements.txt
 ```
 
-Scraping data
+### Scraping data
 
 1. `$ scrapy crawl <news source>`: Runs the scrapy spider on news site. Choose from: `['cbs', 'wbaltv']`
 2. Process the jsonl output into CSV and document-format required by data loader.
@@ -57,6 +57,8 @@ Scraping data
   $ cd data/local_news_data
   $ python process.py
   ```
+
+### Search Engine
 
 Then, to run the basic search engine, use the following command, and type your query once the search engine is initialized.
 ```

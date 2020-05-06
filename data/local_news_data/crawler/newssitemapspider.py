@@ -5,11 +5,13 @@ All credit goes to original author
 """
 
 import logging
-from scrapy.spiders import SitemapSpider
+
 from scrapy.http import Request
-from data.local_news_data.crawler.utils import NewsSitemap
-from scrapy.utils.sitemap import sitemap_urls_from_robots
+from scrapy.spiders import SitemapSpider
 from scrapy.spiders.sitemap import iterloc
+from scrapy.utils.sitemap import sitemap_urls_from_robots
+
+from data.local_news_data.crawler.utils import NewsSitemap
 
 logger = logging.getLogger(__name__)
 
@@ -19,6 +21,8 @@ logger = logging.getLogger(__name__)
 #       and probably won't work for all providers.
 # In the mean time, indirect through NewsSitemapSpider to avoid having to
 # change every spider if we get this going.
+
+
 class NewsSitemapSpider(SitemapSpider):
 
     def start_requests(self):
@@ -46,7 +50,7 @@ class NewsSitemapSpider(SitemapSpider):
             body = self._get_sitemap_body(response)
             if body is None:
                 self.logger.warning("Ignoring invalid sitemap: %(response)s",
-                               {'response': response}, extra={'spider': self})
+                                    {'response': response}, extra={'spider': self})
                 return
 
             s = NewsSitemap(body)
@@ -76,11 +80,11 @@ class NewsSitemapSpider(SitemapSpider):
     @staticmethod
     def iterurlset(it, alt=False):
         for d in it:
-    #        logger.debug("{}".format(d))
+            #        logger.debug("{}".format(d))
 
-    #        meta = {'NewsSitemap': d}
-    #            meta = {'newsmeta': {}}
-    #            nm = meta['newsmeta']
+            #        meta = {'NewsSitemap': d}
+            #            meta = {'newsmeta': {}}
+            #            nm = meta['newsmeta']
 
             loc = d['loc']
 
@@ -103,4 +107,3 @@ class NewsSitemapSpider(SitemapSpider):
                 for k, v in d.items():
                     if k.startswith('alternate'):
                         yield (v, {'NewsSitemap': d, 'originalurl': v})
-

@@ -6,11 +6,13 @@ All credit goes to original author
 
 import logging
 import urllib
+
+from scrapy.exceptions import NotConfigured
 from scrapy.http import Request
 from scrapy.item import BaseItem
-from scrapy.exceptions import NotConfigured
 
 logger = logging.getLogger(__name__)
+
 
 class EquivalentDomains(object):
     """Spider middleware to coerce sets of equivalent domains to a single
@@ -28,7 +30,7 @@ class EquivalentDomains(object):
         self.mappings = settings.get('EQUIVALENTDOMAINS_MAPPINGS')
         self.stats = stats
         logger.debug("EquivalentDomains starting; mappings: "
-                        "{}".format(self.mappings))
+                     "{}".format(self.mappings))
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -54,4 +56,3 @@ class EquivalentDomains(object):
                 self.stats.inc_value('equivalentdomains/munged', spider=spider)
                 o = o.replace(url=newurl)
         return o
-

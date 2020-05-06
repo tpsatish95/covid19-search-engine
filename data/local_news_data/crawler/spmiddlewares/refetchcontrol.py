@@ -9,26 +9,26 @@ All credit goes to original author
 # See documentation in:
 # http://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
-#from scrapy_deltafetch.middleware import DeltaFetch
+# from scrapy_deltafetch.middleware import DeltaFetch
 
+import datetime
 import logging
 import os
 import pickle
-import datetime
 import sqlite3
 
-#from twisted.enterprise import adbapi
-#from twisted.internet.defer import inlineCallbacks, returnValue
+from scrapy import signals
+from scrapy.exceptions import DontCloseSpider, NotConfigured
+# from twisted.enterprise import adbapi
+# from twisted.internet.defer import inlineCallbacks, returnValue
 from scrapy.http import Request
 from scrapy.item import BaseItem
-from scrapy.utils.request import request_fingerprint
 from scrapy.utils.project import data_path
 from scrapy.utils.python import to_bytes
-from scrapy.exceptions import NotConfigured, DontCloseSpider
-from scrapy import signals
-
+from scrapy.utils.request import request_fingerprint
 
 logger = logging.getLogger(__name__)
+
 
 class RefetchControl(object):
     """
@@ -38,7 +38,7 @@ class RefetchControl(object):
 
     RefetchControl differs from the parent DeltaFetch by offering more general
     control over repeated fetching:
-     * The option of fetching (limited numbers of) copies of an item, 
+     * The option of fetching (limited numbers of) copies of an item,
        at intervals of not less than a given time. This allows some sane change
        detection.
      * A mechanism for ensuring complete fetches, by trawling RefetchControl's
@@ -103,7 +103,7 @@ class RefetchControl(object):
             # Will need regenerating
             new = True
 
-        detect_types = sqlite3.PARSE_DECLTYPES # |sqlite3.PARSE_COLNAMES
+        detect_types = sqlite3.PARSE_DECLTYPES  # |sqlite3.PARSE_COLNAMES
         self.dbs[spider.name] = sqlite3.connect(dbpath,
                                                 detect_types=detect_types)
         self.dbs[spider.name].isolation_level = None
@@ -114,8 +114,8 @@ class RefetchControl(object):
             c.execute("DROP TABLE IF EXISTS records")
             c.execute("DROP INDEX IF EXISTS idx_fetches_time")
             c.execute("CREATE TABLE records (key bytes, url str, "
-                        "fetches int, time timestamp, PRIMARY KEY(key)) "
-                        "WITHOUT ROWID")
+                      "fetches int, time timestamp, PRIMARY KEY(key)) "
+                      "WITHOUT ROWID")
             c.execute("CREATE INDEX idx_fetches_time ON records (fetches, time)")
             self.dbs[spider.name].commit()
         else:
@@ -124,7 +124,6 @@ class RefetchControl(object):
             logger.info(f"Opened RefetchControl database with "
                         f"{r.fetchone()[0]} entries.")
 
-        
     def spider_closed(self, spider):
         self.logdebug("Closing databases")
         for db in self.dbs.values():
@@ -137,7 +136,7 @@ class RefetchControl(object):
         """If an item is fetched once, but then disappears from the feed
            (pushed off the RSS list by new items, for example) it is not
            automatically refetched. For data completeness, this is an issue.
-        
+
            Iterate the database's stored keys, check if any items are
            eligible. If so, queue Requests for them.
 
@@ -156,9 +155,9 @@ class RefetchControl(object):
         c = self.dbs[spider.name].cursor()
         # If it's newer than this, we don't want it
         cutofft = (datetime.datetime.utcnow()
-                        - datetime.timedelta(seconds=self.refetchsecs))
+                   - datetime.timedelta(seconds=self.refetchsecs))
         cutoffold = (datetime.datetime.utcnow()
-                        - datetime.timedelta(seconds=self.agelimit)) 
+                     - datetime.timedelta(seconds=self.agelimit))
 #        for row in c.execute('SELECT * FROM records WHERE '
 #                                'time <= ? AND time > ? AND fetches < ?',
 #                             (cutofft, cutoffold, self.maxfetches)):
@@ -178,7 +177,7 @@ class RefetchControl(object):
                 self._schedule_url(url,
                                    {'refetchcontrol_trawled': True,
                                     'refetchcontrol_key': key,
-                                    'refetchcontrol_previous': nf,},
+                                    'refetchcontrol_previous': nf, },
                                    spider)
                 self.stats.inc_value('refetchcontrol/trawled', spider=spider)
             elif t <= cutoffold and self.trimdb and key not in self.keysrqd:
@@ -197,7 +196,6 @@ class RefetchControl(object):
             self.dbs[spider.name].execute('VACUUM')
         self.idletrawled = True
         self.logdebug("Trawl finished.")
-
 
     def _schedule_url(self, url, meta, spider):
         # This is slightly problematic (but unavaoidable).
@@ -225,7 +223,7 @@ class RefetchControl(object):
         rq = Request(url,
                      callback=eval(self.rqcallback),
                      meta=meta
-                    )
+                     )
         self.crawler.engine.crawl(rq, spider)
 
     def _process_request(self, r, spider):
@@ -243,8 +241,8 @@ class RefetchControl(object):
         # Pass this through, so we can link any Response to this request
         r.meta['refetchcontrol_key'] = key
 
-        c = self.dbs[spider.name].cursor().execute(    
-                'SELECT url, fetches, time FROM records WHERE key=?', (key,))
+        c = self.dbs[spider.name].cursor().execute(
+            'SELECT url, fetches, time FROM records WHERE key=?', (key,))
         l = c.fetchone()
 
         if l is None:
@@ -262,8 +260,8 @@ class RefetchControl(object):
         _, nf, t = l
         tdiff = datetime.datetime.utcnow() - t
         if (nf >= self.maxfetches or
-               tdiff.total_seconds() < self.refetchsecs or
-               tdiff.total_seconds() > self.agelimit):
+            tdiff.total_seconds() < self.refetchsecs or
+                tdiff.total_seconds() > self.agelimit):
             # No. Drop.
             if nf < self.maxfetches:
                 self.logdebug(f"Not fetching ({nf}/{self.maxfetches} "
@@ -318,7 +316,7 @@ class RefetchControl(object):
         if self.stats:
             self.stats.inc_value('refetchcontrol/stored', spider=spider)
         return item
- 
+
     def process_spider_output(self, response, result, spider):
         def _filter(r):
             if isinstance(r, Request):
@@ -335,7 +333,6 @@ class RefetchControl(object):
         key = (request.meta.get('refetchcontrol_key') or
                request.meta.get('deltafetch_key') or
                request_fingerprint(request)
-              )
+               )
         # request_fingerprint() returns string `hashlib.sha1().hexdigest()`
         return to_bytes(key)
-

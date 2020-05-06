@@ -5,6 +5,7 @@ All credit goes to original author
 """
 
 import logging
+
 from scrapy.exceptions import NotConfigured
 
 # Define your item pipelines here
@@ -13,6 +14,7 @@ from scrapy.exceptions import NotConfigured
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 logger = logging.getLogger(__name__)
+
 
 class WordCount(object):
     def process_item(self, item, spider):

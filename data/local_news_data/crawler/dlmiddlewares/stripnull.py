@@ -5,9 +5,12 @@ All credit goes to original author
 """
 
 import logging
+
+from scrapy.exceptions import NotConfigured
 from scrapy.http import TextResponse
 
 logger = logging.getLogger(__name__)
+
 
 class StripNull(object):
     """Downloader middleware to discard ASCII NUL bytes from Responses. This
@@ -42,8 +45,7 @@ class StripNull(object):
 
         if len(newbody) < len(response.body):
             self.stats.inc_value('stripnull/stripped', spider=spider)
-            return response.replace(body = newbody)
+            return response.replace(body=newbody)
         else:
             self.stats.inc_value('stripnull/clean', spider=spider)
             return response
-

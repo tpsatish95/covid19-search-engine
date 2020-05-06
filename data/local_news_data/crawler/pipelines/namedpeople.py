@@ -5,11 +5,13 @@ All credit goes to original author
 """
 
 import logging
+
 import nltk
-#import probablepeople
-#import nameparser
+# import probablepeople
+# import nameparser
 from scrapy.exceptions import NotConfigured
-#from import nltk_contrib import 
+
+# from import nltk_contrib import
 
 # Define your item pipelines here
 #
@@ -17,6 +19,7 @@ from scrapy.exceptions import NotConfigured
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 logger = logging.getLogger(__name__)
+
 
 class NamedPeople(object):
     def __init__(self, crawler):
@@ -33,12 +36,12 @@ class NamedPeople(object):
                     'averaged_perceptron_tagger',
                     'punkt',
                     'words',
-                   ]:
+                    ]:
             nltk.download(pkg, download_dir=self.dir)
 
         logger.debug("NamedPeople starting; nltk_dir: {}".format(
-                        self.dir)
-                    )
+            self.dir)
+        )
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -50,7 +53,7 @@ class NamedPeople(object):
         except KeyError:
             return item
 
-        # Chunk 'named entities' (people, places, organisations etc.) as 
+        # Chunk 'named entities' (people, places, organisations etc.) as
         # (possibly hierarchical) nltk.Tree.
         namedEnt = nltk.ne_chunk(nltk.pos_tag(nltk.word_tokenize(body)))
         # Find the ones tagged "PERSON" and extract them. Note that the NE
@@ -58,13 +61,14 @@ class NamedPeople(object):
         # here. It's possible that we'd rather use a more robust library
         # (like the Stanford NER java library) but difficult to do in-process
         # on ScrapingHub.
-        peopletup = [tuple(i.flatten()) for i in namedEnt if isinstance(i, nltk.Tree) and i.label() == "PERSON"]
+        peopletup = [tuple(i.flatten())
+                     for i in namedEnt if isinstance(i, nltk.Tree) and i.label() == "PERSON"]
         item['namedpeople'] = [' '.join(list(zip(*x))[0]) for x in peopletup]
-        
+
         # Note that this will feature someone twice if they are mentioned
         # more than once. (e.g. "John Smith was found guilty ... Smith said: ")
         # TODO: de-dupe
-#        firstnames = [nameparser.HumanName(x).first for x in people if len(nameparser.HumanName(x)) >= 2]
-#        givennames = [y[0] for x in people for y in probablepeople.parse(x) if y[1] == 'GivenName']
+        # firstnames = [nameparser.HumanName(x).first for x in people if len(nameparser.HumanName(x)) >= 2]
+        # givennames = [y[0] for x in people for y in probablepeople.parse(x) if y[1] == 'GivenName']
 
         return item

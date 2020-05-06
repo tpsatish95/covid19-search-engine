@@ -5,7 +5,9 @@ All credit goes to original author
 """
 
 import logging
+
 from scrapy.exceptions import NotConfigured
+
 from textblob import TextBlob
 
 # Define your item pipelines here
@@ -15,9 +17,11 @@ from textblob import TextBlob
 
 logger = logging.getLogger(__name__)
 
+
 class Sentiment(object):
     """Uses textblob to determine and record sentiment and
        subjectivity scores for the bodytext of each item."""
+
     def process_item(self, item, spider):
         try:
             blob = TextBlob(item['bodytext'])

@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 """
 This file contains helper methods using during web crawling, processing
-jsonl output into csv format, and processing csv format into document 
+jsonl output into csv format, and processing csv format into document
 format required by Dataset loader.
 
 Some methods adopted from RISJbot (https://github.com/pmyteh/RISJbot)
 """
-import re
-import os
 import logging
+import os
+import re
+
 import jsonlines
 import lxml.etree
 import pandas as pd
@@ -94,20 +95,23 @@ def mutate_selector_del(selector, method, expression):
             raise NotImplementedError
 
         for node in selector.root.xpath(s):
-           node.getparent().remove(node)
+            node.getparent().remove(node)
     except Exception as e:
         logger.error('mutate_selector_del({}, {}, {},) failed: {}'.format(
-                        selector,
-                        method,
-                        expression,
-                        e))
+            selector,
+            method,
+            expression,
+            e))
+
 
 def mutate_selector_del_xpath(selector, xpath_str):
     mutate_selector_del(selector, 'xpath', xpath_str)
- 
+
+
 def mutate_selector_del_css(selector, css_str):
     mutate_selector_del(selector, 'css', css_str)
-    
+
+
 def split_multiple_byline_string(s):
     for y in s.split(' and '):
         for tok in y.split(','):
@@ -115,6 +119,7 @@ def split_multiple_byline_string(s):
                 continue
             else:
                 yield tok
+
 
 class NewsSitemap(object):
     """Class to parse Sitemap (type=urlset) and Sitemap Index
@@ -132,9 +137,9 @@ class NewsSitemap(object):
         for elem in self._root.getchildren():
             d = etree_to_recursive_dict(elem)[1]
 
-
             if 'loc' in d:
                 yield d
+
 
 def etree_to_recursive_dict(element):
     # Note: eliminates namespaces, like the original Sitemap
@@ -150,7 +155,7 @@ def etree_to_recursive_dict(element):
     # clobber each other. Also needs support in the parsing code (different
     # interface).
     if name == 'link':
-         if 'href' in element.attrib:
-             return 'alternate{}'.format(element.get('hreflang')), \
+        if 'href' in element.attrib:
+            return 'alternate{}'.format(element.get('hreflang')), \
                 element.get('href')
     return name, dict(map(etree_to_recursive_dict, element)) or txt

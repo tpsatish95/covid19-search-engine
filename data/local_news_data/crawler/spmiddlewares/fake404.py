@@ -9,16 +9,15 @@ All credit goes to original author
 # See documentation in:
 # http://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
-#from scrapy_deltafetch.middleware import DeltaFetch
+# from scrapy_deltafetch.middleware import DeltaFetch
 
 import logging
 import re
-from scrapy.exceptions import NotConfigured
-from scrapy.exceptions import IgnoreRequest
 
-
+from scrapy.exceptions import IgnoreRequest, NotConfigured
 
 logger = logging.getLogger(__name__)
+
 
 class Fake404Error(IgnoreRequest):
     """A fake 404 page response was found and filtered"""
@@ -26,6 +25,7 @@ class Fake404Error(IgnoreRequest):
     def __init__(self, response, *args, **kwargs):
         self.response = response
         super(Fake404Error, self).__init__(*args, **kwargs)
+
 
 class Fake404(object):
     """Spider middleware to drop pages iff they are that annoyance on the web:
@@ -37,6 +37,7 @@ class Fake404(object):
        sites' OWN LIST OF VALID PAGES. Nevertheless, foxnews.com does it and
        others might.
     """
+
     def __init__(self, settings):
         if not settings.getbool('FAKE404_ENABLED'):
             raise NotConfigured
@@ -56,7 +57,7 @@ class Fake404(object):
                     raise Fake404Error(response,
                                        'Ignoring "not found" response '
                                        'with success HTTP code')
-        return None # Success
+        return None  # Success
 
     def process_spider_exception(self, response, exception, spider):
         if isinstance(exception, Fake404Error):
@@ -67,5 +68,3 @@ class Fake404(object):
                 {'response': response}, extra={'spider': spider},
             )
             return []
-
-

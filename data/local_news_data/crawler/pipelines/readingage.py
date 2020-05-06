@@ -7,11 +7,14 @@ All credit goes to original author
 import logging
 import string
 import unicodedata
-from nltk.tokenize import sent_tokenize, word_tokenize
+
 from nltk import download as nltk_download
-from pronouncing import phones_for_word, syllable_count
+from nltk.tokenize import sent_tokenize, word_tokenize
 from scrapy.exceptions import NotConfigured
-#from import nltk_contrib import 
+
+from pronouncing import phones_for_word, syllable_count
+
+# from import nltk_contrib import
 
 # Define your item pipelines here
 #
@@ -19,6 +22,7 @@ from scrapy.exceptions import NotConfigured
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 logger = logging.getLogger(__name__)
+
 
 class ReadingAge(object):
     """Calculates the Flesch reading ease and Flesch-Kincaid grade level for
@@ -50,7 +54,7 @@ class ReadingAge(object):
         #       as well, so this generates latency and network traffic.
         for pkg in ['punkt',
                     'words',
-                   ]:
+                    ]:
             nltk_download(pkg, download_dir=self.dir)
 
     @classmethod
@@ -73,9 +77,9 @@ class ReadingAge(object):
             return item
         item['fleschreadingease'] = (206.835 -
                                      1.015 * (nwords / nsent) -
-                                     84.6  * (nsylls / nsyllwords))
-        item['kincaidgradelevel'] = (0.39  * (nwords / nsent) +
-                                     11.8  * (nsylls / nsyllwords) -
+                                     84.6 * (nsylls / nsyllwords))
+        item['kincaidgradelevel'] = (0.39 * (nwords / nsent) +
+                                     11.8 * (nsylls / nsyllwords) -
                                      15.59)
         return item
 
@@ -101,8 +105,8 @@ class ReadingAge(object):
         punctuation_ascii = set(string.punctuation)
         for tok in l:
             ntok = ''.join(x for x in tok
-                       if unicodedata.category(x) not in punctuation_cats
-                          and x not in punctuation_ascii)
+                           if unicodedata.category(x) not in punctuation_cats
+                           and x not in punctuation_ascii)
             if ntok:
                 yield ntok
 
@@ -111,4 +115,3 @@ class ReadingAge(object):
         for tok in l:
             for stok in tok.split('-'):
                 yield stok
-

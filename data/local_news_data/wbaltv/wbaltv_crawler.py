@@ -3,19 +3,20 @@
 This file was adopted and modified from RISJbot (https://github.com/pmyteh/RISJbot)
 """
 
-from data.local_news_data.crawler.newssitemapspider import NewsSitemapSpider
+from scrapy.loader.processors import (Compose, Identity, Join, MapCompose,
+                                      TakeFirst)
+
 from data.local_news_data.crawler.loaders import NewsLoader
+from data.local_news_data.crawler.newssitemapspider import NewsSitemapSpider
 # Note: mutate_selector_del_xpath is somewhat naughty. Read its docstring.
 from data.local_news_data.crawler.utils import mutate_selector_del_xpath
-from scrapy.loader.processors import Identity, TakeFirst
-from scrapy.loader.processors import Join, Compose, MapCompose
+
 
 class WbaltvSpider(NewsSitemapSpider):
     name = 'wbaltv'
     # allowed_domains = ['wbaltv.com']
     # A list of XML sitemap files, or suitable robots.txt files with pointers.
-    sitemap_urls = ['https://www.wbaltv.com/sitemap.xml'] 
-    
+    sitemap_urls = ['https://www.wbaltv.com/sitemap.xml']
 
     def parse_page(self, response):
         """
@@ -27,8 +28,8 @@ class WbaltvSpider(NewsSitemapSpider):
         # import pdb; pdb.set_trace()
         s = response.selector
         # Remove any content from the tree before passing it to the loader.
-        # There aren't native scrapy loader/selector methods for this.        
-        #mutate_selector_del_xpath(s, '//*[@style="display:none"]')
+        # There aren't native scrapy loader/selector methods for this.
+        # mutate_selector_del_xpath(s, '//*[@style="display:none"]')
 
         l = NewsLoader(selector=s)
 
@@ -45,7 +46,7 @@ class WbaltvSpider(NewsSitemapSpider):
 
         # Media pages. NOTE: These can be multipage; this will only get the
         # first page's text.
-        
+
         l.add_xpath('bodytext', '//div[contains(@class, "article-content--body-text")]//text()')
         # l.add_xpath('bodytext', '//div[contains(@class, "main-story-wrapper")]//text()')
         # l.add_xpath('bodytext', '//div[contains(@class, "post")]//text()')

@@ -10,10 +10,11 @@ All credit goes to original author
 # http://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
 import logging
+
 from scrapy.exceptions import NotConfigured
 
-
 logger = logging.getLogger(__name__)
+
 
 class UnwantedContent(object):
     """Spider middleware to process a response's selector by removing a
@@ -37,6 +38,7 @@ class UnwantedContent(object):
        scrapy could change its selector implementation to use a different
        HTML/XML parsing library, at which point this would fail.
     """
+
     def __init__(self, settings):
         if not settings.getbool('UNWANTEDCONTENT_ENABLED'):
             raise NotConfigured
@@ -55,14 +57,12 @@ class UnwantedContent(object):
         try:
             sel = response.selector
         except AttributeError:
-#            logger.warning("No selector for {}; probably non-HTML".format(
-#                                    response))
+            # logger.warning("No selector for {}; probably non-HTML".format(
+            #                        response))
             return None
 
         if not response.meta.get('sitemap'):
             for xpath_str in self.xpaths:
                 for node in sel.root.xpath(xpath_str):
                     node.getparent().remove(node)
-        return None # Success
-
-
+        return None  # Success

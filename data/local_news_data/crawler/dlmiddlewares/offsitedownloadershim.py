@@ -5,10 +5,12 @@ All credit goes to original author
 """
 
 import logging
+
 from scrapy.exceptions import IgnoreRequest
 from scrapy.spidermiddlewares.offsite import OffsiteMiddleware
 
 logger = logging.getLogger(__name__)
+
 
 class OffsiteDownloaderShim(OffsiteMiddleware):
     """This is a shim to adapt the existing OffsiteMiddleware spider
@@ -41,5 +43,3 @@ class OffsiteDownloaderShim(OffsiteMiddleware):
         if not l:
             raise IgnoreRequest
         return None
-
-

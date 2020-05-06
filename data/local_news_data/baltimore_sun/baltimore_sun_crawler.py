@@ -1,5 +1,6 @@
 import scrapy
 
+
 class BaltimoreSunSpider(scrapy.Spider):
     name = 'baltimore_sun_spider'
     start_urls = ['https://www.baltimoresun.com/search/coronavirus/100-y/ALL/score/1/']

@@ -9,14 +9,16 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 
-from data.local_news_data.crawler.items import NewsItem
-from scrapy.utils.project import data_path
-from pathlib import Path
-import os
 import logging
+import os
+from pathlib import Path
+
+from scrapy.utils.project import data_path
+
+from data.local_news_data.crawler.items import NewsItem
 
 BOT_NAME = 'covid_search_engine'
-LOG_LEVEL = 'INFO' # ('DEBUG', 'INFO', 'WARNING', 'ERROR', or 'CRITICAL') 
+LOG_LEVEL = 'INFO'  # ('DEBUG', 'INFO', 'WARNING', 'ERROR', or 'CRITICAL')
 
 SPIDER_MODULES = ['data.local_news_data']
 NEWSPIDER_MODULE = 'data.local_news_data'
@@ -71,16 +73,16 @@ UNWANTEDCONTENT_ENABLED = True
 UNWANTEDCONTENT_XPATHS = ['//figure',
                           '//script',
                           '//style',
-                          '//form',]
+                          '//form', ]
 
 # Enable Fake404, dropping responses that are actually "page not found",
 # but come with an improper HTTP 200 success code. Lookin' at you, foxnews.com.
 FAKE404_ENABLED = True
 # List of ( url regex, matching xpath ) tuples
 FAKE404_DETECTIONSIGS = [
-    ( r'https?://(www\.)?foxnews\.com/',
+    (r'https?://(www\.)?foxnews\.com/',
         '//h1[contains(., "Something has gone wrong")]'),
-    ( r'https?://(www\.)?nbcnews\.com/',
+    (r'https?://(www\.)?nbcnews\.com/',
         '//h2[contains(., "This live stream has ended")]'),
 ]
 
@@ -111,9 +113,9 @@ EQUIVALENTDOMAINS_MAPPINGS = {'www.cnn.com': 'edition.cnn.com'}
 ITEM_PIPELINES = {
     'data.local_news_data.crawler.pipelines.sentiment.Sentiment': 100,
     'data.local_news_data.crawler.pipelines.wordcount.WordCount': 200,
-# Removed from pipeline to reduce DotscrapyPersistence S3 usage, TN 2017-04-06
-#    'RISJbot.pipelines.namedpeople.NamedPeople': 300,
-#    'RISJbot.pipelines.readingage.ReadingAge': 400,
+    # Removed from pipeline to reduce DotscrapyPersistence S3 usage, TN 2017-04-06
+    #    'RISJbot.pipelines.namedpeople.NamedPeople': 300,
+    #    'RISJbot.pipelines.readingage.ReadingAge': 400,
     'data.local_news_data.crawler.pipelines.checkcontent.CheckContent': 800,
     'data.local_news_data.crawler.pipelines.striprawpage.StripRawPage': 900,
 }

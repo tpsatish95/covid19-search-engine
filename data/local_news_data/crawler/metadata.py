@@ -4,19 +4,23 @@ This script was borrowed from the RISJbot repository (https://github.com/pmyteh/
 All credit goes to original author
 """
 
-from extruct.rdfa import RDFaExtractor
-from extruct.w3cmicrodata import MicrodataExtractor
-from extruct.jsonld import JsonLdExtractor
-from json.decoder import JSONDecodeError
-from pprint import pformat
 import logging
 import re
+from json.decoder import JSONDecodeError
+from pprint import pformat
+
+from extruct.jsonld import JsonLdExtractor
+from extruct.rdfa import RDFaExtractor
+from extruct.w3cmicrodata import MicrodataExtractor
 
 logger = logging.getLogger(__name__)
+
+
 class RISJMetadataExtractor(object):
     """An extruct-based metadata extractor"""
     # TODO: Extend to microdata and RDFa, replacing bespoke xpath code. Then
     #       test on body of crawlers!
+
     def __init__(self, response, microdata=False, jsonld=False, rdfa=False):
         self.response = response
         self.microdata = microdata
@@ -61,11 +65,11 @@ class RISJMetadataExtractor(object):
             jsonld = self.jsonld
         if rdfa is None:
             rdfa = self.rdfa
-        
+
         outd = {}
         if jsonld:
             for d in self.jldata:
-#                logger.debug('Analysing JSON-LD data: '+pformat(d))
+                # logger.debug('Analysing JSON-LD data: '+pformat(d))
                 try:
                     if (re.match(r'https?://schema.org/?', d['@context']) and
                             d['@type'] == 'NewsArticle'):
@@ -75,9 +79,9 @@ class RISJMetadataExtractor(object):
         if microdata:
             for d in self.mdedata:
                 logger.debug('Analysing W3C microdata: '+pformat(d))
-                if re.match (r'https?://schema.org/NewsArticle/?', d.get('type', '')):
+                if re.match(r'https?://schema.org/NewsArticle/?', d.get('type', '')):
                     outd.update(d)
         if rdfa:
             raise NotImplementedError
-#        logger.debug('Returning schema.org NewsArticle: '+pformat(outd))
+        # logger.debug('Returning schema.org NewsArticle: '+pformat(outd))
         return outd
