@@ -31,7 +31,7 @@ class SearchEngine(object):
         self.document_vectors = self.vectorizer.vectorize_documents(documents)
         # self.document_vectors = self.svd.fit_transform(self.document_vectors)
 
-    def personalize_query(self, query_vector, user_profile, top_k):
+    def personalize_query(self, query_vector, user_profile, top_n=5):
         if not isinstance(user_profile, Query):
             user_profile = Query(uuid4(), Text(user_profile,
                                                [word.lower() for word in word_tokenize(user_profile)]))
@@ -48,8 +48,8 @@ class SearchEngine(object):
         results = [x[0] for x in results_with_score]
 
         # rocchio feedback
-        relevant_vectors = [self.document_vectors[doc_id - 1] for doc_id in results[:top_k]]
-        non_relevant_vectors = [self.document_vectors[doc_id - 1] for doc_id in results[-top_k:]]
+        relevant_vectors = [self.document_vectors[doc_id - 1] for doc_id in results[:top_n]]
+        non_relevant_vectors = [self.document_vectors[doc_id - 1] for doc_id in results[-top_n:]]
 
         a, b, g = 1.0, 0.9, 0.1
         qO = query_vector
@@ -67,7 +67,7 @@ class SearchEngine(object):
 
         if user_profile:
             # perform query personaliziation based on user_profile
-            query_vector = self.personalize_query(query_vector, user_profile, top_k)
+            query_vector = self.personalize_query(query_vector, user_profile)
 
         # query_vector = self.svd.transform(query_vector)
 

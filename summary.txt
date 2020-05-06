@@ -1,0 +1,119 @@
+Top 10 Models Across All Datasets (metric wise):
+###########################################
+Metric: p_0.25
+Top 10 Models (embedding, weighting):
+1. (one-hot, tf-idf) - 0.547
+2. (one-hot, mean) - 0.458
+3. (word2vec-google-news-300, usif) - 0.416
+4. (word2vec-google-news-300, sif) - 0.399
+5. (word2vec-google-news-300, tf-idf) - 0.39
+6. (word2vec-google-news-300, mean) - 0.383
+7. (fasttext-wiki-news-subwords-300, tf-idf) - 0.381
+8. (fasttext-wiki-news-subwords-300, usif) - 0.376
+9. (fasttext-wiki-news-subwords-300, sif) - 0.371
+10. (glove-wiki-gigaword-200, tf-idf) - 0.363
+###########################################
+Metric: p_0.5
+Top 10 Models (embedding, weighting):
+1. (one-hot, tf-idf) - 0.361
+2. (one-hot, mean) - 0.282
+3. (word2vec-google-news-300, usif) - 0.261
+4. (word2vec-google-news-300, sif) - 0.25
+5. (word2vec-google-news-300, tf-idf) - 0.232
+6. (word2vec-google-news-300, mean) - 0.226
+7. (glove-wiki-gigaword-200, usif) - 0.215
+8. (fasttext-wiki-news-subwords-300, usif) - 0.214
+9. (glove-wiki-gigaword-200, sif) - 0.213
+10. (fasttext-wiki-news-subwords-300, sif) - 0.21
+###########################################
+Metric: p_0.75
+Top 10 Models (embedding, weighting):
+1. (one-hot, tf-idf) - 0.224
+2. (one-hot, mean) - 0.172
+3. (word2vec-google-news-300, usif) - 0.15
+4. (word2vec-google-news-300, sif) - 0.138
+5. (word2vec-google-news-300, tf-idf) - 0.124
+6. (word2vec-google-news-300, mean) - 0.123
+7. (fasttext-wiki-news-subwords-300, usif) - 0.114
+8. (fasttext-wiki-news-subwords-300, sif) - 0.113
+9. (glove-wiki-gigaword-200, sif) - 0.107
+10. (glove-wiki-gigaword-200, usif) - 0.107
+###########################################
+Metric: p_1.0
+Top 10 Models (embedding, weighting):
+1. (one-hot, tf-idf) - 0.082
+2. (one-hot, mean) - 0.068
+3. (word2vec-google-news-300, usif) - 0.058
+4. (word2vec-google-news-300, sif) - 0.051
+5. (word2vec-google-news-300, mean) - 0.043
+6. (word2vec-google-news-300, tf-idf) - 0.041
+7. (glove-wiki-gigaword-200, sif) - 0.041
+8. (glove-wiki-gigaword-200, usif) - 0.04
+9. (fasttext-wiki-news-subwords-300, sif) - 0.038
+10. (fasttext-wiki-news-subwords-300, usif) - 0.038
+###########################################
+Metric: p_mean1
+Top 10 Models (embedding, weighting):
+1. (one-hot, tf-idf) - 0.377
+2. (one-hot, mean) - 0.304
+3. (word2vec-google-news-300, usif) - 0.276
+4. (word2vec-google-news-300, sif) - 0.262
+5. (word2vec-google-news-300, tf-idf) - 0.249
+6. (word2vec-google-news-300, mean) - 0.244
+7. (fasttext-wiki-news-subwords-300, usif) - 0.235
+8. (fasttext-wiki-news-subwords-300, sif) - 0.231
+9. (glove-wiki-gigaword-200, usif) - 0.226
+10. (glove-wiki-gigaword-200, sif) - 0.226
+###########################################
+Metric: p_mean2
+Top 10 Models (embedding, weighting):
+1. (one-hot, tf-idf) - 0.359
+2. (one-hot, mean) - 0.296
+3. (word2vec-google-news-300, usif) - 0.269
+4. (word2vec-google-news-300, sif) - 0.259
+5. (word2vec-google-news-300, tf-idf) - 0.245
+6. (word2vec-google-news-300, mean) - 0.243
+7. (fasttext-wiki-news-subwords-300, usif) - 0.234
+8. (fasttext-wiki-news-subwords-300, sif) - 0.231
+9. (glove-wiki-gigaword-200, usif) - 0.227
+10. (glove-wiki-gigaword-200, sif) - 0.227
+###########################################
+Metric: r_norm
+Top 10 Models (embedding, weighting):
+1. (one-hot, tf-idf) - 0.874
+2. (word2vec-google-news-300, usif) - 0.871
+3. (word2vec-google-news-300, sif) - 0.867
+4. (one-hot, mean) - 0.854
+5. (glove-wiki-gigaword-200, usif) - 0.852
+6. (glove-wiki-gigaword-200, sif) - 0.847
+7. (word2vec-google-news-300, mean) - 0.846
+8. (word2vec-google-news-300, tf-idf) - 0.84
+9. (fasttext-wiki-news-subwords-300, usif) - 0.833
+10. (fasttext-wiki-news-subwords-300, sif) - 0.831
+###########################################
+Metric: p_norm
+Top 10 Models (embedding, weighting):
+1. (one-hot, tf-idf) - 0.68
+2. (one-hot, mean) - 0.622
+3. (word2vec-google-news-300, usif) - 0.612
+4. (word2vec-google-news-300, sif) - 0.604
+5. (word2vec-google-news-300, mean) - 0.58
+6. (word2vec-google-news-300, tf-idf) - 0.576
+7. (glove-wiki-gigaword-200, usif) - 0.573
+8. (glove-wiki-gigaword-200, sif) - 0.569
+9. (fasttext-wiki-news-subwords-300, usif) - 0.565
+10. (fasttext-wiki-news-subwords-300, sif) - 0.561
+###########################################
+Metric: f1_norm
+Top 10 Models (embedding, weighting):
+1. (one-hot, tf-idf) - 0.764
+2. (one-hot, mean) - 0.718
+3. (word2vec-google-news-300, usif) - 0.717
+4. (word2vec-google-news-300, sif) - 0.71
+5. (word2vec-google-news-300, mean) - 0.687
+6. (glove-wiki-gigaword-200, usif) - 0.683
+7. (word2vec-google-news-300, tf-idf) - 0.682
+8. (glove-wiki-gigaword-200, sif) - 0.679
+9. (fasttext-wiki-news-subwords-300, usif) - 0.672
+10. (fasttext-wiki-news-subwords-300, sif) - 0.668
+###########################################

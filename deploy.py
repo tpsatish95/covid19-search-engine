@@ -115,6 +115,7 @@ def main():
 
         print("####################################################\n")
         query = input("Query: ")
+        print()
 
 
 if __name__ == '__main__':

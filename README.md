@@ -1,51 +1,61 @@
-# Personalized Local Resources Search Engine
+# Localized and Personalized Search Engine for COVID-19
 
 ## Motivation:
-Throughout the COVID-19 pandemic, local resources have shifted in scope and availability. Consumers’ needs have also changed. Grocery stores are operating at reduced hours, businesses are offering increased delivery services, and shoppers’ habits have evolved due to newly established stay-at-home orders. All of this new and dynamic information is difficult to keep track of and not always straightforward to find.
+Throughout the COVID-19 pandemic, people’s needs have evolved due to a myriad of closures and stay-at-home orders. Local services have had to adapt themselves to this everyday and this information changes at a fast pace. All of this new and dynamic information is difficult to sift through and not always straightforward to find.
 
 
 ## Goal:
-- Our goal is to crawl, aggregate, and index information and updates from local resources/businesses in Baltimore and report on what is available.
-  - To achieve this, we will build a search engine to retrieve information that is relevant to queries in this domain and is personalized to the user needs.
-  - If time allows, we will use user-embeddings to capture the specific needs of a user.
+- Our goal is to crawl, aggregate, index and search/retrieve information from local news sources in Baltimore and report back relevant and personalized results to the user.
+  - To achieve this, we built a search engine to retrieve relevant articles. We expanded our search engine to simulate user personalization based on the user’s profile, which can be mimicked through topics the user is biased towards, that are incorporated as a string of bias terms at run time. This allows us to retrieve results personalized to the user needs.
 
 
-## Datasets:
-- Our retrieval engine will focus on scraping data from unstructured sources such as:
-  - News articles (Baltimore Sun, CBS Baltimore, etc.)
-    - Local news source spiders based on [RISJbot](https://github.com/pmyteh/RISJbot)
-  - Business/Company websites (CVS, Giant Foods, etc.)
-  - FAQs (JHU HUB, JHU Newsletter, etc.)
-- Compiled list of webpages for initial proof of concept, which can be found [here](https://docs.google.com/spreadsheets/d/1lw6fKY5JoMut-U1w-uCL6YN6VV_qd6RsKVaMCLCd0v8/edit?usp=sharing).
+## Datasets - Evaluation:
+To find an appropriate system for real-world data, we considered 4 labelled datasets ([CACM](http://ir.dcs.gla.ac.uk/resources/test_collections/cacm/), [CISI](https://www.kaggle.com/dmaso01dsta/cisi-a-dataset-for-information-retrieval/version/1), [Medline](http://www.trec-cds.org/2017.html), [Cranfield](http://ir.dcs.gla.ac.uk/resources/test_collections/cran/)) and conducted experiments on this data:
+- **CACM:** abstracts and queries from Communications of ACM journal
+- **CISI:** documents and queries from Centre for Inventions and Scientific Information
+- **Medline:** collection of articles and queries from Medline journals
+- **Cranfield:** commonly used IR dataset with aerodynamics journals articles, queries, and relevance judgements
+
+## Datasets - Deployment:
+- Then, we selected the best performing permutations from evaluation on development data to deploy on our COVID-19 news data.
+- We crawled COVID-19 related articles from CBS Baltimore and WBALTV since they provide access to focused local information relevant to Baltimore.
+- Note: Local news source spiders based on [RISJbot](https://github.com/pmyteh/RISJbot)
 
 ## Approach:
 - **Web crawling and scraping**
   - Scrape a set of websites to create a corpus of documents
 - **Preprocessing**
   - **Structured:** Stemming and Stop Words Removal
-  - **Unstructured:** Acronyms, Emoticons, Spell Check, Contractions, Hashtags
+  - **Unstructured:** Acronyms, Emoticons, Spell Check, Contractions
 - **Vectorization and Scoring**
-  - TF-IDF, Word/Sentence embeddings (Word2Vec, GloVe, BERT, ELMo)
-  - Cosine, Dice, Jaccard or anything from scipy.spatial.distance.
+  - **Word embeddings:** (Word2Vec, GloVe, FastText, Doc2Vec, OneHot)
+  - **Word embeddings to Sentence embeddings Weighting Schemes:** Mean, TF-IDF, Smooth Inverse Frequency, Unsupervised Smooth Inverse Frequency.
+  - **Similarity:** Cosine, Dice, Jaccard or anything from scipy.spatial.distance.
 - **Query Optimization**
-  - Personalize user queries based on usr2vec and rocchio relevance feedback
+  - Personalize user queries using a modified Rocchio relevance feedback mechanism
 
 ## Outcomes:
-- Personalized search engine for the resources local to Baltimore.
+- Personalized search engine for local Baltimore news.
 - Web scraper for popular Baltimore news/business websites.
 - Find the best
-  - Word/sentence embedding
-  - Way to personalize any query
-  - Way to handle unstructured text
+  - Word/Sentence embedding
+  - Ways to personalize any query
+  - Ways to handle unstructured text
 
 ## Running instructions:
 
-To run the basic search engine, use the following command, and type your query once the search engine is initialized.
+Install all the packages this search engine requires to run using:
+```
+pip install -r requirements.txt
+```
+
+Then, to run the basic search engine, use the following command, and type your query once the search engine is initialized.
 ```
 $ python deploy.py
 ```
 
 **Command line arguments**
+
 1. `--user_profile`: Runs the search engine with mimicked user personalization (biased query results). _Example:_
   ```
   $ python deploy.py --user_profile "<enter terms here>"
@@ -70,3 +80,32 @@ $ python deploy.py
   ```
   $ python deploy.py --expand_query
   ```
+
+## Types of Search Queries to Try:
+
+- **Default**
+  - *Command:* `python deploy.py`
+  - *Example:*
+    - *General:*
+      - "masks"
+      - "vaccine"
+      - "ventilators"
+    - *With mis-spellings*
+      - "employmment"
+    - *With acronyms or contractions*
+      - "ER"
+      - "ICU"
+- **Pretrained Word Embeddings**
+  - *Command:* `python deploy.py --embedding "word2vec-google-news-300" --weighting_scheme "usif"`
+  - *Example:*
+    - "grocery"
+    - "lockdown"
+- **User Personalization**
+  - *Command:* `python deploy.py --user_profile "cvs"`
+  - *Example:*
+    - "delivery" with "cvs" personalization
+- **Query Expansion**
+  - *Command:* `python deploy.py --user_profile "cvs"`
+  - *Example:*
+    - "recession"
+    - "virus"
