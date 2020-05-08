@@ -19,7 +19,7 @@ To find an appropriate system for real-world data, we considered 4 labelled data
 ## Datasets - Deployment:
 - Then, we selected the best performing permutations from evaluation on development data to deploy on our COVID-19 news data.
 - We crawled COVID-19 related articles from CBS Baltimore and WBALTV since they provide access to focused local information relevant to Baltimore.
-- Note: Local news source spiders based on [RISJbot](https://github.com/pmyteh/RISJbot)
+- Note: CBS and WBALTV local news source spiders based on [RISJbot](https://github.com/pmyteh/RISJbot)
 
 ## Approach:
 - **Web crawling and scraping**
