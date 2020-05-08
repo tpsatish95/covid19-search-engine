@@ -75,6 +75,21 @@ def clean_raw(*, path, filename, new_filename):
             f.write('.W\n{}\n\n{}\n'.format(row.summary, row.bodytext))
 
 
+def clean_search_crawl(*, path, filename, new_filename):
+    """
+    Script to format CSV data into .I .T .W
+    """
+    df = pd.read_csv(os.path.join(path, filename))
+    with open(os.path.join(path, new_filename), 'w') as f:
+        for i, row in df.iterrows():
+            f.write('.I {}\n'.format(i + 1))
+            f.write('.U\n{}\n'.format(row.url))
+            if len(row.title) > 0:
+                f.write('.T\n{}\n'.format(row.title))
+            f.write('.W\n{}\n'.format(row.body))
+
+
+
 def mutate_selector_del(selector, method, expression):
     """Under the covers, Selectors contain an lxml.etree.Element document
        root, which is not exposed by the Selector interface. This is mutatable
