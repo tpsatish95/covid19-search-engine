@@ -51,20 +51,34 @@ class TextProcessor:
             if self.is_replace_urls:
                 object = self.replace_urls(object)
             object = self.re_tokenize(object)
-        if self.is_strip_white_spaces:
-            object = self.strip_white_spaces(object)
-        if self.is_remove_stopwords:
-            object = self.remove_stopwords(object)
-        if self.is_replace_acronyms:
-            object = self.replace_acronyms(object)
-        if self.is_substitute_emoticons:
-            object = self.substitute_emoticons(object)
-        if self.is_spelling_autocorrect:
-            object = self.spelling_autocorrect(object)
-        if self.is_stemming:
-            object = self.stem(object)
 
-        return object
+        processed_sections = list()
+        for section in object.sections():
+            section_tokens = list()
+            for word in section.tokenized:
+                if self.is_strip_white_spaces:
+                    word = word.lower().strip()
+                if self.is_remove_stopwords:
+                    if word in self.stopwords:
+                        continue
+                if self.is_replace_acronyms:
+                    if word in self.acronyms:
+                        word = self.acronyms[word]
+                if self.is_expand_contractions:
+                    if word in self.contractions:
+                        word = self.contractions[word]
+                if self.is_substitute_emoticons:
+                    if word in self.emoticons:
+                        word = emoticons.analyze_tweet_heavy(word)
+                if self.is_spelling_autocorrect:
+                    if word not in self.words_dict:
+                        word = self.spell_check.correct(word)
+                if self.is_stemming:
+                    word = self.stemmer.stem(word)
+                section_tokens.append(word)
+            processed_sections.append(Text(section.raw, section_tokens))
+
+        return self._wrap(processed_sections, object)
 
     def replace_urls(self, object):
         sections = [Text(re.sub(twokenize.Url_RE, " ", section.raw), [])
