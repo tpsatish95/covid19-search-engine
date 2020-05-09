@@ -89,7 +89,6 @@ def clean_search_crawl(*, path, filename, new_filename):
             f.write('.W\n{}\n'.format(row.body))
 
 
-
 def mutate_selector_del(selector, method, expression):
     """Under the covers, Selectors contain an lxml.etree.Element document
        root, which is not exposed by the Selector interface. This is mutatable

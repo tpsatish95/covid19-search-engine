@@ -1,27 +1,15 @@
+import argparse
 import logging
 import re
-import sys
-import argparse
-import pandas as pd
-from bs4 import BeautifulSoup
-from queue import Queue, PriorityQueue
+from queue import PriorityQueue
 from urllib import parse, request
+
+import pandas as pd
 import requests
-from collections import namedtuple
+from bs4 import BeautifulSoup
 
 logging.basicConfig(level=logging.DEBUG, filename='output.log', filemode='w')
 visitlog = logging.getLogger('visited')
-extractlog = logging.getLogger('extracted')
-
-
-def get_args():
-    parser = argparse.ArgumentParser(description="Web crawler")
-    parser.add_argument('site', help='The URL to crawl', type=str)
-    parser.add_argument('--within-domain', help='Crawl within domain', action='store_true')
-    parser.add_argument('--top-k', help='Relevent links to return', type=int, default=20)
-    parser.add_argument('--max-iterations', help='Maximum sites to visit (crawl iterations)', type=int, default=1000)
-    args = parser.parse_args()
-    return args
 
 
 def parse_links(root, html):
@@ -36,30 +24,6 @@ def parse_links(root, html):
             yield (parse.urljoin(root, link.get('href')), text)
 
 
-def parse_links_sorted(root, html):
-    args = get_args()
-    WEIGHTS = {'text/html': 2, 'text/plain': 3, 'application/pdf': 4}
-    links = get_non_self_referencing(root)
-    filtered = []
-    count = 0
-    for link, title in links:
-        if count == args.top_k: break
-        try: 
-            req = request.urlopen(link)
-            content_type = req.info().get_content_type()
-            priority = WEIGHTS[content_type] if content_type in WEIGHTS else 5
-            if get_domain(link) != get_domain(args.site):
-                priority += 3
-            if len(parse.urlparse(link).path) > 1 and parse.urlparse(link).path.split('/')[1][0] == '~':
-                priority -= 1
-            filtered.append((priority, link, title))
-            count += 1
-        except Exception as e:
-            print(e, link)
-
-    return filtered
-
-
 def get_links(url):
     res = request.urlopen(url)
     return list(parse_links(url, res.read()))
@@ -67,6 +31,7 @@ def get_links(url):
 
 def get_domain(url):
     return parse.urlparse(url).netloc
+
 
 def get_search_path(url):
     if len(parse.urlparse(url).path.split('/')) > 2:
@@ -86,13 +51,8 @@ def get_non_self_referencing(url):
     for link, title in links:
         if parse.urlparse(link).netloc == domain:
             if len(parse.urlparse(link).fragment) == 0:
-                filtered.append((link, title)) # get non self-referencing
+                filtered.append((link, title))  # get non self-referencing
     return filtered
-
-def get_hyperlinks(block):
-    if block.find('a'):
-        return [{'text': link.text, 'link': link.get('href')} for link in block.find_all('a')]
-    return None
 
 
 def crawl(root, within_domain, wanted_content=None):
@@ -113,13 +73,14 @@ def crawl(root, within_domain, wanted_content=None):
 
     while not queue.empty():
         url = queue.get()[1]
-        if url in visited: continue
-        if iteration > args.max_iterations: break
+        if url in visited:
+            continue
+        if iteration > args.max_iterations:
+            break
         print(url)
         try:
             req = request.urlopen(url)
-            html = req.read()
-            # import pdb; pdb.set_trace()
+
             content_type = req.info().get_content_type()
             if wanted_content and content_type not in wanted_content:
                 continue
@@ -137,11 +98,9 @@ def crawl(root, within_domain, wanted_content=None):
                         try:
                             df = df.append(scrape(link))
                             scraped.append(link)
-                        except:
-                            pass
+                        except Exception as e:
+                            print(e, link)
             df.to_csv('baltimore.sun.csv', index=False)
-                        
-
 
         except Exception as e:
             print(e, url)
@@ -150,34 +109,29 @@ def crawl(root, within_domain, wanted_content=None):
 
 
 def scrape(url):
-    # df = pd.DataFrame(columns=['url', 'title', 'body'])
     page = requests.get(url)
     soup = BeautifulSoup(page.content, 'html.parser')
-    Content = namedtuple('Content', 'url title body')
-    # content = []
     title = soup.find('h1').get_text()
-    article = soup.find('div', attrs={'class': 'wrapper clearfix full pb-feature pb-layout-item pb-f-article-body'})
+    article = soup.find(
+        'div', attrs={'class': 'wrapper clearfix full pb-feature pb-layout-item pb-f-article-body'})
     print(title)
     content = []
     for div in article.find_all('div', {'data-type': ['header', 'text', 'list']}):
         content.append(div.get_text().strip())
-    # import pdb; pdb.set_trace()
     return pd.DataFrame({'url': [url], 'title': [title], 'body': [' '.join(content)]})
 
 
-
-def writelines(filename, data):
-    with open(filename, 'w') as fout:
-        for d in data:
-            print(d, file=fout)
+def get_args():
+    parser = argparse.ArgumentParser(description="Web crawler")
+    parser.add_argument('site', help='The URL to crawl', type=str)
+    args = parser.parse_args()
+    return args
 
 
 def main():
     args = get_args()
-    site = 'https://www.baltimoresun.com/search/coronavirus/100-y/ALL/score/1/'
+    # site = 'https://www.baltimoresun.com/search/coronavirus/100-y/ALL/score/1/'
     visited, extracted = crawl(args.site, True)
-    writelines('visited.txt', visited)
-    writelines('extracted.txt', extracted)
 
 
 if __name__ == '__main__':
