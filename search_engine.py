@@ -62,7 +62,7 @@ class SearchEngine(object):
             for preference in user_profile:
                 preference = self.text_preprocessor.process(Query(uuid4(), Text(preference, [word.lower() for word in word_tokenize(preference)])))
                 profile_vectors.append(self.vectorizer.vectorize_query(preference, self.text_preprocessor))
-            user_profile_vector = np.mean(np.array(profile_vectors), axis=0)
+            user_profile_vector = np.mean(profile_vectors, axis=0)
 
             results_with_score = 1 - pairwise_distances(user_profile_vector,
                                                         self.document_vectors,
@@ -78,8 +78,8 @@ class SearchEngine(object):
 
             a, b, g = 1.0, 0.9, 0.1
             qO = query_vector
-            r_av = np.mean(np.array(relevant_vectors), axis=0)
-            nr_av = np.mean(np.array(non_relevant_vectors), axis=0)
+            r_av = np.mean(relevant_vectors, axis=0)
+            nr_av = np.mean(non_relevant_vectors, axis=0)
 
             return (a * qO) + (b * r_av) - (g * nr_av)
 

@@ -1,15 +1,18 @@
+import pyximport; pyximport.install(pyimport=True)
+
 import argparse
 import warnings
 
+from data.local_news_data.baltimore_sun.loader import baltimore_sun_covid_data
 from data.local_news_data.cbs.loader import cbs_covid_data
 from data.local_news_data.wbaltv.loader import wbaltv_covid_data
-from data.local_news_data.baltimore_sun.loader import baltimore_sun_covid_data
-from data.template import Dataset, Document
 
+from data.template import Dataset, Document
 from preprocess.processor import TextProcessor
 from search_engine import SearchEngine
 from vectorize.gensim import GensimVectorizer
 from vectorize.one_hot import OneHotVectorizer
+
 
 warnings.filterwarnings("ignore")
 

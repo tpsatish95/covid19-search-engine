@@ -1,4 +1,6 @@
-import numpy as np
+import pyximport; pyximport.install(pyimport=True)
+i
+mport numpy as np
 from gensim.models.callbacks import CallbackAny2Vec
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 
