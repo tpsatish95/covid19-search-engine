@@ -3,6 +3,7 @@ import warnings
 
 from data.local_news_data.cbs.loader import cbs_covid_data
 from data.local_news_data.wbaltv.loader import wbaltv_covid_data
+from data.local_news_data.baltimore_sun.loader import baltimore_sun_covid_data
 from data.template import Dataset, Document
 
 from preprocess.processor import TextProcessor
@@ -56,7 +57,7 @@ def arguments_parser():
 def main():
     args = arguments_parser()
 
-    datasets = [cbs_covid_data, wbaltv_covid_data]
+    datasets = [cbs_covid_data, wbaltv_covid_data, baltimore_sun_covid_data]
     covid_data = CovidDataset(datasets)
 
     # # (embedding, weighting_scheme)
