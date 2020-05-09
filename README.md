@@ -67,13 +67,11 @@ $ python deploy.py
 
 **Command line arguments**
 
-1. `--user_profile`: Runs the search engine with mimicked user personalization (biased query results). _Example:_
+1. `--personalize`: Runs the search engine with mimicked user personalization (biased query results). _Example:_
   ```
-  $ python deploy.py --user_profile "<enter terms here>"
-  OR
-  $ python deploy.py --user_profile "cvs"
+  $ python deploy.py --personalize
   ```
-  **Note:** the `user_profile` basically describes the current user's profile, search history and what type of content the user is biased towards.
+  **Note:** With this mode enabled we need search history, to be able to personalize towards the type of content the user is biased. So, search for terms that show the users preferences first and then key in your normal queries to see the improved and personalized results.
 
 2. `--embedding`: Chooses the word embedding method to use. Choose from: `["one-hot", "word2vec-google-news-300", "glove-twitter-100", "glove-wiki-gigaword-100", "glove-wiki-gigaword-200", "fasttext-wiki-news-subwords-300"]`. _Example:_
   ```
@@ -114,13 +112,13 @@ $ python deploy.py
     - "grocery"
     - "vaccine"
 - **User Personalization**
-  - *Command:* `python deploy.py --user_profile "cvs"`
-  - *Effect:* Results are personalized towards the user's bias
+  - *Command:* `python deploy.py --personalize`
+  - *Effect:* Results are personalized towards the user's biases
   - *Examples:*
-    - "delivery" with and without "cvs" personalization
-    - "lakers" with and without "sports" personalization
+    - search for "cvs" then "delivery" AND just "delivery" in a fresh session
+    - search for "sports" then "lakers" AND just "lakers" in a fresh session
 - **Query Expansion**
-  - *Command:* `python deploy.py --user_profile "cvs"`
+  - *Command:* `python deploy.py --expand_query`
   - *Effect:* Gives more concentrated and meaningful results that talk about the query's topic
   - *Examples:*
     - "test kit"

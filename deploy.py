@@ -37,7 +37,8 @@ class CovidDataset(Dataset):
 
 def arguments_parser():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--user_profile", default="")
+    parser.add_argument('--personalize', dest="personalize", action='store_true')
+    parser.set_defaults(personalize=False)
     parser.add_argument("--embedding",
                         default="one-hot",
                         choices=["one-hot", "word2vec-google-news-300",
@@ -104,7 +105,7 @@ def main():
 
     while query != "exit":
         matching_docs = search_engine.search(str(query),
-                                             user_profile=args.user_profile,
+                                             personalize=args.personalize,
                                              top_k=int(args.top_k),
                                              is_expand_query=args.expand_query)[0]
 
