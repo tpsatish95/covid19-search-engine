@@ -12,6 +12,7 @@ import re
 
 import jsonlines
 import lxml.etree
+import numpy as np
 import pandas as pd
 from cssselect import HTMLTranslator
 
@@ -79,14 +80,20 @@ def clean_search_crawl(*, path, filename, new_filename):
     """
     Script to format CSV data into .I .T .W
     """
+    keywords = ['covid', 'coronavirus', 'quarantine', 'social distance', 'masks', 'ventilator']
+
     df = pd.read_csv(os.path.join(path, filename))
+    df = df.replace(np.nan, '', regex=True)
+    i = 0
     with open(os.path.join(path, new_filename), 'w') as f:
-        for i, row in df.iterrows():
-            f.write('.I {}\n'.format(i + 1))
-            f.write('.U\n{}\n'.format(row.url))
-            if len(row.title) > 0:
-                f.write('.T\n{}\n'.format(row.title))
-            f.write('.W\n{}\n'.format(row.body))
+        for _, row in df.iterrows():
+            if any((k in row.title) for k in keywords):
+                if len(row.title) > 0 and len(row.body) > 0:
+                    f.write('.I {}\n'.format(i + 1))
+                    f.write('.U\n{}\n'.format(row.url))
+                    f.write('.T\n{}\n'.format(row.title))
+                    f.write('.W\n{}\n'.format(row.body))
+                    i += 1
 
 
 def mutate_selector_del(selector, method, expression):
