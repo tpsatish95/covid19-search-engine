@@ -14,9 +14,9 @@ class MeanEmbeddings(Embeddings):
         return self
 
     def transform(self, documents):
-        return np.array([
-            np.mean([self.word2vec[w] for w in words
-                     if (self.is_oov_token_allowed or w in self.word2vec)]
+        return [
+            np.mean([self.word2vec.word_vec(w) for w in words
+                     if (self.is_oov_token_allowed or w in self.word2vec.vocab)]
                     or [np.zeros(self.dim)], axis=0)
             for words in documents
-        ])
+        ]

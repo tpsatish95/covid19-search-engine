@@ -13,7 +13,7 @@ class Embeddings(ABC):
             self.dim = self.word2vec.vectors.shape[1]
         else:
             # or dict() -> {"word": [vec_array]} format
-            self.dim = len(self.word2vec[random.choice(list(self.word2vec.keys()))])
+            self.dim = len(self.word2vec.word_vec(random.sample(self.word2vec.vocab, 1)[0]))
         self.is_oov_token_allowed = False
 
     @abstractmethod

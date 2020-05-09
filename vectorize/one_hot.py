@@ -9,6 +9,15 @@ from vectorize.weighting.sif import SIFEmbeddings
 from vectorize.weighting.tf_idf import TfidfEmbeddings
 
 
+class KeyedVectors(object):
+    def __init__(self, vocab, vectors):
+        self.vocab = set(vocab)
+        self.vectors = dict(zip(vocab, vectors))
+
+    def word_vec(self, word):
+        return self.vectors[word]
+
+
 class OneHotVectorizer(Vectorizer):
     def __init__(self, weighting="tf-idf"):
         super().__init__()
@@ -28,7 +37,7 @@ class OneHotVectorizer(Vectorizer):
         onehot_encoder = OneHotEncoder(sparse=False, categories="auto")
         one_hot_vectors = onehot_encoder.fit_transform(self.vocab.reshape(-1, 1))
 
-        model = dict(zip(self.vocab, one_hot_vectors))
+        model = KeyedVectors(self.vocab, one_hot_vectors)
 
         if self.weighting == "mean":
             self.weighted_vectorizer = MeanEmbeddings(model)
