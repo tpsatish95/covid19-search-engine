@@ -1,3 +1,5 @@
+import pyximport; pyximport.install(pyimport=True)
+
 import warnings
 from collections import defaultdict
 

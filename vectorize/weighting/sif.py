@@ -1,6 +1,7 @@
 # Smooth Inverse Frequency (https://openreview.net/forum?id=SyK00v5xx)
 # Refer: https://github.com/oborchers/Fast_Sentence_Embeddings
 # Refer: https://towardsdatascience.com/fse-2b1ffa791cf9
+import pyximport; pyximport.install(pyimport=True)
 
 from fse import IndexedList
 from fse.models import SIF, uSIF

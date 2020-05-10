@@ -1,3 +1,5 @@
+import pyximport; pyximport.install(pyimport=True)
+
 import os
 import pickle
 from collections import defaultdict

@@ -1,5 +1,6 @@
 # Refer: http://nadbordrozd.github.io/blog/2016/05/20/text-classification-with-word2vec/
 # Refer: https://towardsdatascience.com/supercharging-word-vectors-be80ee5513d
+import pyximport; pyximport.install(pyimport=True)
 
 from collections import defaultdict
 
