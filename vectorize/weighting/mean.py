@@ -1,5 +1,4 @@
 # Refer: http://nadbordrozd.github.io/blog/2016/05/20/text-classification-with-word2vec/
-import pyximport; pyximport.install(pyimport=True)
 
 import numpy as np
 

@@ -1,5 +1,3 @@
-import pyximport; pyximport.install(pyimport=True)
-
 import gensim.downloader as gensim_api
 
 from vectorize.template import Vectorizer

@@ -1,5 +1,3 @@
-import pyximport; pyximport.install(pyimport=True)
-
 import argparse
 import warnings
 

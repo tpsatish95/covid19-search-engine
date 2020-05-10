@@ -1,6 +1,4 @@
-import pyximport; pyximport.install(pyimport=True)
-i
-mport numpy as np
+import numpy as np
 from gensim.models.callbacks import CallbackAny2Vec
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 
@@ -44,5 +42,5 @@ class Doc2VecVectorizer(Vectorizer):
         return np.array([self.vectroizer.infer_vector(document) for document in corpus])
 
     def vectorize_query(self, query, query_preprocessor):
-        query = self.prepare_query(query, query_preprocessor)
+        query = self.prepare_query(query, query_preprocessor)[0]
         return np.array([self.vectroizer.infer_vector(query)])

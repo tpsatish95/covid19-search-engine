@@ -1,5 +1,3 @@
-import pyximport; pyximport.install(pyimport=True)
-
 import numpy as np
 from sklearn.preprocessing import OneHotEncoder
 
