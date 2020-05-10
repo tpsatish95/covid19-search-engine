@@ -40,4 +40,4 @@ class TfidfEmbeddings(Embeddings):
                 sentence_vector /= n
             processed_documents.append(sentence_vector)
 
-        return processed_documents
+        return np.array(processed_documents)
