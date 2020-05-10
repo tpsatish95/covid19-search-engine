@@ -29,9 +29,15 @@ class TfidfEmbeddings(Embeddings):
         return self
 
     def transform(self, documents):
-        return [
-            np.mean([self.word2vec.word_vec(w) * self.word2weight[w]
-                     for w in words if (self.is_oov_token_allowed or w in self.word2vec.vocab)] or
-                    [np.zeros(self.dim)], axis=0)
-            for words in documents
-        ]
+        processed_documents = list()
+        for words in documents:
+            n = len(words)
+            sentence_vector = np.zeros(self.dim)
+            for w in words:
+                if (self.is_oov_token_allowed or w in self.word2vec.vocab):
+                    sentence_vector += (self.word2vec.word_vec(w) * self.word2weight[w])
+            if n:
+                sentence_vector /= n
+            processed_documents.append(sentence_vector)
+
+        return processed_documents
