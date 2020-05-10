@@ -85,12 +85,12 @@ class SearchEngine(object):
 
         return query_vector
 
-    def search(self, query, personalize=False, top_k=25, is_expand_query=False):
+    def search(self, query, personalize=False, top_k=25):
         if not isinstance(query, Query):
             query = Query(uuid4(), Text(query, [word.lower() for word in word_tokenize(query)]))
 
         query = self.text_preprocessor.process(query)
-        query_vector = self.vectorizer.vectorize_query(query, self.text_preprocessor, is_expand_query)
+        query_vector = self.vectorizer.vectorize_query(query, self.text_preprocessor)
 
         if personalize:
             # perform query personaliziation based on user_profile

@@ -19,8 +19,8 @@ class KeyedVectors(object):
 
 
 class OneHotVectorizer(Vectorizer):
-    def __init__(self, weighting="tf-idf"):
-        super().__init__()
+    def __init__(self, weighting="tf-idf", is_expand_query=False):
+        super().__init__(is_expand_query)
         self.weighting = weighting
         self.vocab = None
         self.weighted_vectorizer = None
@@ -54,6 +54,6 @@ class OneHotVectorizer(Vectorizer):
         self.weighted_vectorizer.fit(corpus)
         return self.weighted_vectorizer.transform(corpus)
 
-    def vectorize_query(self, query, query_preprocessor, is_expand_query=False):
-        query = self.prepare_query(query, query_preprocessor, is_expand_query=is_expand_query)
+    def vectorize_query(self, query, query_preprocessor):
+        query = self.prepare_query(query, query_preprocessor)
         return self.weighted_vectorizer.transform(query)

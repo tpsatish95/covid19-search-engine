@@ -88,14 +88,16 @@ def main():
         text_preprocessor.is_stemming = True
         search_engine = SearchEngine(dataset=covid_data,
                                      text_preprocessor=text_preprocessor,
-                                     vectorizer=OneHotVectorizer(weighting=args.weighting_scheme),
+                                     vectorizer=OneHotVectorizer(weighting=args.weighting_scheme,
+                                                                 is_expand_query=args.expand_query),
                                      similarity_metric="cosine")
     else:
         text_preprocessor.is_stemming = False
         search_engine = SearchEngine(dataset=covid_data,
                                      text_preprocessor=text_preprocessor,
                                      vectorizer=GensimVectorizer(model_name=args.embedding,
-                                                                 weighting=args.weighting_scheme),
+                                                                 weighting=args.weighting_scheme,
+                                                                 is_expand_query=args.expand_query),
                                      similarity_metric="cosine")
 
     # for query processing (mispelled query text)
@@ -110,8 +112,7 @@ def main():
     while query != "exit":
         matching_docs = search_engine.search(str(query),
                                              personalize=args.personalize,
-                                             top_k=int(args.top_k),
-                                             is_expand_query=args.expand_query)[0]
+                                             top_k=int(args.top_k))[0]
 
         for j, doc in enumerate(matching_docs):
             print(str(j+1) + ". " + doc.title.raw)

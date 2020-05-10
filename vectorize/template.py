@@ -8,22 +8,24 @@ from data.template import Query, Text
 
 
 class Vectorizer(ABC):
-    def __init__(self):
+    def __init__(self, is_expand_query=False):
         super().__init__()
         self.vocab = list()
         self.weighting = ""
         self.weighted_vectorizer = None  # from vectorize.weighting
-        self.query_token_similarity_model = gensim_api.load("glove-wiki-gigaword-100")
+        self.is_expand_query = is_expand_query
+        if self.is_expand_query:
+            self.query_token_similarity_model = gensim_api.load("glove-wiki-gigaword-100")
 
     @abstractmethod
     def vectorize_documents(self, documents):
         pass
 
-    def prepare_query(self, query, query_preprocessor, is_expand_query=False, expand_top_n=3):
+    def prepare_query(self, query, query_preprocessor, expand_top_n=3):
         query_tokens = [word for section in query.sections() for word in section.tokenized]
         original_is_stemming = query_preprocessor.is_stemming
 
-        if is_expand_query:
+        if self.is_expand_query:
             expanded_query_tokens = deepcopy(query_tokens)
 
             # as stemming hurts the word2vec model
@@ -47,5 +49,5 @@ class Vectorizer(ABC):
             return [query_tokens]
 
     @abstractmethod
-    def vectorize_query(self, query, query_preprocessor, is_expand_query):
+    def vectorize_query(self, query, query_preprocessor):
         pass

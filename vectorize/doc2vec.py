@@ -22,8 +22,8 @@ class EpochLogger(CallbackAny2Vec):
 
 
 class Doc2VecVectorizer(Vectorizer):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, is_expand_query=False):
+        super().__init__(is_expand_query)
         self.vectroizer = None
 
     def _initalize_model(self, corpus):
@@ -43,6 +43,6 @@ class Doc2VecVectorizer(Vectorizer):
         self._initalize_model(corpus)
         return np.array([self.vectroizer.infer_vector(document) for document in corpus])
 
-    def vectorize_query(self, query, query_preprocessor, is_expand_query=False):
-        query = self.prepare_query(query, query_preprocessor, is_expand_query=is_expand_query)
+    def vectorize_query(self, query, query_preprocessor):
+        query = self.prepare_query(query, query_preprocessor)
         return np.array([self.vectroizer.infer_vector(query)])

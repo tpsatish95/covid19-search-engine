@@ -11,8 +11,8 @@ from vectorize.weighting.tf_idf import TfidfEmbeddings
 class GensimVectorizer(Vectorizer):
     # choose model_name from https://github.com/RaRe-Technologies/gensim-data#models
 
-    def __init__(self, model_name="glove-wiki-gigaword-100", weighting="mean"):
-        super().__init__()
+    def __init__(self, model_name="glove-wiki-gigaword-100", weighting="mean", is_expand_query=False):
+        super().__init__(is_expand_query)
 
         gensim_model = gensim_api.load(model_name)
 
@@ -33,6 +33,6 @@ class GensimVectorizer(Vectorizer):
         self.weighted_vectorizer.fit(corpus)
         return self.weighted_vectorizer.transform(corpus)
 
-    def vectorize_query(self, query, query_preprocessor, is_expand_query=False):
-        query = self.prepare_query(query, query_preprocessor, is_expand_query=is_expand_query)
+    def vectorize_query(self, query, query_preprocessor):
+        query = self.prepare_query(query, query_preprocessor)
         return self.weighted_vectorizer.transform(query)
