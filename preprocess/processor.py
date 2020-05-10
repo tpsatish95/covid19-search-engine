@@ -4,6 +4,7 @@ import re
 import string
 
 from nltk.stem.snowball import PorterStemmer
+from nltk.tokenize import word_tokenize
 from sklearn.feature_extraction import text
 
 from data.template import Document, Query, Text
@@ -73,10 +74,15 @@ class TextProcessor:
                 if self.is_spelling_autocorrect:
                     if word not in self.words_dict:
                         word = self.spell_check.correct(word)
-                if self.is_stemming:
-                    word = self.stemmer.stem(word)
-                section_tokens.append(word)
+                for w in word.split():
+                    if self.is_stemming:
+                        w = self.stemmer.stem(w)
+                    section_tokens.append(w)
             processed_sections.append(Text(section.raw, section_tokens))
+            if self.is_spelling_autocorrect:
+                print(processed_sections)
+        object = self._wrap(processed_sections, object)
+        object = self.re_tokenize(object)
 
         return self._wrap(processed_sections, object)
 

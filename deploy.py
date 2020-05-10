@@ -51,7 +51,7 @@ def arguments_parser():
     parser.add_argument("--weighting_scheme",
                         default="tf-idf",
                         choices=["mean", "tf-idf", "sif", "usif"])
-    parser.add_argument("--top_k", default="5")
+    parser.add_argument("--top_k", default="10")
     parser.add_argument('--expand_query', dest="expand_query", action='store_true')
     parser.set_defaults(expand_query=False)
     return parser.parse_args()
