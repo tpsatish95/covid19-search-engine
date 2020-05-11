@@ -79,8 +79,6 @@ class TextProcessor:
                         w = self.stemmer.stem(w)
                     section_tokens.append(w)
             processed_sections.append(Text(section.raw, section_tokens))
-            if self.is_spelling_autocorrect:
-                print(processed_sections)
         object = self._wrap(processed_sections, object)
         object = self.re_tokenize(object)
 
